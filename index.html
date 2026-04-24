@@ -1,0 +1,235 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2575.7">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="zh-TW"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;YunNi Nail Studio 價目計算機&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://cdn.tailwindcss.com"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&amp;display=swap" rel="stylesheet"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>body {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-family: 'Noto Sans TC', sans-serif;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: #f2ede4; /* 接近圖片的米色底 */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: #6d594f;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.card {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: #ffffff;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 15px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 4px 15px rgba(109, 89, 79, 0.1);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border: 1px solid #d5bdaf;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.category-title {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: #8d7b68;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-weight: 700;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-bottom: 1px solid #d5bdaf;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding-bottom: 4px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 12px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>flex-direction: column;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.category-en {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-size: 0.7rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-weight: 400;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>opacity: 0.8;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>letter-spacing: 0.5px;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.checkbox-custom {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>accent-color: #a98467;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 1.1rem;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>height: 1.1rem;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.item-row {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>justify-content: space-between;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 4px 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>cursor: pointer;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.price-tag {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-weight: 500;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>color: #8d7b68;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.divider {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>height: 1px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: linear-gradient(to right, transparent, #d5bdaf, transparent);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>margin: 15px 0;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>input[type="number"] {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border: 1px solid #d5bdaf;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 4px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>padding: 2px 5px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>width: 70px;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>text-align: right;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background: #faf9f6;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body class="p-4 min-h-screen flex items-start justify-center"&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="max-w-md w-full card p-6 mt-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- Logo Area --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="text-center mb-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h1 class="text-2xl font-bold tracking-widest text-[#8d7b68]"&gt;YunNi Nail Studio&lt;/h1&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p class="text-xs tracking-[0.3em] opacity-70 mt-1"&gt;· 雲霓美甲 ·&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="space-y-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;!-- 純色系列 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;section&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;h2 class="category-title"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span&gt;純色系列&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span class="category-en"&gt;Solid Color Series&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="space-y-1 text-sm"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;label class="item-row"&gt;&lt;span class="flex items-center"&gt;&lt;input type="checkbox" class="checkbox-custom mr-2" data-price="1500"&gt; 極致純色&lt;/span&gt;&lt;span class="price-tag"&gt;1500&lt;/span&gt;&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;label class="item-row"&gt;&lt;span class="flex items-center"&gt;&lt;input type="checkbox" class="checkbox-custom mr-2" data-price="1200"&gt; 沙龍純色&lt;/span&gt;&lt;span class="price-tag"&gt;1200&lt;/span&gt;&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;label class="item-row"&gt;&lt;span class="flex items-center"&gt;&lt;input type="checkbox" class="checkbox-custom mr-2" data-price="1200"&gt; 碎鑽膠&lt;/span&gt;&lt;span class="price-tag"&gt;1200&lt;/span&gt;&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;label class="item-row"&gt;&lt;span class="flex items-center"&gt;&lt;input type="checkbox" class="checkbox-custom mr-2" data-price="1200"&gt; 閃閃貓眼膠&lt;/span&gt;&lt;span class="price-tag"&gt;1200&lt;/span&gt;&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;label class="item-row"&gt;&lt;span class="flex items-center"&gt;&lt;input type="checkbox" class="checkbox-custom mr-2" data-price="1500"&gt; 魔鏡粉單色&lt;/span&gt;&lt;span class="price-tag"&gt;1500&lt;/span&gt;&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;!-- 精緻美甲系列 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;section&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;h2 class="category-title"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span&gt;精緻美甲系列&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span class="category-en"&gt;Exquisite Nail Art Design Series&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="space-y-1 text-sm"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;label class="item-row"&gt;&lt;span class="flex items-center"&gt;&lt;input type="checkbox" class="checkbox-custom mr-2" data-price="1800"&gt; 法式&lt;/span&gt;&lt;span class="price-tag"&gt;1800&lt;/span&gt;&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;label class="item-row"&gt;&lt;span class="flex items-center"&gt;&lt;input type="checkbox" class="checkbox-custom mr-2" data-price="1800"&gt; 漸層&lt;/span&gt;&lt;span class="price-tag"&gt;1800&lt;/span&gt;&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="item-row"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;label class="flex items-center cursor-pointer"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;input type="checkbox" class="checkbox-custom mr-2" id="customCheck"&gt; 個人訂製款</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="flex items-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;span class="text-xs mr-1"&gt;NT$&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;input type="number" id="customInput" value="1800"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;!-- 甲膜裸透色 (移動到精緻美甲後) --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;section&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;label class="item-row font-medium text-[#8d7b68] bg-[#faf9f6] p-2 rounded border border-dashed border-[#d5bdaf]"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span class="flex flex-col"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;span class="flex items-center"&gt;&lt;input type="checkbox" class="checkbox-custom mr-2" data-price="1500"&gt; 甲膜裸透色延長單色&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;span class="text-[10px] ml-6 opacity-60"&gt;Nail film nude sheer color extension&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span class="price-tag"&gt;1500&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;!-- 延長系列 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;section&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;h2 class="category-title"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span&gt;延長系列&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span class="category-en"&gt;Nail Extensions Series&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="space-y-1 text-sm"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;label class="item-row"&gt;&lt;span class="flex items-center"&gt;&lt;input type="checkbox" class="checkbox-custom mr-2" data-price="1500"&gt; 淺貼延長&lt;/span&gt;&lt;span class="price-tag"&gt;1500&lt;/span&gt;&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;label class="item-row"&gt;&lt;span class="flex items-center"&gt;&lt;input type="checkbox" class="checkbox-custom mr-2" data-price="1000"&gt; 半貼延長&lt;/span&gt;&lt;span class="price-tag"&gt;1000&lt;/span&gt;&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/section&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;!-- 基礎護理系列 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;section&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;h2 class="category-title"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span&gt;基礎護理系列&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span class="category-en"&gt;Basic Nursing Series&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="grid grid-cols-2 gap-x-6 gap-y-4 text-xs mb-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="space-y-1"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;p class="font-bold border-l-2 border-[#a98467] pl-1 mb-1"&gt;基本&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;label class="item-row"&gt;&lt;span class="flex items-center"&gt;&lt;input type="checkbox" class="checkbox-custom mr-1" data-price="500"&gt; 手部&lt;/span&gt;&lt;span class="price-tag"&gt;500&lt;/span&gt;&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;label class="item-row"&gt;&lt;span class="flex items-center"&gt;&lt;input type="checkbox" class="checkbox-custom mr-1" data-price="1000"&gt; 足部&lt;/span&gt;&lt;span class="price-tag"&gt;1000&lt;/span&gt;&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="space-y-1"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;p class="font-bold border-l-2 border-[#a98467] pl-1 mb-1"&gt;微保養&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;label class="item-row"&gt;&lt;span class="flex items-center"&gt;&lt;input type="checkbox" class="checkbox-custom mr-1" data-price="700"&gt; 手部&lt;/span&gt;&lt;span class="price-tag"&gt;700&lt;/span&gt;&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;label class="item-row"&gt;&lt;span class="flex items-center"&gt;&lt;input type="checkbox" class="checkbox-custom mr-1" data-price="1300"&gt; 足部&lt;/span&gt;&lt;span class="price-tag"&gt;1300&lt;/span&gt;&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;!-- 護理細項 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="space-y-1 text-sm pt-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;label class="item-row"&gt;&lt;span class="flex items-center"&gt;&lt;input type="checkbox" class="checkbox-custom mr-2" data-price="500"&gt; 足底硬繭處理&lt;/span&gt;&lt;span class="price-tag"&gt;500&lt;/span&gt;&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div class="bg-[#faf9f6] p-2 rounded"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;label class="item-row font-medium text-[#8d7b68]"&gt;&lt;span class="flex items-center"&gt;&lt;input type="checkbox" class="checkbox-custom mr-2" data-price="500"&gt; 凍甲 &amp; 捲甲矯正&lt;/span&gt;&lt;span class="price-tag"&gt;500&lt;/span&gt;&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div class="pl-6 space-y-1 mt-1 opacity-80 text-xs"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;label class="item-row"&gt;&lt;span class="flex items-center"&gt;&lt;input type="checkbox" class="checkbox-custom mr-2" data-price="400"&gt; 大拇指&lt;/span&gt;&lt;span class="price-tag"&gt;400&lt;/span&gt;&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;label class="item-row"&gt;&lt;span class="flex items-center"&gt;&lt;input type="checkbox" class="checkbox-custom mr-2" data-price="200"&gt; 其他指&lt;/span&gt;&lt;span class="price-tag"&gt;200&lt;/span&gt;&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;!-- 卸甲修補項目 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="mt-4 space-y-1 text-sm"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;label class="item-row"&gt;&lt;span class="flex items-center"&gt;&lt;input type="checkbox" class="checkbox-custom mr-2" data-price="500"&gt; 純卸甲&lt;/span&gt;&lt;span class="price-tag"&gt;500&lt;/span&gt;&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;label class="item-row"&gt;&lt;span class="flex items-center"&gt;&lt;input type="checkbox" class="checkbox-custom mr-2" data-price="150"&gt; 本甲修補 (1指)&lt;/span&gt;&lt;span class="price-tag"&gt;150&lt;/span&gt;&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;label class="item-row"&gt;&lt;span class="flex items-center"&gt;&lt;input type="checkbox" class="checkbox-custom mr-2" data-price="300"&gt; 卸甲續作&lt;/span&gt;&lt;span class="price-tag"&gt;300&lt;/span&gt;&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/section&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- 總計區 --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="mt-10 pt-6 border-t border-[#d5bdaf] text-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p class="text-sm opacity-70 mb-1"&gt;估計總計金額&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p class="text-4xl font-bold text-[#8d7b68]"&gt;NT$ &lt;span id="totalDisplay"&gt;0&lt;/span&gt;&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button id="resetBtn" class="mt-6 w-full py-3 bg-[#8d7b68] text-white rounded-lg font-medium hover:bg-[#6d594f] transition-all"&gt;重新清空&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="mt-6 text-[10px] opacity-50 space-y-1"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;p&gt;LINE: @mxv2481p | IG: yunninail&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;p&gt;© YunNi Nail Studio&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const checkboxes = document.querySelectorAll('input[type="checkbox"]');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const customCheck = document.getElementById('customCheck');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const customInput = document.getElementById('customInput');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const totalDisplay = document.getElementById('totalDisplay');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const resetBtn = document.getElementById('resetBtn');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function update() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>let total = 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>checkboxes.forEach(cb =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (cb.checked &amp;&amp; cb.dataset.price) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>total += parseInt(cb.dataset.price);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (customCheck.checked) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>total += (parseInt(customInput.value) || 0);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>totalDisplay.innerText = total.toLocaleString();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>checkboxes.forEach(cb =&gt; cb.addEventListener('change', update));</p>
+<p class="p1"><span class="Apple-converted-space">        </span>customInput.addEventListener('input', update);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>resetBtn.addEventListener('click', () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>checkboxes.forEach(cb =&gt; cb.checked = false);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>customInput.value = 1800;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>update();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>update();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
