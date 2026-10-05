@@ -2,7 +2,7 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>YunNi Nail Studio</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -38,6 +38,7 @@
             background-color: #F7F4EF;
             color: #5C534D;
             overflow-x: hidden;
+            width: 100%;
         }
         ::-webkit-scrollbar {
             width: 5px;
@@ -56,6 +57,11 @@
         .break-anywhere {
             word-break: break-all;
             overflow-wrap: break-word;
+        }
+        /* 強制所有輸入框、日期框嚴格遵守寬度限制，不超出容器 */
+        input, select, textarea {
+            max-width: 100%;
+            box-sizing: border-box;
         }
     </style>
 </head>
@@ -103,7 +109,7 @@
 
         <!-- 1. 客人手機預約前端 VIEW -->
         <div id="view-client" class="space-y-6 max-w-2xl mx-auto">
-            <div class="bg-white p-4 sm:p-8 rounded-3xl french-border shadow-md space-y-6">
+            <div class="bg-white p-4 sm:p-8 rounded-3xl french-border shadow-md space-y-6 overflow-hidden">
                 <!-- 店家招牌 Banner -->
                 <div class="bg-gradient-to-r from-morandi-pink/50 to-morandi-light p-4 sm:p-6 rounded-2xl text-center space-y-2 french-border">
                     <span class="px-3 py-1 bg-white/80 text-morandi-accent rounded-full text-xs font-semibold">Chic Nail Studio 線上預約</span>
@@ -112,15 +118,15 @@
                 </div>
 
                 <!-- 預約表單主體 -->
-                <div class="space-y-4 text-xs sm:text-sm">
+                <div class="space-y-4 text-xs sm:text-sm min-w-0">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
+                        <div class="min-w-0">
                             <label class="block font-medium text-morandi-accent mb-1.5">您的姓名</label>
-                            <input type="text" id="book-name" placeholder="例如：林小美" class="w-full px-4 py-2.5 rounded-xl border border-morandi-secondary/65 focus:outline-none focus:ring-1 focus:ring-morandi-primary bg-morandi-light/30">
+                            <input type="text" id="book-name" placeholder="例如：林小美" class="w-full max-w-full px-4 py-2.5 rounded-xl border border-morandi-secondary/65 focus:outline-none focus:ring-1 focus:ring-morandi-primary bg-morandi-light/30">
                         </div>
-                        <div>
+                        <div class="min-w-0">
                             <label class="block font-medium text-morandi-accent mb-1.5">LINE 綁定手機</label>
-                            <input type="text" id="book-phone" placeholder="0912-345-678" class="w-full px-4 py-2.5 rounded-xl border border-morandi-secondary/60 focus:outline-none focus:ring-1 focus:ring-morandi-primary bg-morandi-light/30">
+                            <input type="text" id="book-phone" placeholder="0912-345-678" class="w-full max-w-full px-4 py-2.5 rounded-xl border border-morandi-secondary/60 focus:outline-none focus:ring-1 focus:ring-morandi-primary bg-morandi-light/30">
                         </div>
                     </div>
 
@@ -297,10 +303,10 @@
                         </div>
                     </div>
 
-                    <!-- 預約日期輸入框區塊 -->
-                    <div>
+                    <!-- 嚴格限制寬度的預約日期輸入框區塊 -->
+                    <div class="w-full min-w-0">
                         <label class="block font-medium text-morandi-accent mb-1.5">預約日期</label>
-                        <input type="date" id="book-date" class="w-full px-4 py-2.5 rounded-xl border border-morandi-secondary/60 focus:outline-none focus:ring-1 focus:ring-morandi-primary bg-morandi-light/30 text-xs sm:text-sm" value="2026-10-05" onchange="renderSlots()">
+                        <input type="date" id="book-date" class="w-full max-w-full px-4 py-2.5 rounded-xl border border-morandi-secondary/60 focus:outline-none focus:ring-1 focus:ring-morandi-primary bg-morandi-light/30 text-xs sm:text-sm box-border" value="2026-10-05" onchange="renderSlots()">
                     </div>
 
                     <div>
@@ -313,9 +319,9 @@
                         </div>
                     </div>
 
-                    <div>
+                    <div class="min-w-0">
                         <label class="block font-medium text-morandi-accent mb-1.5">備註 / 卸甲需求 / 參考描述</label>
-                        <textarea id="book-remark" rows="3" placeholder="例如：需要卸甲，指甲偏軟..." class="w-full px-4 py-2.5 rounded-xl border border-morandi-secondary/60 focus:outline-none focus:ring-1 focus:ring-morandi-primary bg-morandi-light/30 mb-2 resize-none"></textarea>
+                        <textarea id="book-remark" rows="3" placeholder="例如：需要卸甲，指甲偏軟..." class="w-full max-w-full px-4 py-2.5 rounded-xl border border-morandi-secondary/60 focus:outline-none focus:ring-1 focus:ring-morandi-primary bg-morandi-light/30 mb-2 resize-none box-border"></textarea>
 
                         <!-- 參考圖片上傳區 (最多 5 張) -->
                         <div class="space-y-2">
@@ -868,7 +874,6 @@
             renderPhotoThumbnails();
         }
 
-        // 動態即時時段渲染（支援從 Google 試算表即時抓取已預約狀態）
         async function renderSlots() {
             const dateVal = document.getElementById('book-date').value;
             const container = document.getElementById('slots-container');
@@ -877,14 +882,12 @@
             let bookedSlotsForDate = [];
 
             try {
-                // 嘗試從 GAS 後端撈取當天已預約時段 (預期後端支援 ?date=YYYY-MM-DD 回傳已佔用時間陣列)
                 const response = await fetch(`${scriptURL}?date=${dateVal}`);
                 const result = await response.json();
                 if (result && result.bookedSlots) {
                     bookedSlotsForDate = result.bookedSlots;
                 }
             } catch (e) {
-                // 若尚未串接雲端 GET，則退回使用本地端 bookings 陣列模擬，確保畫面不報錯
                 bookedSlotsForDate = bookings
                     .filter(b => b.date === dateVal && b.status !== '已取消')
                     .map(b => b.slot);
@@ -927,7 +930,6 @@
             if(adminFree) adminFree.innerText = `${availableCount} 時段`;
         }
 
-        // 提交預約（結合防碰撞檢查機制）
         async function submitBooking() {
             const name = document.getElementById('book-name').value.trim();
             const phone = document.getElementById('book-phone').value.trim();
@@ -962,18 +964,15 @@
                 const response = await fetch(scriptURL, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'text/plain;charset=utf-8', // 避免 GAS CORS 預檢失敗
+                        'Content-Type': 'text/plain;charset=utf-8',
                     },
                     body: JSON.stringify(formData)
                 });
 
-                // 若後端支援回傳 JSON 檢查衝突
                 let resData = {};
                 try {
                     resData = await response.json();
-                } catch(err) {
-                    // 若使用 no-cors 或單向回傳，直接當作成功
-                }
+                } catch(err) {}
 
                 if (resData.result === 'conflict') {
                     showToast('哎呀！此時段剛剛已被其他人預約，請重新選擇！');
@@ -1004,7 +1003,6 @@
 
             } catch (error) {
                 console.error('Error!', error);
-                // 即使跨域導向，本地端也同步新增一筆以維持流暢體驗
                 const newBooking = {
                     id: 'B' + Math.floor(100000 + Math.random() * 900000),
                     name,
