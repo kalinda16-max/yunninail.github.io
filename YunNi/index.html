@@ -709,40 +709,10 @@
 
     <!-- JavaScript 邏輯 -->
     <script>
-        let bookings = [
-            { 
-                id: 'B20261001', 
-                name: '林小美', 
-                phone: '0912-345-678', 
-                date: '2026-10-05', 
-                slot: '13:00', 
-                styles: ['奶油莫蘭迪', '法式優雅浪漫'], 
-                remark: '指甲偏軟，希望加強建構', 
-                photos: [
-                    'https://images.unsplash.com/photo-1632345031435-877ff6c2ae8d?w=200&auto=format&fit=crop&q=80',
-                    'https://images.unsplash.com/photo-1604654894610-df63bc536371?w=200&auto=format&fit=crop&q=80'
-                ],
-                status: '已確認' 
-            },
-            { 
-                id: 'B20261002', 
-                name: '陳曉華', 
-                phone: '0922-888-999', 
-                date: '2026-10-05', 
-                slot: '09:00', 
-                styles: ['鏡面日系貓眼'], 
-                remark: '需要卸甲', 
-                photos: [],
-                status: '已確認' 
-            }
-        ];
+        let bookings = [];
 
         // 支援雲端雙向同步的動態會員陣列
-        let members = [
-            { phone: '0912-345-678', name: '林小美', visits: 6, rating: '5.0', balance: 3200, status: '正常會員', style: '奶油莫蘭迪', remark: '完美客，準時配合' },
-            { phone: '0922-888-999', name: '陳曉華', visits: 3, rating: '4.3', balance: 800, status: '正常會員', style: '鏡面日系貓眼', remark: '準時好配合' },
-            { phone: '0933-111-222', name: '張小麗', visits: 1, rating: '2.0', balance: 0, status: '高風險', style: '手繪暈染', remark: '上次預約未到，列入觀察名單' }
-        ];
+        let members = [];
 
         let selectedSlot = null;
         const allSlots = ['09:00', '13:00', '17:00', '21:00', '01:00', '05:00'];
