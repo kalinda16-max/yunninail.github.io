@@ -918,7 +918,8 @@
         }
 
         // 提交預約
-        function submitBooking() {
+// 提交預約
+        async function submitBooking() {
             const name = document.getElementById('book-name').value.trim();
             const phone = document.getElementById('book-phone').value.trim();
             const date = document.getElementById('book-date').value;
@@ -936,26 +937,61 @@
             const checkboxes = document.querySelectorAll('input[name="style-pref"]:checked');
             const styles = Array.from(checkboxes).map(cb => cb.value);
 
-            const newBooking = {
-                id: 'B' + Math.floor(100000 + Math.random() * 900000),
-                name,
-                phone,
-                date,
-                slot: selectedSlot,
-                styles,
-                remark: remark || '無',
-                photos: [...uploadedPhotos],
-                status: '已確認'
+            // 將預約風格合併成字串作為專案項目
+            const serviceStr = styles.join(', ') || '一般美甲服務';
+            
+            // 組合完整的預約時間 (例如: 2026-10-05T14:00:00)
+            const timeStr = `${date}T${selectedSlot}:00`;
+
+            // 整理要傳送到 Google 試算表的資料
+            const formData = {
+                name: name,
+                phone: phone,
+                service: serviceStr,
+                time: timeStr,
+                lineUserId: "LINE_USER_ID_PLACEHOLDER" // 之後若有串接 LIFF 可替換
             };
 
-            bookings.unshift(newBooking);
-            selectedSlot = null;
-            uploadedPhotos = [];
-            renderPhotoThumbnails();
-            document.getElementById('book-remark.value') = '';
-            renderSlots();
+            // ⬇️ 【請將下方引號內的網址換成你的 Google Apps Script 網址】
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbwtk09O_oybjTDTmSMsqHPGFaYV66kPkjyBDM84A5aUicRv8KHmlfy8itVNGuZyly9IFQ/exec';
 
-            showToast('預約成功！已透過 LINE 自動發送確認通知與參考圖');
+            try {
+                // 傳送資料到 Google 試算表與行事曆
+                await fetch(scriptURL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                // 本地前端畫面同步新增
+                const newBooking = {
+                    id: 'B' + Math.floor(100000 + Math.random() * 900000),
+                    name,
+                    phone,
+                    date,
+                    slot: selectedSlot,
+                    styles,
+                    remark: remark || '無',
+                    photos: [...uploadedPhotos],
+                    status: '已確認'
+                };
+
+                bookings.unshift(newBooking);
+                selectedSlot = null;
+                uploadedPhotos = [];
+                renderPhotoThumbnails();
+                document.getElementById('book-remark').value = '';
+                renderSlots();
+
+                showToast('預約成功！已同步至 Google 試算表與美甲師行事曆');
+
+            } catch (error) {
+                console.error('Error!', error);
+                showToast('預約傳送發生錯誤，請檢查網路連線');
+            }
         }
 
         // 渲染後台表格（顯示參考圖片縮圖）
