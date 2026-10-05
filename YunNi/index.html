@@ -58,11 +58,10 @@
             word-break: break-all;
             overflow-wrap: break-word;
         }
-        /* 強制所有輸入框嚴格遵守 100% 寬度限制與盒模型，絕不出框 */
+        /* 強制所有輸入框、日期框嚴格遵守寬度限制，不超出容器 */
         input, select, textarea {
-            width: 100% !important;
-            max-width: 100% !important;
-            box-sizing: border-box !important;
+            max-width: 100%;
+            box-sizing: border-box;
         }
     </style>
 </head>
@@ -123,11 +122,11 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div class="min-w-0">
                             <label class="block font-medium text-morandi-accent mb-1.5">您的姓名</label>
-                            <input type="text" id="book-name" placeholder="例如：林小美" class="px-4 py-2.5 rounded-xl border border-morandi-secondary/65 focus:outline-none focus:ring-1 focus:ring-morandi-primary bg-morandi-light/30">
+                            <input type="text" id="book-name" placeholder="例如：林小美" class="w-full max-w-full px-4 py-2.5 rounded-xl border border-morandi-secondary/65 focus:outline-none focus:ring-1 focus:ring-morandi-primary bg-morandi-light/30">
                         </div>
                         <div class="min-w-0">
                             <label class="block font-medium text-morandi-accent mb-1.5">LINE 綁定手機</label>
-                            <input type="text" id="book-phone" placeholder="0912-345-678" class="px-4 py-2.5 rounded-xl border border-morandi-secondary/60 focus:outline-none focus:ring-1 focus:ring-morandi-primary bg-morandi-light/30">
+                            <input type="text" id="book-phone" placeholder="0912-345-678" class="w-full max-w-full px-4 py-2.5 rounded-xl border border-morandi-secondary/60 focus:outline-none focus:ring-1 focus:ring-morandi-primary bg-morandi-light/30">
                         </div>
                     </div>
 
@@ -304,13 +303,11 @@
                         </div>
                     </div>
 
-                    <!-- 預約日期輸入框區塊（外層加上 overflow-hidden 與 strict width 限制） -->
-                    <div class="w-full min-w-0 overflow-hidden">
-                        <label class="block font-medium text-morandi-accent mb-1.5">預約日期</label>
-                        <div class="w-full max-w-full overflow-hidden rounded-xl border border-morandi-secondary/60 bg-morandi-light/30">
-                            <input type="date" id="book-date" class="px-4 py-2.5 focus:outline-none bg-transparent text-xs sm:text-sm block" value="2026-10-05" onchange="renderSlots()">
-                        </div>
-                    </div>
+                    <!-- 嚴格限制寬度的預約日期輸入框區塊 -->
+                            <div class="w-full min-w-0 overflow-hidden">
+                                <label class="block font-medium text-morandi-accent mb-1.5">預約日期</label>
+                                <input type="date" id="book-date" class="block w-full max-w-full px-4 py-2.5 rounded-xl border border-morandi-secondary/60 focus:outline-none focus:ring-1 focus:ring-morandi-primary bg-morandi-light/30 text-xs sm:text-sm box-border appearance-none" style="min-width: 0;" value="2026-10-05" onchange="renderSlots()">
+                            </div>
 
                     <div>
                         <div class="flex justify-between items-center mb-1.5">
@@ -324,7 +321,7 @@
 
                     <div class="min-w-0">
                         <label class="block font-medium text-morandi-accent mb-1.5">備註 / 卸甲需求 / 參考描述</label>
-                        <textarea id="book-remark" rows="3" placeholder="例如：需要卸甲，指甲偏軟..." class="px-4 py-2.5 rounded-xl border border-morandi-secondary/60 focus:outline-none focus:ring-1 focus:ring-morandi-primary bg-morandi-light/30 mb-2 resize-none"></textarea>
+                        <textarea id="book-remark" rows="3" placeholder="例如：需要卸甲，指甲偏軟..." class="w-full max-w-full px-4 py-2.5 rounded-xl border border-morandi-secondary/60 focus:outline-none focus:ring-1 focus:ring-morandi-primary bg-morandi-light/30 mb-2 resize-none box-border"></textarea>
 
                         <!-- 參考圖片上傳區 (最多 5 張) -->
                         <div class="space-y-2">
@@ -617,7 +614,7 @@
             </div>
             <p class="text-xs text-morandi-accent">請輸入管理密碼進入後台（預設密碼：<span class="font-mono font-bold text-morandi-dark">8888</span>）：</p>
             <div>
-                <input type="password" id="admin-pwd-input" placeholder="請輸入管理密碼" class="px-3 py-2.5 rounded-xl border border-morandi-secondary/60 text-xs focus:outline-none focus:ring-1 focus:ring-morandi-primary bg-morandi-light/30">
+                <input type="password" id="admin-pwd-input" placeholder="請輸入管理密碼" class="w-full px-3 py-2.5 rounded-xl border border-morandi-secondary/60 text-xs focus:outline-none focus:ring-1 focus:ring-morandi-primary bg-morandi-light/30">
             </div>
             <div class="flex justify-end space-x-2 pt-2">
                 <button onclick="closeAdminPasswordModal()" class="px-4 py-2 bg-morandi-light text-morandi-dark rounded-xl text-xs font-medium">取消</button>
@@ -685,16 +682,16 @@
             <h3 class="font-bold text-morandi-dark text-md">新增店內事件與時段佔位</h3>
             <div>
                 <label class="block text-xs font-medium text-morandi-accent mb-1">事件標題</label>
-                <input type="text" id="event-title" placeholder="例如：店休 / 員工進修 / 消毒日" class="px-3 py-2 rounded-xl border border-morandi-secondary/60 text-xs">
+                <input type="text" id="event-title" placeholder="例如：店休 / 員工進修 / 消毒日" class="w-full px-3 py-2 rounded-xl border border-morandi-secondary/60 text-xs">
             </div>
             <div class="grid grid-cols-2 gap-3">
                 <div>
                     <label class="block text-xs font-medium text-morandi-accent mb-1">日期</label>
-                    <input type="date" id="event-date" class="px-3 py-2 rounded-xl border border-morandi-secondary/60 text-xs" value="2026-10-05">
+                    <input type="date" id="event-date" class="w-full px-3 py-2 rounded-xl border border-morandi-secondary/60 text-xs" value="2026-10-05">
                 </div>
                 <div>
                     <label class="block text-xs font-medium text-morandi-accent mb-1">佔用時段</label>
-                    <select id="event-slot" class="px-3 py-2 rounded-xl border border-morandi-secondary/60 text-xs bg-white">
+                    <select id="event-slot" class="w-full px-3 py-2 rounded-xl border border-morandi-secondary/60 text-xs bg-white">
                         <option value="10:00">10:00 AM</option>
                         <option value="13:00">13:00 PM</option>
                         <option value="15:30">15:30 PM</option>
