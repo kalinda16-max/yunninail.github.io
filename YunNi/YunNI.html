@@ -937,26 +937,24 @@
             const checkboxes = document.querySelectorAll('input[name="style-pref"]:checked');
             const styles = Array.from(checkboxes).map(cb => cb.value);
 
-            // 將預約風格合併成字串作為專案項目
+            // 組合美甲項目字串
             const serviceStr = styles.join(', ') || '一般美甲服務';
-            
-            // 組合完整的預約時間 (例如: 2026-10-05T14:00:00)
-            const timeStr = `${date}T${selectedSlot}:00`;
+            // 組合完整時間字串 (例如: 2026-10-05T14:00)
+            const timeStr = `${date} ${selectedSlot}`;
 
-            // 整理要傳送到 Google 試算表的資料
+            // 整理要傳送到 Google Apps Script 的資料
             const formData = {
                 name: name,
                 phone: phone,
-                service: serviceStr,
-                time: timeStr,
-                lineUserId: "LINE_USER_ID_PLACEHOLDER" // 之後若有串接 LIFF 可替換
+                service: serviceStr + (remark ? ` (備註: ${remark})` : ''),
+                time: timeStr
             };
 
-            // ⬇️ 【請將下方引號內的網址換成你的 Google Apps Script 網址】
+            // ⬇️ 【請將下方引號內的網址換成妳的 Google Apps Script 網頁應用程式網址】
             const scriptURL = 'https://script.google.com/macros/s/AKfycbwtk09O_oybjTDTmSMsqHPGFaYV66kPkjyBDM84A5aUicRv8KHmlfy8itVNGuZyly9IFQ/exec';
 
             try {
-                // 傳送資料到 Google 試算表與行事曆
+                // 1. 傳送資料到 Google 後端（寫入試算表 + 加到 Google 日曆）
                 await fetch(scriptURL, {
                     method: 'POST',
                     mode: 'no-cors',
@@ -966,7 +964,7 @@
                     body: JSON.stringify(formData)
                 });
 
-                // 本地前端畫面同步新增
+                // 2. 本地前端畫面同步新增
                 const newBooking = {
                     id: 'B' + Math.floor(100000 + Math.random() * 900000),
                     name,
@@ -986,11 +984,11 @@
                 document.getElementById('book-remark').value = '';
                 renderSlots();
 
-                showToast('預約成功！已同步至 Google 試算表與美甲師行事曆');
+                showToast('預約成功！已同步至 Google 試算表與日曆');
 
             } catch (error) {
                 console.error('Error!', error);
-                showToast('預約傳送發生錯誤，請檢查網路連線');
+                showToast('傳送發生錯誤，請檢查網路連線');
             }
         }
 
