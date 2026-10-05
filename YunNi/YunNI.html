@@ -119,25 +119,176 @@
                         </div>
                     </div>
 
-                    <div>
-                        <label class="block font-medium text-morandi-accent mb-1.5">選擇美甲風格 / 喜好標籤</label>
-                        <div class="grid grid-cols-2 gap-3">
-                            <label class="flex items-center p-3 rounded-xl border border-morandi-secondary/40 hover:bg-morandi-light cursor-pointer">
-                                <input type="checkbox" name="style-pref" value="奶油莫蘭迪" class="rounded text-morandi-primary mr-2.5 w-4 h-4" checked>
-                                <span>奶油莫蘭迪</span>
-                            </label>
-                            <label class="flex items-center p-3 rounded-xl border border-morandi-secondary/40 hover:bg-morandi-light cursor-pointer">
-                                <input type="checkbox" name="style-pref" value="法式優雅浪漫" class="rounded text-morandi-primary mr-2.5 w-4 h-4" checked>
-                                <span>法式優雅浪漫</span>
-                            </label>
-                            <label class="flex items-center p-3 rounded-xl border border-morandi-secondary/40 hover:bg-morandi-light cursor-pointer">
-                                <input type="checkbox" name="style-pref" value="鏡面日系貓眼" class="rounded text-morandi-primary mr-2.5 w-4 h-4">
-                                <span>鏡面日系貓眼</span>
-                            </label>
-                            <label class="flex items-center p-3 rounded-xl border border-morandi-secondary/40 hover:bg-morandi-light cursor-pointer">
-                                <input type="checkbox" name="style-pref" value="手繪微光暈染" class="rounded text-morandi-primary mr-2.5 w-4 h-4">
-                                <span>手繪微光暈染</span>
-                            </label>
+                    <!-- 修改後的項目與分類 -->
+                    <div class="space-y-4 pt-2">
+                        <!-- 第一大類：選擇美甲風格 -->
+                        <div class="p-4 rounded-2xl border border-morandi-secondary/40 bg-morandi-light/30 space-y-3">
+                            <div class="flex items-center space-x-2 text-morandi-dark font-bold text-sm border-b border-morandi-secondary/30 pb-2">
+                                <i class="fa-solid fa-wand-magic-sparkles text-morandi-primary"></i>
+                                <span>選擇美甲風格</span>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
+                                <!-- 純色系列 -->
+                                <div class="space-y-2">
+                                    <h4 class="font-semibold text-morandi-dark text-xs flex items-center">
+                                        <span class="mr-1.5 text-morandi-primary">✾</span>純色系列
+                                    </h4>
+                                    <div class="space-y-1.5 pl-4">
+                                        <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer">
+                                            <input type="checkbox" name="style-pref" value="極致純色" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5">
+                                            <span>極致純色</span>
+                                        </label>
+                                        <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer">
+                                            <input type="checkbox" name="style-pref" value="沙龍純色" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5">
+                                            <span>沙龍純色</span>
+                                        </label>
+                                        <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer">
+                                            <input type="checkbox" name="style-pref" value="碎鑽膠" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5">
+                                            <span>碎鑽膠</span>
+                                        </label>
+                                        <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer">
+                                            <input type="checkbox" name="style-pref" value="貓眼膠" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5">
+                                            <span>貓眼膠</span>
+                                        </label>
+                                        <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer">
+                                            <input type="checkbox" name="style-pref" value="魔鏡粉單色" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5">
+                                            <span>魔鏡粉單色</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- 精緻美甲系列 -->
+                                <div class="space-y-2">
+                                    <h4 class="font-semibold text-morandi-dark text-xs flex items-center">
+                                        <span class="mr-1.5 text-morandi-primary">✾</span>精緻美甲系列
+                                    </h4>
+                                    <div class="space-y-1.5 pl-4">
+                                        <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer">
+                                            <input type="checkbox" name="style-pref" value="法式" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5">
+                                            <span>法式</span>
+                                        </label>
+                                        <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer">
+                                            <input type="checkbox" name="style-pref" value="漸層" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5">
+                                            <span>漸層</span>
+                                        </label>
+                                        <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer">
+                                            <input type="checkbox" name="style-pref" value="個人訂製款" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5">
+                                            <span>個人訂製款</span>
+                                        </label>
+                                        <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer">
+                                            <input type="checkbox" name="style-pref" value="甲膜裸透色延長單色" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5">
+                                            <span>甲膜裸透色延長單色</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 延長系列 -->
+                            <div class="pt-2 border-t border-morandi-secondary/20">
+                                <h4 class="font-semibold text-morandi-dark text-xs flex items-center mb-1.5">
+                                    <span class="mr-1.5 text-morandi-primary">✾</span>延長系列
+                                </h4>
+                                <div class="grid grid-cols-2 gap-2 pl-4">
+                                    <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer">
+                                        <input type="checkbox" name="style-pref" value="淺貼延長" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5">
+                                        <span>淺貼延長</span>
+                                    </label>
+                                    <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer">
+                                        <input type="checkbox" name="style-pref" value="半貼延長" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5">
+                                        <span>半貼延長</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 第二大類：基礎保養系列 -->
+                        <div class="p-4 rounded-2xl border border-morandi-secondary/40 bg-morandi-light/30 space-y-3">
+                            <div class="flex items-center space-x-2 text-morandi-dark font-bold text-sm border-b border-morandi-secondary/30 pb-2">
+                                <i class="fa-solid fa-hands-bubbles text-morandi-primary"></i>
+                                <span>基礎保養系列</span>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
+                                <!-- 基本保養 & 微保養 -->
+                                <div class="space-y-3">
+                                    <div class="space-y-1.5">
+                                        <h4 class="font-semibold text-morandi-dark text-xs flex items-center">
+                                            <span class="mr-1.5 text-morandi-primary">✾</span>基本
+                                        </h4>
+                                        <div class="space-y-1 pl-4">
+                                            <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer">
+                                                <input type="checkbox" name="style-pref" value="基本-手部" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5">
+                                                <span>手部</span>
+                                            </label>
+                                            <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer">
+                                                <input type="checkbox" name="style-pref" value="基本-足部" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5">
+                                                <span>足部</span>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="space-y-1.5">
+                                        <h4 class="font-semibold text-morandi-dark text-xs flex items-center">
+                                            <span class="mr-1.5 text-morandi-primary">✾</span>微保養
+                                        </h4>
+                                        <div class="space-y-1 pl-4">
+                                            <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer">
+                                                <input type="checkbox" name="style-pref" value="微保養-手部" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5">
+                                                <span>手部</span>
+                                            </label>
+                                            <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer">
+                                                <input type="checkbox" name="style-pref" value="微保養-足部" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5">
+                                                <span>足部</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 凍甲、捲甲矯正與其他 -->
+                                <div class="space-y-3">
+                                    <div class="space-y-1.5">
+                                        <h4 class="font-semibold text-morandi-dark text-xs flex items-center">
+                                            <span class="mr-1.5 text-morandi-primary">✾</span>凍甲、捲甲矯正
+                                        </h4>
+                                        <div class="space-y-1 pl-4">
+                                            <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer">
+                                                <input type="checkbox" name="style-pref" value="凍甲捲甲-大拇指" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5">
+                                                <span>大拇指</span>
+                                            </label>
+                                            <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer">
+                                                <input type="checkbox" name="style-pref" value="凍甲捲甲-其他指" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5">
+                                                <span>其他指</span>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="space-y-1.5">
+                                        <div class="space-y-1 pl-4 pt-1">
+                                            <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer">
+                                                <input type="checkbox" name="style-pref" value="純卸甲" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5">
+                                                <span>純卸甲</span>
+                                            </label>
+                                            <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer">
+                                                <input type="checkbox" name="style-pref" value="本甲卸甲" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5">
+                                                <span>本甲卸甲</span>
+                                            </label>
+                                            <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer">
+                                                <input type="checkbox" name="style-pref" value="卸甲續作" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5">
+                                                <span>卸甲續作</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 足底硬繭處理 -->
+                            <div class="pt-2 border-t border-morandi-secondary/20 pl-4">
+                                <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer">
+                                    <input type="checkbox" name="style-pref" value="足底硬繭處理" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5">
+                                    <span class="font-semibold">足底硬繭處理</span>
+                                </label>
+                            </div>
                         </div>
                     </div>
 
@@ -158,7 +309,8 @@
 
                     <div>
                         <label class="block font-medium text-morandi-accent mb-1.5">備註 / 卸甲需求 / 參考描述</label>
-                        <textarea id="book-remark" rows="3" placeholder="例如：需要卸甲，指甲偏軟..." class="w-full px-4 py-2.5 rounded-xl border border-morandi-secondary/60 focus:outline-none focus:ring-1 focus:ring-morandi-primary bg-morandi-light/30 mb-2"></textarea>
+                        <!-- 加上 resize-none 固定備註框大小，不讓使用者拉大縮小 -->
+                        <textarea id="book-remark" rows="3" placeholder="例如：需要卸甲，指甲偏軟..." class="w-full px-4 py-2.5 rounded-xl border border-morandi-secondary/60 focus:outline-none focus:ring-1 focus:ring-morandi-primary bg-morandi-light/30 mb-2 resize-none"></textarea>
 
                         <!-- 參考圖片上傳區 (最多 5 張) -->
                         <div class="space-y-2">
