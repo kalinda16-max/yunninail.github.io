@@ -76,7 +76,7 @@
                 </div>
                 <div class="min-w-0">
                     <h1 class="font-bold text-sm sm:text-lg tracking-wider text-morandi-dark truncate">YunNi Nail Studio</h1>
-                    <p class="text-[10px] sm:text-xs text-morandi-accent truncate">奶油莫蘭迪法式美學・智慧預約系統</p>
+                    <p class="text-[10px] sm:text-xs text-morandi-accent truncate">奶油莫蘭迪法式美學・預約系統</p>
                 </div>
             </div>
             
@@ -130,7 +130,7 @@
                         </div>
                     </div>
 
-<!-- 美甲風格與保養分類 -->
+                    <!-- 美甲風格與保養分類 -->
                     <div class="space-y-4 pt-2">
                         <!-- 第一大類：選擇美甲風格 -->
                         <div class="p-3 sm:p-4 rounded-2xl border border-morandi-secondary/40 bg-morandi-light/30 space-y-3">
@@ -304,10 +304,10 @@
                     </div>
 
                     <!-- 嚴格限制寬度的預約日期輸入框區塊 -->
-                            <div class="w-full min-w-0 overflow-hidden">
-                                <label class="block font-medium text-morandi-accent mb-1.5">預約日期</label>
-                                <input type="date" id="book-date" class="block w-full max-w-full px-4 py-2.5 rounded-xl border border-morandi-secondary/60 focus:outline-none focus:ring-1 focus:ring-morandi-primary bg-morandi-light/30 text-xs sm:text-sm box-border appearance-none" style="min-width: 0;" value="2026-10-05" onchange="renderSlots()">
-                            </div>
+                    <div class="w-full min-w-0 overflow-hidden">
+                        <label class="block font-medium text-morandi-accent mb-1.5">預約日期</label>
+                        <input type="date" id="book-date" class="block w-full max-w-full px-4 py-2.5 rounded-xl border border-morandi-secondary/60 focus:outline-none focus:ring-1 focus:ring-morandi-primary bg-morandi-light/30 text-xs sm:text-sm box-border appearance-none" style="min-width: 0;" value="2026-10-05" onchange="renderSlots()">
+                    </div>
 
                     <div>
                         <div class="flex justify-between items-center mb-1.5">
@@ -441,79 +441,23 @@
                 </div>
             </div>
 
-            <!-- 子分頁 B: 會員管理與風控 -->
+            <!-- 子分頁 B: 會員管理與風控（改為動態從試算表撈取） -->
             <div id="subview-members" class="hidden space-y-6">
                 <div class="bg-white p-4 sm:p-6 rounded-3xl french-border shadow-sm space-y-4">
-                    <div>
-                        <h3 class="font-bold text-morandi-dark text-md">會員標籤、老闆評分與黑名單風控</h3>
-                        <p class="text-xs text-morandi-accent mt-1">精確掌握客人習慣、來店次數、儲值金與票券餘額，預防爽約風險。</p>
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                        <div>
+                            <h3 class="font-bold text-morandi-dark text-md">會員標籤、老闆評分與黑名單風控</h3>
+                            <p class="text-xs text-morandi-accent mt-1">資料即時與 Google 試算表雙向同步，精確掌握客戶儲值與爽約風險。</p>
+                        </div>
+                        <button onclick="fetchMembersFromCloud()" class="px-3.5 py-2 bg-morandi-light text-morandi-dark rounded-xl text-xs font-medium hover:bg-morandi-secondary/40 transition-all border border-morandi-secondary/40 shrink-0">
+                            <i class="fa-solid fa-rotate mr-1"></i>重新整理會員資料
+                        </button>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
-                        <!-- 會員卡片 1 -->
-                        <div class="p-4 sm:p-5 bg-morandi-light/50 rounded-2xl french-border space-y-3">
-                            <div class="flex justify-between items-start">
-                                <div class="flex items-center space-x-3 min-w-0">
-                                    <div class="w-12 h-12 rounded-full bg-morandi-primary text-white flex items-center justify-center font-bold text-sm shrink-0">林</div>
-                                    <div class="min-w-0">
-                                        <h4 class="font-bold text-morandi-dark truncate">林小美 (VIP)</h4>
-                                        <p class="text-[10px] text-morandi-accent truncate">0912-345-678</p>
-                                    </div>
-                                </div>
-                                <span class="px-2.5 py-1 bg-emerald-100 text-emerald-800 text-[10px] font-bold rounded-lg shrink-0">正常會員</span>
-                            </div>
-                            <div class="space-y-1 text-xs text-morandi-accent">
-                                <p><strong>來店次數：</strong> 6 次</p>
-                                <p><strong>老闆評分：</strong> ⭐⭐⭐⭐⭐ (5.0 完美客)</p>
-                                <p><strong>喜好風格：</strong> 奶油莫蘭迪、法式浪漫</p>
-                                <p><strong>儲值金餘額：</strong> <span class="text-morandi-dark font-bold">NT$ 3,200</span></p>
-                                <p><strong>專屬票券：</strong> 生日折價券 $200 (1張)</p>
-                            </div>
-                            <button onclick="showToast('已開啟林小美會員完整歷程')" class="w-full py-2 bg-white border border-morandi-secondary/60 rounded-xl text-xs font-medium text-morandi-dark hover:bg-morandi-primary hover:text-white transition-all">編輯標籤與儲值</button>
-                        </div>
-
-                        <!-- 會員卡片 2 -->
-                        <div class="p-4 sm:p-5 bg-morandi-light/50 rounded-2xl french-border space-y-3">
-                            <div class="flex justify-between items-start">
-                                <div class="flex items-center space-x-3 min-w-0">
-                                    <div class="w-12 h-12 rounded-full bg-morandi-secondary text-morandi-dark flex items-center justify-center font-bold text-sm shrink-0">陳</div>
-                                    <div class="min-w-0">
-                                        <h4 class="font-bold text-morandi-dark truncate">陳曉華</h4>
-                                        <p class="text-[10px] text-morandi-accent truncate">0922-888-999</p>
-                                    </div>
-                                </div>
-                                <span class="px-2.5 py-1 bg-emerald-100 text-emerald-800 text-[10px] font-bold rounded-lg shrink-0">正常會員</span>
-                            </div>
-                            <div class="space-y-1 text-xs text-morandi-accent">
-                                <p><strong>來店次數：</strong> 3 次</p>
-                                <p><strong>老闆評分：</strong> ⭐⭐⭐⭐ (4.3 準時好配合)</p>
-                                <p><strong>喜好風格：</strong> 鏡面日系貓眼</p>
-                                <p><strong>儲值金餘額：</strong> <span class="text-morandi-dark font-bold">NT$ 800</span></p>
-                                <p><strong>專屬票券：</strong> 無</p>
-                            </div>
-                            <button onclick="showToast('已開啟陳曉華會員完整歷程')" class="w-full py-2 bg-white border border-morandi-secondary/60 rounded-xl text-xs font-medium text-morandi-dark hover:bg-morandi-primary hover:text-white transition-all">編輯標籤與儲值</button>
-                        </div>
-
-                        <!-- 會員卡片 3 (觀察名單) -->
-                        <div class="p-4 sm:p-5 bg-rose-50/60 rounded-2xl border border-rose-200 space-y-3">
-                            <div class="flex justify-between items-start">
-                                <div class="flex items-center space-x-3 min-w-0">
-                                    <div class="w-12 h-12 rounded-full bg-morandi-red text-white flex items-center justify-center font-bold text-sm shrink-0">張</div>
-                                    <div class="min-w-0">
-                                        <h4 class="font-bold text-morandi-dark truncate">張小麗</h4>
-                                        <p class="text-[10px] text-morandi-accent truncate">0933-111-222</p>
-                                    </div>
-                                </div>
-                                <span class="px-2.5 py-1 bg-rose-100 text-rose-800 text-[10px] font-bold rounded-lg shrink-0">高風險</span>
-                            </div>
-                            <div class="space-y-1 text-xs text-morandi-accent">
-                                <p><strong>來店次數：</strong> 1 次</p>
-                                <p><strong>老闆評分：</strong> ⭐⭐ (2.0 曾臨時爽約)</p>
-                                <p><strong>喜好風格：</strong> 手繪暈染</p>
-                                <p><strong>儲值金餘額：</strong> <span class="text-morandi-dark font-bold">NT$ 0</span></p>
-                                <p class="break-words"><strong>備註說明：</strong> 上次預約未到且未提前取消，列入觀察名單。</p>
-                            </div>
-                            <button onclick="showToast('已將張小麗解除觀察或調整標籤')" class="w-full py-2 bg-white border border-rose-300 rounded-xl text-xs font-medium text-rose-700 hover:bg-rose-100 transition-all">解除觀察 / 編輯記錄</button>
+                    <!-- 動態會員卡片渲染容器 -->
+                    <div id="members-container" class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+                        <div class="col-span-3 text-center py-8 text-xs text-morandi-accent">
+                            <i class="fa-solid fa-spinner fa-spin mr-1"></i>正在從 Google 試算表載入會員資料...
                         </div>
                     </div>
                 </div>
@@ -623,6 +567,53 @@
         </div>
     </div>
 
+    <!-- 編輯會員儲值與標籤 Modal -->
+    <div id="edit-member-modal" class="fixed inset-0 bg-black/40 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white max-w-md w-full rounded-3xl p-6 shadow-xl french-border space-y-4 my-auto">
+            <div class="flex justify-between items-center pb-2 border-b border-morandi-secondary/30">
+                <h3 class="font-bold text-morandi-dark text-md flex items-center">
+                    <i class="fa-solid fa-user-pen text-morandi-primary mr-2"></i>編輯會員資料與儲值金
+                </h3>
+                <button onclick="closeEditMemberModal()" class="text-morandi-accent hover:text-morandi-dark">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <input type="hidden" id="edit-member-phone">
+            <div class="space-y-3 text-xs">
+                <div>
+                    <label class="block font-medium text-morandi-accent mb-1">會員姓名與手機</label>
+                    <input type="text" id="edit-member-name" readonly class="w-full px-3 py-2 rounded-xl border border-morandi-secondary/40 bg-morandi-light/50 font-bold text-morandi-dark">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-medium text-morandi-accent mb-1">儲值金餘額 (NT$)</label>
+                        <input type="number" id="edit-member-balance" class="w-full px-3 py-2 rounded-xl border border-morandi-secondary/60 focus:ring-1 focus:ring-morandi-primary">
+                    </div>
+                    <div>
+                        <label class="block font-medium text-morandi-accent mb-1">老闆評分 (1~5 星)</label>
+                        <input type="number" step="0.1" min="1" max="5" id="edit-member-rating" class="w-full px-3 py-2 rounded-xl border border-morandi-secondary/60 focus:ring-1 focus:ring-morandi-primary">
+                    </div>
+                </div>
+                <div>
+                    <label class="block font-medium text-morandi-accent mb-1">風險與會員標籤</label>
+                    <select id="edit-member-status" class="w-full px-3 py-2 rounded-xl border border-morandi-secondary/60 bg-white">
+                        <option value="正常會員">正常會員 (VIP)</option>
+                        <option value="觀察名單">觀察名單</option>
+                        <option value="高風險">高風險 (曾爽約)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block font-medium text-morandi-accent mb-1">備註說明 / 歷史紀錄</label>
+                    <textarea id="edit-member-remark" rows="2" class="w-full px-3 py-2 rounded-xl border border-morandi-secondary/60 resize-none"></textarea>
+                </div>
+            </div>
+            <div class="flex justify-end space-x-2 pt-2">
+                <button onclick="closeEditMemberModal()" class="px-4 py-2 bg-morandi-light text-morandi-dark rounded-xl text-xs font-medium">取消</button>
+                <button onclick="saveMemberChanges()" class="px-4 py-2 bg-morandi-primary text-white rounded-xl text-xs font-medium">儲存更新至雲端</button>
+            </div>
+        </div>
+    </div>
+
     <!-- 參考圖片預覽 Modal -->
     <div id="photo-preview-modal" class="fixed inset-0 bg-black/70 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white max-w-xl w-full rounded-3xl p-6 shadow-2xl french-border space-y-4 relative my-auto">
@@ -692,12 +683,12 @@
                 <div>
                     <label class="block text-xs font-medium text-morandi-accent mb-1">佔用時段</label>
                     <select id="event-slot" class="w-full px-3 py-2 rounded-xl border border-morandi-secondary/60 text-xs bg-white">
-                        <option value="10:00">09:00 AM</option>
+                        <option value="09:00">09:00 AM</option>
                         <option value="13:00">13:00 PM</option>
-                        <option value="15:30">17:00 PM</option>
-                        <option value="18:00">21:00 PM</option>
-                        <option value="18:00">01:00 PM</option>
-                        <option value="18:00">05:00 PM</option>
+                        <option value="17:00">17:00 PM</option>
+                        <option value="21:00">21:00 PM</option>
+                        <option value="01:00">01:00 AM</option>
+                        <option value="05:00">05:00 AM</option>
                     </select>
                 </div>
             </div>
@@ -722,7 +713,7 @@
                 name: '林小美', 
                 phone: '0912-345-678', 
                 date: '2026-10-05', 
-                slot: '14:00', 
+                slot: '13:00', 
                 styles: ['奶油莫蘭迪', '法式優雅浪漫'], 
                 remark: '指甲偏軟，希望加強建構', 
                 photos: [
@@ -736,25 +727,19 @@
                 name: '陳曉華', 
                 phone: '0922-888-999', 
                 date: '2026-10-05', 
-                slot: '10:00', 
+                slot: '09:00', 
                 styles: ['鏡面日系貓眼'], 
                 remark: '需要卸甲', 
                 photos: [],
                 status: '已確認' 
-            },
-            { 
-                id: 'B20261003', 
-                name: '王雅婷', 
-                phone: '0933-111-222', 
-                date: '2026-10-06', 
-                slot: '16:30', 
-                styles: ['手繪微光暈染'], 
-                remark: '第一次來店', 
-                photos: [
-                    'https://images.unsplash.com/photo-1519014816548-bf5fe059798b?w=200&auto=format&fit=crop&q=80'
-                ],
-                status: '已確認' 
             }
+        ];
+
+        // 支援雲端雙向同步的動態會員陣列
+        let members = [
+            { phone: '0912-345-678', name: '林小美', visits: 6, rating: '5.0', balance: 3200, status: '正常會員', style: '奶油莫蘭迪', remark: '完美客，準時配合' },
+            { phone: '0922-888-999', name: '陳曉華', visits: 3, rating: '4.3', balance: 800, status: '正常會員', style: '鏡面日系貓眼', remark: '準時好配合' },
+            { phone: '0933-111-222', name: '張小麗', visits: 1, rating: '2.0', balance: 0, status: '高風險', style: '手繪暈染', remark: '上次預約未到，列入觀察名單' }
         ];
 
         let selectedSlot = null;
@@ -774,6 +759,7 @@
                 document.getElementById('nav-client').className = 'px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all text-morandi-dark hover:bg-morandi-light flex items-center space-x-1';
                 switchAdminSubTab('calendar');
                 renderAdminTable();
+                fetchMembersFromCloud(); // 進入後台時自動從 Google 試算表同步會員
             }
         }
 
@@ -793,6 +779,7 @@
             } else if (subName === 'members') {
                 document.getElementById('subview-members').classList.remove('hidden');
                 document.getElementById('subnav-members').className = 'px-3 sm:px-4 py-2 rounded-xl transition-all bg-morandi-primary text-white shadow-xs whitespace-nowrap';
+                renderMembersGrid();
             } else if (subName === 'line') {
                 document.getElementById('subview-line').classList.remove('hidden');
                 document.getElementById('subnav-line').className = 'px-3 sm:px-4 py-2 rounded-xl transition-all bg-morandi-primary text-white shadow-xs whitespace-nowrap relative';
@@ -822,6 +809,113 @@
             switchTab('client');
             document.getElementById('admin-entrance-wrapper').style.display = 'none';
             showToast('已切換為「客人預約連結模式」');
+        }
+
+        // 從 Google 試算表（GAS）非同步載入會員資料
+        async function fetchMembersFromCloud() {
+            try {
+                const response = await fetch(`${scriptURL}?action=getMembers`);
+                const result = await response.json();
+                if (result && Array.isArray(result) && result.length > 0) {
+                    members = result; // 更新為雲端最新資料
+                }
+            } catch (e) {
+                console.log('使用本地快取會員資料');
+            }
+            renderMembersGrid();
+            showToast('會員資料已與雲端同步');
+        }
+
+        // 渲染管理者後台的會員卡片格子
+        function renderMembersGrid() {
+            const container = document.getElementById('members-container');
+            container.innerHTML = '';
+
+            if (members.length === 0) {
+                container.innerHTML = `<div class="col-span-3 text-center py-6 text-xs text-morandi-accent">目前尚無會員資料紀錄</div>`;
+                return;
+            }
+
+            members.forEach(m => {
+                const isRisk = m.status === '高風險';
+                const cardDiv = document.createElement('div');
+                cardDiv.className = `p-4 sm:p-5 rounded-2xl french-border space-y-3 ${isRisk ? 'bg-rose-50/60 border-rose-200' : 'bg-morandi-light/50'}`;
+                
+                let initialChar = m.name ? m.name.charAt(0) : '會';
+                
+                cardDiv.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <div class="flex items-center space-x-3 min-w-0">
+                            <div class="w-12 h-12 rounded-full ${isRisk ? 'bg-morandi-red text-white' : 'bg-morandi-primary text-white'} flex items-center justify-center font-bold text-sm shrink-0">${initialChar}</div>
+                            <div class="min-w-0">
+                                <h4 class="font-bold text-morandi-dark truncate">${m.name}</h4>
+                                <p class="text-[10px] text-morandi-accent truncate">${m.phone}</p>
+                            </div>
+                        </div>
+                        <span class="px-2.5 py-1 ${isRisk ? 'bg-rose-100 text-rose-800' : 'bg-emerald-100 text-emerald-800'} text-[10px] font-bold rounded-lg shrink-0">${m.status}</span>
+                    </div>
+                    <div class="space-y-1 text-xs text-morandi-accent">
+                        <p><strong>來店次數：</strong> ${m.visits || 1} 次</p>
+                        <p><strong>老闆評分：</strong> ⭐ ${m.rating || '5.0'}</p>
+                        <p><strong>喜好風格：</strong> ${m.style || '一般美甲服務'}</p>
+                        <p><strong>儲值金餘額：</strong> <span class="text-morandi-dark font-bold">NT$ ${(m.balance || 0).toLocaleString()}</span></p>
+                        <p class="break-words"><strong>備註說明：</strong> ${m.remark || '無'}</p>
+                    </div>
+                    <button onclick="openEditMemberModal('${m.phone}')" class="w-full py-2 bg-white border ${isRisk ? 'border-rose-300 text-rose-700 hover:bg-rose-100' : 'border-morandi-secondary/60 text-morandi-dark hover:bg-morandi-primary hover:text-white'} rounded-xl text-xs font-medium transition-all">編輯標籤與儲值</button>
+                `;
+                container.appendChild(cardDiv);
+            });
+        }
+
+        // 開啟會員編輯 Modal
+        function openEditMemberModal(phone) {
+            const member = members.find(m => m.phone === phone);
+            if (!member) return;
+
+            document.getElementById('edit-member-phone').value = member.phone;
+            document.getElementById('edit-member-name').value = `${member.name} (${member.phone})`;
+            document.getElementById('edit-member-balance').value = member.balance || 0;
+            document.getElementById('edit-member-rating').value = member.rating || '5.0';
+            document.getElementById('edit-member-status').value = member.status || '正常會員';
+            document.getElementById('edit-member-remark').value = member.remark || '';
+
+            document.getElementById('edit-member-modal').classList.remove('hidden');
+        }
+
+        function closeEditMemberModal() {
+            document.getElementById('edit-member-modal').classList.add('hidden');
+        }
+
+        // 儲存會員變更並雙向同步回 Google 試算表
+        async function saveMemberChanges() {
+            const phone = document.getElementById('edit-member-phone').value;
+            const balance = parseInt(document.getElementById('edit-member-balance').value) || 0;
+            const rating = document.getElementById('edit-member-rating').value;
+            const status = document.getElementById('edit-member-status').value;
+            const remark = document.getElementById('edit-member-remark').value.trim();
+
+            const member = members.find(m => m.phone === phone);
+            if (member) {
+                member.balance = balance;
+                member.rating = rating;
+                member.status = status;
+                member.remark = remark;
+            }
+
+            closeEditMemberModal();
+            renderMembersGrid();
+            showToast('會員資料已更新並同步至試算表');
+
+            // 發送 POST 請求將更新後的會員資料寫回 Google Apps Script
+            try {
+                await fetch(scriptURL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ action: 'updateMember', phone, balance, rating, status, remark })
+                });
+            } catch (err) {
+                console.error('雲端同步失敗', err);
+            }
         }
 
         function handlePhotoUpload(event) {
