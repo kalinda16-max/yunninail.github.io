@@ -72,7 +72,7 @@
 </head>
 <body class="min-h-screen flex flex-col font-sans">
 
-    <!-- 頂部導覽列 -->
+<!-- 頂部導覽列 -->
     <header class="bg-white/90 backdrop-blur-md sticky top-0 z-50 french-border border-t-0 border-x-0 shadow-xs">
         <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center space-x-2 sm:space-x-3 min-w-0">
@@ -85,29 +85,28 @@
                 </div>
             </div>
             
-    <!-- 導覽切換按鈕區 -->
-    <div class="flex items-center space-x-1.5 sm:space-x-2 shrink-0">
-    <!-- 客人預約前端切換按鈕（當前主色按鈕） -->
-    <button onclick="switchTab('client')" id="nav-client" class="h-10 min-w-10 px-3 rounded-xl text-xs sm:text-sm font-medium transition-all bg-morandi-primary text-white shadow-sm flex items-center justify-center space-x-1 shrink-0">
-        <i class="fa-solid fa-mobile-screen text-sm"></i>
-        <span class="hidden xs:inline">客人預約端</span>
-    </button>
+            <!-- 導覽切換按鈕區 -->
+            <div class="flex items-center space-x-1.5 sm:space-x-2 shrink-0">
+                <!-- 客人預約端：固定 w-10 h-10（手機版變正方形），大螢幕時自動變寬並顯示文字 -->
+                <button onclick="switchTab('client')" id="nav-client" class="h-10 w-10 sm:w-auto sm:px-3 rounded-xl text-xs sm:text-sm font-medium transition-all bg-morandi-primary text-white shadow-sm flex items-center justify-center space-x-1 shrink-0">
+                    <i class="fa-solid fa-mobile-screen text-sm"></i>
+                    <span class="hidden sm:inline">客人預約端</span>
+                </button>
 
-    <!-- 管理者專屬後台入口按鈕（與通知按鈕對齊高度與圓角風格） -->
-    <div id="admin-entrance-wrapper">
-        <button onclick="openAdminPasswordModal()" id="nav-admin-portal" class="h-10 px-3 rounded-xl text-xs sm:text-sm font-medium transition-all text-morandi-dark hover:bg-morandi-light/80 bg-morandi-light/50 border border-morandi-secondary/30 flex items-center justify-center space-x-1 shrink-0">
-            <i class="fa-solid fa-lock text-sm text-morandi-accent"></i>
-            <span class="hidden sm:inline">管理者後台入口</span>
-        </button>
-    </div>
+                <!-- 管理者後台入口：同步改為 h-10 w-10（手機版變正方形），大螢幕時自動延展 -->
+                <div id="admin-entrance-wrapper">
+                    <button onclick="openAdminPasswordModal()" id="nav-admin-portal" class="h-10 w-10 sm:w-auto sm:px-3 rounded-xl text-xs sm:text-sm font-medium transition-all bg-morandi-secondary/20 text-morandi-dark hover:bg-morandi-secondary/30 flex items-center justify-center space-x-1 shrink-0">
+                        <i class="fa-solid fa-lock text-sm text-morandi-accent"></i>
+                        <span class="hidden sm:inline">管理者後台入口</span>
+                    </button>
+                </div>
 
-    <!-- 通知按鈕（統一高度 h-10 與圓角、邊框風格） -->
-    <button onclick="openNotificationModal()" class="h-10 px-3 rounded-xl bg-morandi-light/50 text-morandi-dark hover:bg-morandi-light/80 transition-all relative shrink-0 flex items-center justify-center space-x-1 border border-morandi-secondary/30">
-        <i class="fa-regular fa-bell text-sm"></i>
-        <span class="hidden sm:inline text-xs sm:text-sm font-medium">通知</span>
-        <span class="absolute -top-1 -right-1 bg-morandi-red text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-bold">3</span>
-    </button>
-</div>
+                <!-- 通知按鈕：固定 w-10 h-10 -->
+                <button onclick="openNotificationModal()" class="h-10 w-10 rounded-xl bg-morandi-secondary/20 text-morandi-dark hover:bg-morandi-secondary/30 transition-all relative shrink-0 flex items-center justify-center">
+                    <i class="fa-regular fa-bell text-sm"></i>
+                    <span class="absolute -top-1 -right-1 bg-morandi-red text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-bold">3</span>
+                </button>
+            </div>
         </div>
     </header>
 
