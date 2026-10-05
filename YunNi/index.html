@@ -85,27 +85,29 @@
                 </div>
             </div>
             
-            <!-- 導覽切換按鈕區 -->
-            <div class="flex items-center space-x-1.5 sm:space-x-2 shrink-0">
-                <!-- 客人預約前端切換按鈕 -->
-                <button onclick="switchTab('client')" id="nav-client" class="h-10 min-w-10 px-2 sm:px-3 rounded-xl text-xs sm:text-sm font-medium transition-all bg-morandi-primary text-white shadow-sm flex items-center justify-center space-x-1 shrink-0">
-                    <i class="fa-solid fa-mobile-screen text-sm"></i>
-                    <span class="hidden xs:inline">客人預約端</span>
-                </button>
+    <!-- 導覽切換按鈕區 -->
+    <div class="flex items-center space-x-1.5 sm:space-x-2 shrink-0">
+    <!-- 客人預約前端切換按鈕（當前主色按鈕） -->
+    <button onclick="switchTab('client')" id="nav-client" class="h-10 min-w-10 px-3 rounded-xl text-xs sm:text-sm font-medium transition-all bg-morandi-primary text-white shadow-sm flex items-center justify-center space-x-1 shrink-0">
+        <i class="fa-solid fa-mobile-screen text-sm"></i>
+        <span class="hidden xs:inline">客人預約端</span>
+    </button>
 
-                <!-- 管理者專屬後台入口按鈕 -->
-                <div id="admin-entrance-wrapper">
-                    <button onclick="openAdminPasswordModal()" id="nav-admin-portal" class="h-10 min-w-10 px-2 sm:px-3 rounded-xl text-xs sm:text-sm font-medium transition-all text-morandi-dark hover:bg-morandi-light french-border flex items-center justify-center space-x-1 bg-morandi-light/50 shrink-0">
-                        <i class="fa-solid fa-lock text-sm text-morandi-accent"></i>
-                        <span class="hidden sm:inline">管理者後台入口</span>
-                    </button>
-                </div>
+    <!-- 管理者專屬後台入口按鈕（與通知按鈕對齊高度與圓角風格） -->
+    <div id="admin-entrance-wrapper">
+        <button onclick="openAdminPasswordModal()" id="nav-admin-portal" class="h-10 px-3 rounded-xl text-xs sm:text-sm font-medium transition-all text-morandi-dark hover:bg-morandi-light/80 bg-morandi-light/50 border border-morandi-secondary/30 flex items-center justify-center space-x-1 shrink-0">
+            <i class="fa-solid fa-lock text-sm text-morandi-accent"></i>
+            <span class="hidden sm:inline">管理者後台入口</span>
+        </button>
+    </div>
 
-                <button onclick="openNotificationModal()" class="h-10 w-10 rounded-xl bg-morandi-light text-morandi-dark hover:bg-morandi-pink transition-all relative shrink-0 flex items-center justify-center">
-                    <i class="fa-regular fa-bell text-sm"></i>
-                    <span class="absolute -top-1 -right-1 bg-morandi-red text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-bold">3</span>
-                </button>
-            </div>
+    <!-- 通知按鈕（統一高度 h-10 與圓角、邊框風格） -->
+    <button onclick="openNotificationModal()" class="h-10 px-3 rounded-xl bg-morandi-light/50 text-morandi-dark hover:bg-morandi-light/80 transition-all relative shrink-0 flex items-center justify-center space-x-1 border border-morandi-secondary/30">
+        <i class="fa-regular fa-bell text-sm"></i>
+        <span class="hidden sm:inline text-xs sm:text-sm font-medium">通知</span>
+        <span class="absolute -top-1 -right-1 bg-morandi-red text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-bold">3</span>
+    </button>
+</div>
         </div>
     </header>
 
@@ -424,7 +426,7 @@
                         <table class="w-full text-left border-collapse min-w-[650px]">
                             <thead>
                                 <tr class="bg-morandi-light/60 text-xs text-morandi-accent uppercase tracking-wider">
-                                    <th class="p-4 font-semibold">編號 / 日期時間</th>
+                                    <th class="p-4 font-semibold">日期時間</th>
                                     <th class="p-4 font-semibold">客人與手機</th>
                                     <th class="p-4 font-semibold">風格標籤</th>
                                     <th class="p-4 font-semibold">備註與參考圖</th>
@@ -666,22 +668,24 @@
         </div>
     </div>
 
-    <!-- 新增店內事件/休息日 Modal -->
+<!-- 新增店內事件/休息日 Modal -->
     <div id="event-modal" class="fixed inset-0 bg-black/40 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white max-w-md w-full rounded-3xl p-6 shadow-xl french-border space-y-4 my-auto">
             <h3 class="font-bold text-morandi-dark text-md">新增店內事件與時段佔位</h3>
+            
+            <!-- 事件標題 -->
             <div>
                 <label class="block text-xs font-medium text-morandi-accent mb-1">事件標題</label>
                 <input type="text" id="event-title" placeholder="例如：店休 / 員工進修 / 消毒日" class="w-full px-3 py-2 rounded-xl border border-morandi-secondary/60 text-xs">
             </div>
+
+            <!-- 日期與佔用時段（左右並排） -->
             <div class="grid grid-cols-2 gap-3">
                 <div class="min-w-0 overflow-hidden">
-                <div>
                     <label class="block text-xs font-medium text-morandi-accent mb-1">日期</label>
-                    <input type="date" id="event-date" class="w-full px-3 py-2 rounded-xl border border-morandi-secondary/60 text-xs box-border appearance-none" style="min-width: 0;"value="2026-10-05">
+                    <input type="date" id="event-date" class="w-full px-3 py-2 rounded-xl border border-morandi-secondary/60 text-xs box-border appearance-none" style="min-width: 0;" value="2026-10-05">
                 </div>
-                <div>
-                    <div class="min-w-0 overflow-hidden">
+                <div class="min-w-0 overflow-hidden">
                     <label class="block text-xs font-medium text-morandi-accent mb-1">佔用時段</label>
                     <select id="event-slot" class="block w-full max-w-full px-3 py-2 rounded-xl border border-morandi-secondary/60 text-xs bg-white box-border">
                         <option value="ALL">✨ 全天店休</option>
@@ -694,9 +698,11 @@
                     </select>
                 </div>
             </div>
-            <div class="flex justify-end space-x-2 pt-2">
-                <button onclick="closeAddEventModal()" class="px-4 py-2 bg-morandi-light text-morandi-dark rounded-xl text-xs font-medium">取消</button>
-                <button onclick="saveEvent()" class="px-4 py-2 bg-morandi-primary text-white rounded-xl text-xs font-medium">儲存事件</button>
+
+            <!-- 底部按鈕（左儲存、右取消） -->
+            <div class="flex justify-between space-x-2 pt-2">
+                <button onclick="saveEvent()" class="px-4 py-2 bg-morandi-primary text-white rounded-xl text-xs font-medium w-full">儲存事件</button>
+                <button onclick="closeAddEventModal()" class="px-4 py-2 bg-morandi-light text-morandi-dark rounded-xl text-xs font-medium w-full">取消</button>
             </div>
         </div>
     </div>
