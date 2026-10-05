@@ -797,6 +797,8 @@
         function verifyAdminPassword() {
             const pwd = document.getElementById('admin-pwd-input').value.trim();
             if (pwd === '8888' || pwd === '') {
+                // 驗證成功後，使用 localStorage 記住管理者身份
+                localStorage.setItem('yunni_admin_logged', 'true');
                 closeAdminPasswordModal();
                 switchTab('admin');
                 showToast('成功進入管理者後台');
@@ -806,9 +808,10 @@
         }
 
         function exitAdminPortal() {
+            // 登出時清除 localStorage 中的管理者身份紀錄
+            localStorage.removeItem('yunni_admin_logged');
             switchTab('client');
-            document.getElementById('admin-entrance-wrapper').style.display = 'none';
-            showToast('已切換為「客人預約連結模式」');
+            showToast('已登出管理者並切換為客人預約畫面');
         }
 
         // 從 Google 試算表（GAS）非同步載入會員資料
@@ -1254,6 +1257,22 @@
         }
 
         window.onload = function() {
+            // 檢查網址列是否有 ?admin=1 或 localStorage 是否已紀錄管理者登入狀態
+            const urlParams = new URLSearchParams(window.location.search);
+            const isAdminParam = urlParams.get('admin') === '1';
+            const isLocalStorageAdmin = localStorage.getItem('yunni_admin_logged') === 'true';
+
+            if (isAdminParam || isLocalStorageAdmin) {
+                // 如果透過 ?admin=1 進入，順便幫忙寫入 localStorage 記憶狀態
+                if (isAdminParam) {
+                    localStorage.setItem('yunni_admin_logged', 'true');
+                }
+                switchTab('admin');
+                showToast('已自動以管理者身份登入後台');
+            } else {
+                switchTab('client');
+            }
+
             renderSlots();
             renderPhotoThumbnails();
         };
