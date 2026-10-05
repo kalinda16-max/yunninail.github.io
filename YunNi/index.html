@@ -692,10 +692,12 @@
                 <div>
                     <label class="block text-xs font-medium text-morandi-accent mb-1">佔用時段</label>
                     <select id="event-slot" class="w-full px-3 py-2 rounded-xl border border-morandi-secondary/60 text-xs bg-white">
-                        <option value="10:00">10:00 AM</option>
+                        <option value="10:00">09:00 AM</option>
                         <option value="13:00">13:00 PM</option>
-                        <option value="15:30">15:30 PM</option>
-                        <option value="18:00">18:00 PM</option>
+                        <option value="15:30">17:00 PM</option>
+                        <option value="18:00">21:00 PM</option>
+                        <option value="18:00">01:00 PM</option>
+                        <option value="18:00">05:00 PM</option>
                     </select>
                 </div>
             </div>
@@ -756,7 +758,7 @@
         ];
 
         let selectedSlot = null;
-        const allSlots = ['10:00', '13:00', '15:30', '18:00'];
+        const allSlots = ['09:00', '13:00', '17:00', '21:00', '01:00', '05:00'];
         let uploadedPhotos = [];
         const scriptURL = 'https://script.google.com/macros/s/AKfycbwtk09O_oybjTDTmSMsqHPGFaYV66kPkjyBDM84A5aUicRv8KHmlfy8itVNGuZyly9IFQ/exec';
 
