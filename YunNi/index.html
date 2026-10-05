@@ -37,7 +37,7 @@
         body {
             background-color: #F7F4EF;
             color: #5C534D;
-            overflow-x: hidden; /* 防止整體畫面橫向溢位跑版 */
+            overflow-x: hidden;
         }
         ::-webkit-scrollbar {
             width: 5px;
@@ -53,7 +53,6 @@
         .french-border {
             border: 1.5px solid #E8D8D1;
         }
-        /* 強制長字串與網址自動換行，避免撐破版面 */
         .break-anywhere {
             word-break: break-all;
             overflow-wrap: break-word;
@@ -298,9 +297,10 @@
                         </div>
                     </div>
 
+                    <!-- 預約日期輸入框區塊 -->
                     <div>
                         <label class="block font-medium text-morandi-accent mb-1.5">預約日期</label>
-                        <input type="date" id="book-date" class="w-full px-4 py-2.5 rounded-xl border border-morandi-secondary/60 focus:outline-none focus:ring-1 focus:ring-morandi-primary bg-morandi-light/30" value="2026-10-05" onchange="renderSlots()">
+                        <input type="date" id="book-date" class="w-full px-4 py-2.5 rounded-xl border border-morandi-secondary/60 focus:outline-none focus:ring-1 focus:ring-morandi-primary bg-morandi-light/30 text-xs sm:text-sm" value="2026-10-05" onchange="renderSlots()">
                     </div>
 
                     <div>
@@ -584,7 +584,6 @@
 
                             <div class="p-4 sm:p-5 bg-white rounded-2xl french-border shadow-xs space-y-3">
                                 <h4 class="font-bold text-morandi-dark text-xs">LINE Developers Webhook API</h4>
-                                <!-- 加入 break-anywhere 讓超長網址在手機上能自動折行換行 -->
                                 <input type="text" readonly value="https://script.google.com/macros/s/AKfycbwtk09O_oybjTDTmSMsqHPGFaYV66kPkjyBDM84A5aUicRv8KHmlfy8itVNGuZyly9IFQ/exec" class="w-full px-3 py-2 bg-morandi-light/60 rounded-xl text-[11px] text-morandi-accent border border-morandi-secondary/40 break-anywhere">
                                 <p class="text-[10px] text-morandi-accent">請將此 API 網址填入 LINE 官方後台，即可自動接收客人預約指令。</p>
                             </div>
@@ -598,7 +597,7 @@
 
     <!-- 管理者登入密碼驗證 Modal -->
     <div id="admin-password-modal" class="fixed inset-0 bg-black/40 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white max-w-sm w-full rounded-3xl p-6 shadow-xl french-border space-y-4">
+        <div class="bg-white max-w-sm w-full rounded-3xl p-6 shadow-xl french-border space-y-4 my-auto">
             <div class="flex justify-between items-center pb-2 border-b border-morandi-secondary/30">
                 <h3 class="font-bold text-morandi-dark text-sm flex items-center">
                     <i class="fa-solid fa-lock text-morandi-primary mr-2"></i>管理者後台登入驗證
@@ -620,7 +619,7 @@
 
     <!-- 參考圖片預覽 Modal -->
     <div id="photo-preview-modal" class="fixed inset-0 bg-black/70 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white max-w-xl w-full rounded-3xl p-6 shadow-2xl french-border space-y-4 relative">
+        <div class="bg-white max-w-xl w-full rounded-3xl p-6 shadow-2xl french-border space-y-4 relative my-auto">
             <div class="flex justify-between items-center pb-2 border-b border-morandi-secondary/30">
                 <h3 class="font-bold text-morandi-dark text-sm flex items-center">
                     <i class="fa-solid fa-image text-morandi-primary mr-2"></i>參考圖片大圖檢視
@@ -640,7 +639,7 @@
 
     <!-- 通知中心 Modal -->
     <div id="notification-modal" class="fixed inset-0 bg-black/40 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white max-w-md w-full rounded-3xl p-6 shadow-xl french-border space-y-4">
+        <div class="bg-white max-w-md w-full rounded-3xl p-6 shadow-xl french-border space-y-4 my-auto">
             <div class="flex justify-between items-center pb-3 border-b border-morandi-secondary/30">
                 <h3 class="font-bold text-morandi-dark text-md flex items-center">
                     <i class="fa-regular fa-bell text-morandi-primary mr-2"></i>即時系統通知中心
@@ -673,7 +672,7 @@
 
     <!-- 新增店內事件/休息日 Modal -->
     <div id="event-modal" class="fixed inset-0 bg-black/40 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white max-w-md w-full rounded-3xl p-6 shadow-xl french-border space-y-4">
+        <div class="bg-white max-w-md w-full rounded-3xl p-6 shadow-xl french-border space-y-4 my-auto">
             <h3 class="font-bold text-morandi-dark text-md">新增店內事件與時段佔位</h3>
             <div>
                 <label class="block text-xs font-medium text-morandi-accent mb-1">事件標題</label>
