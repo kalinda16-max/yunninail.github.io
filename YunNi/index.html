@@ -675,13 +675,16 @@
                 <input type="text" id="event-title" placeholder="例如：店休 / 員工進修 / 消毒日" class="w-full px-3 py-2 rounded-xl border border-morandi-secondary/60 text-xs">
             </div>
             <div class="grid grid-cols-2 gap-3">
+                <div class="min-w-0 overflow-hidden">
                 <div>
                     <label class="block text-xs font-medium text-morandi-accent mb-1">日期</label>
-                    <input type="date" id="event-date" class="w-full px-3 py-2 rounded-xl border border-morandi-secondary/60 text-xs box-border" value="2026-10-05">
+                    <input type="date" id="event-date" class="w-full px-3 py-2 rounded-xl border border-morandi-secondary/60 text-xs box-border appearance-none" style="min-width: 0;"value="2026-10-05">
                 </div>
                 <div>
+                    <div class="min-w-0 overflow-hidden">
                     <label class="block text-xs font-medium text-morandi-accent mb-1">佔用時段</label>
-                    <select id="event-slot" class="w-full px-3 py-2 rounded-xl border border-morandi-secondary/60 text-xs bg-white">
+                    <select id="event-slot" class="block w-full max-w-full px-3 py-2 rounded-xl border border-morandi-secondary/60 text-xs bg-white box-border">
+                        <option value="ALL">✨ 全天店休</option>
                         <option value="09:00">09:00 AM</option>
                         <option value="13:00">13:00 PM</option>
                         <option value="17:00">17:00 PM</option>
@@ -1236,33 +1239,53 @@
             document.getElementById('event-modal').classList.add('hidden');
         }
 
-        function saveEvent() {
-            const title = document.getElementById('event-title').value.trim();
-            const date = document.getElementById('event-date').value;
-            const slot = document.getElementById('event-slot').value;
+function saveEvent() {
+    const title = document.getElementById('event-title').value.trim();
+    const date = document.getElementById('event-date').value;
+    const slot = document.getElementById('event-slot').value;
 
-            if (!title) {
-                showToast('請輸入事件標題');
-                return;
-            }
+    if (!title) {
+        showToast('請輸入事件標題');
+        return;
+    }
 
+    // 如果選擇的是「整天休息」
+    if (slot === 'ALL') {
+        // 把當天所有的時段 (allSlots) 全部新增為佔用事件
+        allSlots.forEach(s => {
             bookings.unshift({
                 id: 'E' + Math.floor(1000 + Math.random() * 9000),
-                name: `[店家事件] ${title}`,
+                name: `[全天店休] ${title}`,
                 phone: 'N/A',
                 date,
-                slot,
-                styles: ['行事曆佔位'],
+                slot: s,
+                styles: ['整天休息日'],
                 remark: title,
                 photos: [],
                 status: '已占用'
             });
+        });
+        showToast('已成功設定該日期為「整天休息」，所有時段已自動鎖定');
+    } else {
+        // 單一時段佔用
+        bookings.unshift({
+            id: 'E' + Math.floor(1000 + Math.random() * 9000),
+            name: `[店家事件] ${title}`,
+            phone: 'N/A',
+            date,
+            slot,
+            styles: ['行事曆佔位'],
+            remark: title,
+            photos: [],
+            status: '已占用'
+        });
+        showToast('已成功新增行事曆事件與空位鎖定');
+    }
 
-            closeAddEventModal();
-            renderSlots();
-            renderAdminTable();
-            showToast('已成功新增行事曆事件與空位鎖定');
-        }
+    closeAddEventModal();
+    renderSlots();
+    renderAdminTable();
+}
 
         function triggerSimulatedLinePush() {
             showToast('LINE 機器人：已成功發送「預約前一天提醒通知」！');
