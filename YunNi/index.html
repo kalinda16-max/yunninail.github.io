@@ -37,6 +37,7 @@
         body {
             background-color: #F7F4EF;
             color: #5C534D;
+            overflow-x: hidden; /* 防止整體畫面橫向溢位跑版 */
         }
         ::-webkit-scrollbar {
             width: 5px;
@@ -52,40 +53,45 @@
         .french-border {
             border: 1.5px solid #E8D8D1;
         }
+        /* 強制長字串與網址自動換行，避免撐破版面 */
+        .break-anywhere {
+            word-break: break-all;
+            overflow-wrap: break-word;
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col font-sans">
 
     <!-- 頂部導覽列 -->
     <header class="bg-white/90 backdrop-blur-md sticky top-0 z-50 french-border border-t-0 border-x-0 shadow-xs">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 rounded-full bg-morandi-pink flex items-center justify-center text-morandi-dark shadow-inner">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-2 sm:space-x-3 min-w-0">
+                <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-morandi-pink flex items-center justify-center text-morandi-dark shadow-inner shrink-0">
                     <i class="fa-solid fa-wand-magic-sparkles"></i>
                 </div>
-                <div>
-                    <h1 class="font-bold text-base sm:text-lg tracking-wider text-morandi-dark">YunNi Nail Studio</h1>
-                    <p class="text-[10px] sm:text-xs text-morandi-accent">奶油莫蘭迪法式美學・智慧預約系統</p>
+                <div class="min-w-0">
+                    <h1 class="font-bold text-sm sm:text-lg tracking-wider text-morandi-dark truncate">YunNi Nail Studio</h1>
+                    <p class="text-[10px] sm:text-xs text-morandi-accent truncate">奶油莫蘭迪法式美學・智慧預約系統</p>
                 </div>
             </div>
             
             <!-- 導覽切換按鈕區 -->
-            <div class="flex items-center space-x-2">
+            <div class="flex items-center space-x-1.5 sm:space-x-2 shrink-0">
                 <!-- 客人預約前端切換按鈕 -->
-                <button onclick="switchTab('client')" id="nav-client" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all bg-morandi-primary text-white shadow-sm flex items-center space-x-1.5">
+                <button onclick="switchTab('client')" id="nav-client" class="px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all bg-morandi-primary text-white shadow-sm flex items-center space-x-1">
                     <i class="fa-solid fa-mobile-screen"></i>
-                    <span>客人預約端</span>
+                    <span class="hidden xs:inline">客人預約端</span>
                 </button>
 
-                <!-- 管理者專屬後台入口按鈕 (可由開關控制隱藏) -->
+                <!-- 管理者專屬後台入口按鈕 -->
                 <div id="admin-entrance-wrapper">
-                    <button onclick="openAdminPasswordModal()" id="nav-admin-portal" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all text-morandi-dark hover:bg-morandi-light french-border flex items-center space-x-1.5 bg-morandi-light/50">
+                    <button onclick="openAdminPasswordModal()" id="nav-admin-portal" class="px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all text-morandi-dark hover:bg-morandi-light french-border flex items-center space-x-1 bg-morandi-light/50">
                         <i class="fa-solid fa-lock text-morandi-accent"></i>
-                        <span>管理者後台入口</span>
+                        <span class="hidden sm:inline">管理者後台入口</span>
                     </button>
                 </div>
 
-                <button onclick="openNotificationModal()" class="p-2.5 rounded-xl bg-morandi-light text-morandi-dark hover:bg-morandi-pink transition-all relative">
+                <button onclick="openNotificationModal()" class="p-2 sm:p-2.5 rounded-xl bg-morandi-light text-morandi-dark hover:bg-morandi-pink transition-all relative shrink-0">
                     <i class="fa-regular fa-bell"></i>
                     <span class="absolute -top-1 -right-1 bg-morandi-red text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-bold">3</span>
                 </button>
@@ -94,15 +100,15 @@
     </header>
 
     <!-- 主要內容容器 -->
-    <main class="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <main class="flex-1 max-w-5xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-6 min-w-0">
 
         <!-- 1. 客人手機預約前端 VIEW -->
         <div id="view-client" class="space-y-6 max-w-2xl mx-auto">
-            <div class="bg-white p-6 sm:p-8 rounded-3xl french-border shadow-md space-y-6">
+            <div class="bg-white p-4 sm:p-8 rounded-3xl french-border shadow-md space-y-6">
                 <!-- 店家招牌 Banner -->
-                <div class="bg-gradient-to-r from-morandi-pink/50 to-morandi-light p-6 rounded-2xl text-center space-y-2 french-border">
+                <div class="bg-gradient-to-r from-morandi-pink/50 to-morandi-light p-4 sm:p-6 rounded-2xl text-center space-y-2 french-border">
                     <span class="px-3 py-1 bg-white/80 text-morandi-accent rounded-full text-xs font-semibold">Chic Nail Studio 線上預約</span>
-                    <h2 class="text-xl sm:text-2xl font-bold text-morandi-dark">奶油莫蘭迪法式美學</h2>
+                    <h2 class="text-lg sm:text-2xl font-bold text-morandi-dark">奶油莫蘭迪法式美學</h2>
                     <p class="text-xs text-morandi-accent">即時時段動態監控・預約成功自動連動 LINE 提醒</p>
                 </div>
 
@@ -111,7 +117,7 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label class="block font-medium text-morandi-accent mb-1.5">您的姓名</label>
-                            <input type="text" id="book-name" placeholder="例如：林小美" class="w-full px-4 py-2.5 rounded-xl border border-morandi-secondary/60 focus:outline-none focus:ring-1 focus:ring-morandi-primary bg-morandi-light/30">
+                            <input type="text" id="book-name" placeholder="例如：林小美" class="w-full px-4 py-2.5 rounded-xl border border-morandi-secondary/65 focus:outline-none focus:ring-1 focus:ring-morandi-primary bg-morandi-light/30">
                         </div>
                         <div>
                             <label class="block font-medium text-morandi-accent mb-1.5">LINE 綁定手機</label>
@@ -122,7 +128,7 @@
                     <!-- 修改後的項目與分類 -->
                     <div class="space-y-4 pt-2">
                         <!-- 第一大類：選擇美甲風格 -->
-                        <div class="p-4 rounded-2xl border border-morandi-secondary/40 bg-morandi-light/30 space-y-3">
+                        <div class="p-3 sm:p-4 rounded-2xl border border-morandi-secondary/40 bg-morandi-light/30 space-y-3">
                             <div class="flex items-center space-x-2 text-morandi-dark font-bold text-sm border-b border-morandi-secondary/30 pb-2">
                                 <i class="fa-solid fa-wand-magic-sparkles text-morandi-primary"></i>
                                 <span>選擇美甲風格</span>
@@ -130,54 +136,54 @@
 
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
                                 <!-- 純色系列 -->
-                                <div class="space-y-2">
+                                <div class="space-y-2 min-w-0">
                                     <h4 class="font-semibold text-morandi-dark text-xs flex items-center">
                                         <span class="mr-1.5 text-morandi-primary">✾</span>純色系列
                                     </h4>
-                                    <div class="space-y-1.5 pl-4">
-                                        <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer">
-                                            <input type="checkbox" name="style-pref" value="極致純色" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5">
+                                    <div class="space-y-1.5 pl-2 sm:pl-4">
+                                        <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer break-words">
+                                            <input type="checkbox" name="style-pref" value="極致純色" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5 shrink-0">
                                             <span>極致純色</span>
                                         </label>
-                                        <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer">
-                                            <input type="checkbox" name="style-pref" value="沙龍純色" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5">
+                                        <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer break-words">
+                                            <input type="checkbox" name="style-pref" value="沙龍純色" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5 shrink-0">
                                             <span>沙龍純色</span>
                                         </label>
-                                        <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer">
-                                            <input type="checkbox" name="style-pref" value="碎鑽膠" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5">
+                                        <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer break-words">
+                                            <input type="checkbox" name="style-pref" value="碎鑽膠" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5 shrink-0">
                                             <span>碎鑽膠</span>
                                         </label>
-                                        <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer">
-                                            <input type="checkbox" name="style-pref" value="貓眼膠" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5">
+                                        <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer break-words">
+                                            <input type="checkbox" name="style-pref" value="貓眼膠" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5 shrink-0">
                                             <span>貓眼膠</span>
                                         </label>
-                                        <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer">
-                                            <input type="checkbox" name="style-pref" value="魔鏡粉單色" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5">
+                                        <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer break-words">
+                                            <input type="checkbox" name="style-pref" value="魔鏡粉單色" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5 shrink-0">
                                             <span>魔鏡粉單色</span>
                                         </label>
                                     </div>
                                 </div>
 
                                 <!-- 精緻美甲系列 -->
-                                <div class="space-y-2">
+                                <div class="space-y-2 min-w-0">
                                     <h4 class="font-semibold text-morandi-dark text-xs flex items-center">
                                         <span class="mr-1.5 text-morandi-primary">✾</span>精緻美甲系列
                                     </h4>
-                                    <div class="space-y-1.5 pl-4">
-                                        <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer">
-                                            <input type="checkbox" name="style-pref" value="法式" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5">
+                                    <div class="space-y-1.5 pl-2 sm:pl-4">
+                                        <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer break-words">
+                                            <input type="checkbox" name="style-pref" value="法式" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5 shrink-0">
                                             <span>法式</span>
                                         </label>
-                                        <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer">
-                                            <input type="checkbox" name="style-pref" value="漸層" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5">
+                                        <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer break-words">
+                                            <input type="checkbox" name="style-pref" value="漸層" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5 shrink-0">
                                             <span>漸層</span>
                                         </label>
-                                        <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer">
-                                            <input type="checkbox" name="style-pref" value="個人訂製款" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5">
+                                        <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer break-words">
+                                            <input type="checkbox" name="style-pref" value="個人訂製款" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5 shrink-0">
                                             <span>個人訂製款</span>
                                         </label>
-                                        <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer">
-                                            <input type="checkbox" name="style-pref" value="甲膜裸透色延長單色" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5">
+                                        <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer break-words">
+                                            <input type="checkbox" name="style-pref" value="甲膜裸透色延長單色" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5 shrink-0">
                                             <span>甲膜裸透色延長單色</span>
                                         </label>
                                     </div>
@@ -189,13 +195,13 @@
                                 <h4 class="font-semibold text-morandi-dark text-xs flex items-center mb-1.5">
                                     <span class="mr-1.5 text-morandi-primary">✾</span>延長系列
                                 </h4>
-                                <div class="grid grid-cols-2 gap-2 pl-4">
-                                    <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer">
-                                        <input type="checkbox" name="style-pref" value="淺貼延長" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5">
+                                <div class="grid grid-cols-2 gap-2 pl-2 sm:pl-4">
+                                    <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer break-words">
+                                        <input type="checkbox" name="style-pref" value="淺貼延長" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5 shrink-0">
                                         <span>淺貼延長</span>
                                     </label>
-                                    <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer">
-                                        <input type="checkbox" name="style-pref" value="半貼延長" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5">
+                                    <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer break-words">
+                                        <input type="checkbox" name="style-pref" value="半貼延長" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5 shrink-0">
                                         <span>半貼延長</span>
                                     </label>
                                 </div>
@@ -203,7 +209,7 @@
                         </div>
 
                         <!-- 第二大類：基礎保養系列 -->
-                        <div class="p-4 rounded-2xl border border-morandi-secondary/40 bg-morandi-light/30 space-y-3">
+                        <div class="p-3 sm:p-4 rounded-2xl border border-morandi-secondary/40 bg-morandi-light/30 space-y-3">
                             <div class="flex items-center space-x-2 text-morandi-dark font-bold text-sm border-b border-morandi-secondary/30 pb-2">
                                 <i class="fa-solid fa-hands-bubbles text-morandi-primary"></i>
                                 <span>基礎保養系列</span>
@@ -211,18 +217,18 @@
 
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
                                 <!-- 基本保養 & 微保養 -->
-                                <div class="space-y-3">
+                                <div class="space-y-3 min-w-0">
                                     <div class="space-y-1.5">
                                         <h4 class="font-semibold text-morandi-dark text-xs flex items-center">
                                             <span class="mr-1.5 text-morandi-primary">✾</span>基本
                                         </h4>
-                                        <div class="space-y-1 pl-4">
+                                        <div class="space-y-1 pl-2 sm:pl-4">
                                             <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer">
-                                                <input type="checkbox" name="style-pref" value="基本-手部" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5">
+                                                <input type="checkbox" name="style-pref" value="基本-手部" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5 shrink-0">
                                                 <span>手部</span>
                                             </label>
                                             <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer">
-                                                <input type="checkbox" name="style-pref" value="基本-足部" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5">
+                                                <input type="checkbox" name="style-pref" value="基本-足部" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5 shrink-0">
                                                 <span>足部</span>
                                             </label>
                                         </div>
@@ -232,13 +238,13 @@
                                         <h4 class="font-semibold text-morandi-dark text-xs flex items-center">
                                             <span class="mr-1.5 text-morandi-primary">✾</span>微保養
                                         </h4>
-                                        <div class="space-y-1 pl-4">
+                                        <div class="space-y-1 pl-2 sm:pl-4">
                                             <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer">
-                                                <input type="checkbox" name="style-pref" value="微保養-手部" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5">
+                                                <input type="checkbox" name="style-pref" value="微保養-手部" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5 shrink-0">
                                                 <span>手部</span>
                                             </label>
                                             <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer">
-                                                <input type="checkbox" name="style-pref" value="微保養-足部" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5">
+                                                <input type="checkbox" name="style-pref" value="微保養-足部" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5 shrink-0">
                                                 <span>足部</span>
                                             </label>
                                         </div>
@@ -246,35 +252,35 @@
                                 </div>
 
                                 <!-- 凍甲、捲甲矯正與其他 -->
-                                <div class="space-y-3">
+                                <div class="space-y-3 min-w-0">
                                     <div class="space-y-1.5">
                                         <h4 class="font-semibold text-morandi-dark text-xs flex items-center">
                                             <span class="mr-1.5 text-morandi-primary">✾</span>凍甲、捲甲矯正
                                         </h4>
-                                        <div class="space-y-1 pl-4">
-                                            <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer">
-                                                <input type="checkbox" name="style-pref" value="凍甲捲甲-大拇指" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5">
+                                        <div class="space-y-1 pl-2 sm:pl-4">
+                                            <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer break-words">
+                                                <input type="checkbox" name="style-pref" value="凍甲捲甲-大拇指" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5 shrink-0">
                                                 <span>大拇指</span>
                                             </label>
-                                            <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer">
-                                                <input type="checkbox" name="style-pref" value="凍甲捲甲-其他指" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5">
+                                            <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer break-words">
+                                                <input type="checkbox" name="style-pref" value="凍甲捲甲-其他指" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5 shrink-0">
                                                 <span>其他指</span>
                                             </label>
                                         </div>
                                     </div>
 
                                     <div class="space-y-1.5">
-                                        <div class="space-y-1 pl-4 pt-1">
+                                        <div class="space-y-1 pl-2 sm:pl-4 pt-1">
                                             <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer">
-                                                <input type="checkbox" name="style-pref" value="純卸甲" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5">
+                                                <input type="checkbox" name="style-pref" value="純卸甲" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5 shrink-0">
                                                 <span>純卸甲</span>
                                             </label>
                                             <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer">
-                                                <input type="checkbox" name="style-pref" value="本甲卸甲" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5">
+                                                <input type="checkbox" name="style-pref" value="本甲卸甲" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5 shrink-0">
                                                 <span>本甲卸甲</span>
                                             </label>
                                             <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer">
-                                                <input type="checkbox" name="style-pref" value="卸甲續作" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5">
+                                                <input type="checkbox" name="style-pref" value="卸甲續作" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5 shrink-0">
                                                 <span>卸甲續作</span>
                                             </label>
                                         </div>
@@ -283,9 +289,9 @@
                             </div>
 
                             <!-- 足底硬繭處理 -->
-                            <div class="pt-2 border-t border-morandi-secondary/20 pl-4">
+                            <div class="pt-2 border-t border-morandi-secondary/20 pl-2 sm:pl-4">
                                 <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer">
-                                    <input type="checkbox" name="style-pref" value="足底硬繭處理" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5">
+                                    <input type="checkbox" name="style-pref" value="足底硬繭處理" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5 shrink-0">
                                     <span class="font-semibold">足底硬繭處理</span>
                                 </label>
                             </div>
@@ -309,7 +315,6 @@
 
                     <div>
                         <label class="block font-medium text-morandi-accent mb-1.5">備註 / 卸甲需求 / 參考描述</label>
-                        <!-- 加上 resize-none 固定備註框大小，不讓使用者拉大縮小 -->
                         <textarea id="book-remark" rows="3" placeholder="例如：需要卸甲，指甲偏軟..." class="w-full px-4 py-2.5 rounded-xl border border-morandi-secondary/60 focus:outline-none focus:ring-1 focus:ring-morandi-primary bg-morandi-light/30 mb-2 resize-none"></textarea>
 
                         <!-- 參考圖片上傳區 (最多 5 張) -->
@@ -319,7 +324,7 @@
                                 <span id="photo-count-indicator">0 / 5 張</span>
                             </div>
                             <div class="flex flex-wrap gap-2 items-center" id="photo-upload-container">
-                                <label id="photo-add-btn" class="w-16 h-16 rounded-xl border-2 border-dashed border-morandi-secondary flex flex-col items-center justify-center cursor-pointer hover:border-morandi-primary bg-morandi-light/40 text-morandi-accent transition-all">
+                                <label id="photo-add-btn" class="w-16 h-16 rounded-xl border-2 border-dashed border-morandi-secondary flex flex-col items-center justify-center cursor-pointer hover:border-morandi-primary bg-morandi-light/40 text-morandi-accent transition-all shrink-0">
                                     <i class="fa-solid fa-camera text-base mb-1"></i>
                                     <span class="text-[9px]">新增圖片</span>
                                     <input type="file" id="photo-file-input" accept="image/*" multiple class="hidden" onchange="handlePhotoUpload(event)">
@@ -336,29 +341,29 @@
             </div>
         </div>
 
-        <!-- 2. 整合式管理者後台 VIEW (行事曆、會員標籤風控、LINE 整合) -->
+        <!-- 2. 整合式管理者後台 VIEW -->
         <div id="view-admin" class="hidden space-y-6">
             <!-- 後台頂部標題列與切換子分頁 -->
-            <div class="bg-white p-6 rounded-3xl french-border shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                <div>
-                    <div class="flex items-center space-x-2">
-                        <span class="px-3 py-1 bg-morandi-dark text-white rounded-full text-xs font-semibold">管理者專屬後台</span>
-                        <button onclick="exitAdminPortal()" class="px-2.5 py-1 bg-morandi-pink text-morandi-dark rounded-full text-xs font-bold hover:bg-morandi-secondary transition-all">
-                            <i class="fa-solid fa-arrow-left mr-1"></i>返回客人預約畫面 / 模擬分享給客人
+            <div class="bg-white p-4 sm:p-6 rounded-3xl french-border shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div class="min-w-0">
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span class="px-3 py-1 bg-morandi-dark text-white rounded-full text-xs font-semibold shrink-0">管理者專屬後台</span>
+                        <button onclick="exitAdminPortal()" class="px-2.5 py-1 bg-morandi-pink text-morandi-dark rounded-full text-xs font-bold hover:bg-morandi-secondary transition-all truncate">
+                            <i class="fa-solid fa-arrow-left mr-1"></i>返回客人預約畫面
                         </button>
                     </div>
-                    <h2 class="text-2xl font-bold text-morandi-dark mt-1.5">Chic Nail Studio 管理與營運中心</h2>
+                    <h2 class="text-xl sm:text-2xl font-bold text-morandi-dark mt-1.5 truncate">Chic Nail Studio 管理與營運中心</h2>
                 </div>
 
                 <!-- 後台內部分頁切換 -->
-                <div class="flex bg-morandi-light p-1 rounded-2xl french-border text-xs font-medium">
-                    <button onclick="switchAdminSubTab('calendar')" id="subnav-calendar" class="px-4 py-2 rounded-xl transition-all bg-morandi-primary text-white shadow-xs">
+                <div class="flex bg-morandi-light p-1 rounded-2xl french-border text-xs font-medium w-full sm:w-auto overflow-x-auto shrink-0">
+                    <button onclick="switchAdminSubTab('calendar')" id="subnav-calendar" class="px-3 sm:px-4 py-2 rounded-xl transition-all bg-morandi-primary text-white shadow-xs whitespace-nowrap">
                         <i class="fa-solid fa-calendar-days mr-1.5"></i>行事曆與排班
                     </button>
-                    <button onclick="switchAdminSubTab('members')" id="subnav-members" class="px-4 py-2 rounded-xl transition-all text-morandi-dark hover:bg-white">
+                    <button onclick="switchAdminSubTab('members')" id="subnav-members" class="px-3 sm:px-4 py-2 rounded-xl transition-all text-morandi-dark hover:bg-white whitespace-nowrap">
                         <i class="fa-solid fa-users-gear mr-1.5"></i>會員與風控
                     </button>
-                    <button onclick="switchAdminSubTab('line')" id="subnav-line" class="px-4 py-2 rounded-xl transition-all text-morandi-dark hover:bg-white relative">
+                    <button onclick="switchAdminSubTab('line')" id="subnav-line" class="px-3 sm:px-4 py-2 rounded-xl transition-all text-morandi-dark hover:bg-white relative whitespace-nowrap">
                         <i class="fa-brands fa-line mr-1.5 text-emerald-600"></i>LINE官方整合
                         <span class="absolute top-1 right-1 w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
                     </button>
@@ -367,16 +372,16 @@
 
             <!-- 子分頁 A: 行事曆與空檔總覽 -->
             <div id="subview-calendar" class="space-y-6">
-                <div class="flex justify-between items-center bg-white p-5 rounded-2xl french-border shadow-xs">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-4 sm:p-5 rounded-2xl french-border shadow-xs">
                     <div>
                         <h3 class="font-bold text-morandi-dark text-md">全自動空位監控與店內事件排程</h3>
                         <p class="text-xs text-morandi-accent mt-0.5">免手動計算空位、不需來回訊息確認，所有預約與店休一目了然。</p>
                     </div>
-                    <div class="flex space-x-2">
-                        <button onclick="openAddEventModal()" class="px-4 py-2 bg-morandi-primary text-white rounded-xl text-xs font-medium hover:bg-morandi-accent transition-all shadow-xs">
-                            <i class="fa-solid fa-plus mr-1"></i>新增店內事件/休息日
+                    <div class="flex flex-wrap gap-2 w-full sm:w-auto">
+                        <button onclick="openAddEventModal()" class="flex-1 sm:flex-none px-4 py-2 bg-morandi-primary text-white rounded-xl text-xs font-medium hover:bg-morandi-accent transition-all shadow-xs text-center">
+                            <i class="fa-solid fa-plus mr-1"></i>新增事件/休息日
                         </button>
-                        <button onclick="showToast('已成功匯出排班與營收報表')" class="px-4 py-2 bg-morandi-light text-morandi-dark rounded-xl text-xs font-medium hover:bg-morandi-secondary/35 transition-all border border-morandi-secondary/40">
+                        <button onclick="showToast('已成功匯出排班與營收報表')" class="flex-1 sm:flex-none px-4 py-2 bg-morandi-light text-morandi-dark rounded-xl text-xs font-medium hover:bg-morandi-secondary/35 transition-all border border-morandi-secondary/40 text-center">
                             <i class="fa-solid fa-file-arrow-down mr-1"></i>匯出報表
                         </button>
                     </div>
@@ -384,34 +389,34 @@
 
                 <!-- 數據統計 -->
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div class="bg-white p-5 rounded-2xl french-border shadow-xs">
+                    <div class="bg-white p-4 sm:p-5 rounded-2xl french-border shadow-xs">
                         <span class="text-xs text-morandi-accent">本日預約數</span>
-                        <h3 class="text-2xl font-bold text-morandi-dark mt-1">2 位 <span class="text-xs font-normal text-morandi-green">全滿</span></h3>
+                        <h3 class="text-xl sm:text-2xl font-bold text-morandi-dark mt-1">2 位 <span class="text-xs font-normal text-morandi-green">全滿</span></h3>
                     </div>
-                    <div class="bg-white p-5 rounded-2xl french-border shadow-xs">
+                    <div class="bg-white p-4 sm:p-5 rounded-2xl french-border shadow-xs">
                         <span class="text-xs text-morandi-accent">即時剩餘空檔</span>
-                        <h3 id="admin-free-slots" class="text-2xl font-bold text-morandi-green mt-1">4 時段</h3>
+                        <h3 id="admin-free-slots" class="text-xl sm:text-2xl font-bold text-morandi-green mt-1">4 時段</h3>
                     </div>
-                    <div class="bg-white p-5 rounded-2xl french-border shadow-xs">
+                    <div class="bg-white p-4 sm:p-5 rounded-2xl french-border shadow-xs">
                         <span class="text-xs text-morandi-accent">觀察/黑名單</span>
-                        <h3 class="text-2xl font-bold text-morandi-red mt-1">1 人</h3>
+                        <h3 class="text-xl sm:text-2xl font-bold text-morandi-red mt-1">1 人</h3>
                     </div>
-                    <div class="bg-white p-5 rounded-2xl french-border shadow-xs">
+                    <div class="bg-white p-4 sm:p-5 rounded-2xl french-border shadow-xs">
                         <span class="text-xs text-morandi-accent">本月儲值金總額</span>
-                        <h3 class="text-2xl font-bold text-morandi-dark mt-1">NT$ 28,500</h3>
+                        <h3 class="text-xl sm:text-2xl font-bold text-morandi-dark mt-1 truncate">NT$ 28,500</h3>
                     </div>
                 </div>
 
                 <!-- 預約清單表格 -->
                 <div class="bg-white rounded-3xl french-border shadow-sm overflow-hidden">
-                    <div class="p-5 border-b border-morandi-secondary/30 flex justify-between items-center">
+                    <div class="p-4 sm:p-5 border-b border-morandi-secondary/30 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
                         <h3 class="font-bold text-morandi-dark text-md flex items-center">
-                            <i class="fa-solid fa-clipboard-list text-morandi-primary mr-2"></i>預約與行程總覽表（含參考圖片檢視）
+                            <i class="fa-solid fa-clipboard-list text-morandi-primary mr-2"></i>預約與行程總覽表
                         </h3>
-                        <input type="text" id="search-input" placeholder="搜尋客人姓名..." onkeyup="filterBookings()" class="px-3 py-1.5 rounded-xl border border-morandi-secondary/50 text-xs focus:outline-none focus:ring-1 focus:ring-morandi-primary">
+                        <input type="text" id="search-input" placeholder="搜尋客人姓名..." onkeyup="filterBookings()" class="w-full sm:w-auto px-3 py-1.5 rounded-xl border border-morandi-secondary/50 text-xs focus:outline-none focus:ring-1 focus:ring-morandi-primary">
                     </div>
                     <div class="overflow-x-auto">
-                        <table class="w-full text-left border-collapse">
+                        <table class="w-full text-left border-collapse min-w-[650px]">
                             <thead>
                                 <tr class="bg-morandi-light/60 text-xs text-morandi-accent uppercase tracking-wider">
                                     <th class="p-4 font-semibold">編號 / 日期時間</th>
@@ -432,7 +437,7 @@
 
             <!-- 子分頁 B: 會員管理與風控 -->
             <div id="subview-members" class="hidden space-y-6">
-                <div class="bg-white p-6 rounded-3xl french-border shadow-sm space-y-4">
+                <div class="bg-white p-4 sm:p-6 rounded-3xl french-border shadow-sm space-y-4">
                     <div>
                         <h3 class="font-bold text-morandi-dark text-md">會員標籤、老闆評分與黑名單風控</h3>
                         <p class="text-xs text-morandi-accent mt-1">精確掌握客人習慣、來店次數、儲值金與票券餘額，預防爽約風險。</p>
@@ -440,16 +445,16 @@
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
                         <!-- 會員卡片 1 -->
-                        <div class="p-5 bg-morandi-light/50 rounded-2xl french-border space-y-3">
+                        <div class="p-4 sm:p-5 bg-morandi-light/50 rounded-2xl french-border space-y-3">
                             <div class="flex justify-between items-start">
-                                <div class="flex items-center space-x-3">
-                                    <div class="w-12 h-12 rounded-full bg-morandi-primary text-white flex items-center justify-center font-bold text-sm">林</div>
-                                    <div>
-                                        <h4 class="font-bold text-morandi-dark">林小美 (VIP)</h4>
-                                        <p class="text-[10px] text-morandi-accent">0912-345-678</p>
+                                <div class="flex items-center space-x-3 min-w-0">
+                                    <div class="w-12 h-12 rounded-full bg-morandi-primary text-white flex items-center justify-center font-bold text-sm shrink-0">林</div>
+                                    <div class="min-w-0">
+                                        <h4 class="font-bold text-morandi-dark truncate">林小美 (VIP)</h4>
+                                        <p class="text-[10px] text-morandi-accent truncate">0912-345-678</p>
                                     </div>
                                 </div>
-                                <span class="px-2.5 py-1 bg-emerald-100 text-emerald-800 text-[10px] font-bold rounded-lg">正常會員</span>
+                                <span class="px-2.5 py-1 bg-emerald-100 text-emerald-800 text-[10px] font-bold rounded-lg shrink-0">正常會員</span>
                             </div>
                             <div class="space-y-1 text-xs text-morandi-accent">
                                 <p><strong>來店次數：</strong> 6 次</p>
@@ -462,16 +467,16 @@
                         </div>
 
                         <!-- 會員卡片 2 -->
-                        <div class="p-5 bg-morandi-light/50 rounded-2xl french-border space-y-3">
+                        <div class="p-4 sm:p-5 bg-morandi-light/50 rounded-2xl french-border space-y-3">
                             <div class="flex justify-between items-start">
-                                <div class="flex items-center space-x-3">
-                                    <div class="w-12 h-12 rounded-full bg-morandi-secondary text-morandi-dark flex items-center justify-center font-bold text-sm">陳</div>
-                                    <div>
-                                        <h4 class="font-bold text-morandi-dark">陳曉華</h4>
-                                        <p class="text-[10px] text-morandi-accent">0922-888-999</p>
+                                <div class="flex items-center space-x-3 min-w-0">
+                                    <div class="w-12 h-12 rounded-full bg-morandi-secondary text-morandi-dark flex items-center justify-center font-bold text-sm shrink-0">陳</div>
+                                    <div class="min-w-0">
+                                        <h4 class="font-bold text-morandi-dark truncate">陳曉華</h4>
+                                        <p class="text-[10px] text-morandi-accent truncate">0922-888-999</p>
                                     </div>
                                 </div>
-                                <span class="px-2.5 py-1 bg-emerald-100 text-emerald-800 text-[10px] font-bold rounded-lg">正常會員</span>
+                                <span class="px-2.5 py-1 bg-emerald-100 text-emerald-800 text-[10px] font-bold rounded-lg shrink-0">正常會員</span>
                             </div>
                             <div class="space-y-1 text-xs text-morandi-accent">
                                 <p><strong>來店次數：</strong> 3 次</p>
@@ -484,23 +489,23 @@
                         </div>
 
                         <!-- 會員卡片 3 (觀察名單) -->
-                        <div class="p-5 bg-rose-50/60 rounded-2xl border border-rose-200 space-y-3">
+                        <div class="p-4 sm:p-5 bg-rose-50/60 rounded-2xl border border-rose-200 space-y-3">
                             <div class="flex justify-between items-start">
-                                <div class="flex items-center space-x-3">
-                                    <div class="w-12 h-12 rounded-full bg-morandi-red text-white flex items-center justify-center font-bold text-sm">張</div>
-                                    <div>
-                                        <h4 class="font-bold text-morandi-dark">張小麗</h4>
-                                        <p class="text-[10px] text-morandi-accent">0933-111-222</p>
+                                <div class="flex items-center space-x-3 min-w-0">
+                                    <div class="w-12 h-12 rounded-full bg-morandi-red text-white flex items-center justify-center font-bold text-sm shrink-0">張</div>
+                                    <div class="min-w-0">
+                                        <h4 class="font-bold text-morandi-dark truncate">張小麗</h4>
+                                        <p class="text-[10px] text-morandi-accent truncate">0933-111-222</p>
                                     </div>
                                 </div>
-                                <span class="px-2.5 py-1 bg-rose-100 text-rose-800 text-[10px] font-bold rounded-lg">觀察中 / 高風險</span>
+                                <span class="px-2.5 py-1 bg-rose-100 text-rose-800 text-[10px] font-bold rounded-lg shrink-0">高風險</span>
                             </div>
                             <div class="space-y-1 text-xs text-morandi-accent">
                                 <p><strong>來店次數：</strong> 1 次</p>
                                 <p><strong>老闆評分：</strong> ⭐⭐ (2.0 曾臨時爽約)</p>
                                 <p><strong>喜好風格：</strong> 手繪暈染</p>
                                 <p><strong>儲值金餘額：</strong> <span class="text-morandi-dark font-bold">NT$ 0</span></p>
-                                <p><strong>備註說明：</strong> 上次預約未到且未提前取消，列入觀察名單。</p>
+                                <p class="break-words"><strong>備註說明：</strong> 上次預約未到且未提前取消，列入觀察名單。</p>
                             </div>
                             <button onclick="showToast('已將張小麗解除觀察或調整標籤')" class="w-full py-2 bg-white border border-rose-300 rounded-xl text-xs font-medium text-rose-700 hover:bg-rose-100 transition-all">解除觀察 / 編輯記錄</button>
                         </div>
@@ -510,32 +515,32 @@
 
             <!-- 子分頁 C: LINE 官方帳號整合 -->
             <div id="subview-line" class="hidden space-y-6">
-                <div class="bg-white p-6 rounded-3xl french-border shadow-sm space-y-5">
-                    <div class="flex items-center space-x-4 pb-4 border-b border-morandi-secondary/30">
-                        <div class="w-14 h-14 rounded-2xl bg-emerald-500 text-white flex items-center justify-center text-2xl shadow-md">
+                <div class="bg-white p-4 sm:p-6 rounded-3xl french-border shadow-sm space-y-5">
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center space-y-3 sm:space-y-0 sm:space-x-4 pb-4 border-b border-morandi-secondary/30">
+                        <div class="w-14 h-14 rounded-2xl bg-emerald-500 text-white flex items-center justify-center text-2xl shadow-md shrink-0">
                             <i class="fa-brands fa-line"></i>
                         </div>
-                        <div>
+                        <div class="min-w-0">
                             <span class="px-3 py-1 bg-emerald-50 text-emerald-700 rounded-full text-xs font-semibold">LINE Official Account 整合模組</span>
-                            <h2 class="text-xl font-bold text-morandi-dark mt-1">預約提醒、自動通知與聊天機器人</h2>
-                            <p class="text-xs text-morandi-accent mt-0.5">預約成功即時發送、預約前一天自動發送推播通知，支援點數與票券查詢。</p>
+                            <h2 class="text-lg sm:text-xl font-bold text-morandi-dark mt-1 truncate">預約提醒、自動通知與聊天機器人</h2>
+                            <p class="text-xs text-morandi-accent mt-0.5">預約成功即時發送、預約前一天自動發送推播通知。</p>
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <!-- LINE Chat 模擬 -->
-                        <div class="bg-morandi-light/50 p-5 rounded-2xl french-border space-y-4">
+                        <div class="bg-morandi-light/50 p-4 sm:p-5 rounded-2xl french-border space-y-4">
                             <div class="flex justify-between items-center pb-2 border-b border-morandi-secondary/30">
-                                <span class="font-bold text-morandi-dark text-xs flex items-center">
-                                    <i class="fa-solid fa-mobile-screen-button text-emerald-600 mr-2"></i>LINE Bot 自動發送模擬
+                                <span class="font-bold text-morandi-dark text-xs flex items-center truncate">
+                                    <i class="fa-solid fa-mobile-screen-button text-emerald-600 mr-2 shrink-0"></i>LINE Bot 自動發送模擬
                                 </span>
-                                <span class="text-[10px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full font-semibold">Webhook 運行中</span>
+                                <span class="text-[10px] bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full font-semibold shrink-0">Webhook 運行中</span>
                             </div>
 
-                            <div class="space-y-3 bg-white p-4 rounded-xl shadow-xs h-64 overflow-y-auto text-xs">
+                            <div class="space-y-3 bg-white p-3 sm:p-4 rounded-xl shadow-xs h-64 overflow-y-auto text-xs">
                                 <div class="flex items-start space-x-2">
                                     <div class="w-7 h-7 rounded-full bg-emerald-500 text-white flex items-center justify-center text-[10px] shrink-0 font-bold">LINE</div>
-                                    <div class="bg-morandi-light p-3 rounded-2xl text-morandi-dark space-y-1 max-w-[85%]">
+                                    <div class="bg-morandi-light p-3 rounded-2xl text-morandi-dark space-y-1 max-w-[85%] break-words">
                                         <p class="font-bold">✨ YunNi Nail Studio 官方小幫手</p>
                                         <p>親愛的林小美您好！您的預約已確認成功：</p>
                                         <p class="text-[10px] text-morandi-accent">📅 日期：2026-10-05 下午 14:00<br>📍 地址：基隆市安樂區基金一路</p>
@@ -544,22 +549,22 @@
 
                                 <div class="flex items-start space-x-2">
                                     <div class="w-7 h-7 rounded-full bg-emerald-500 text-white flex items-center justify-center text-[10px] shrink-0 font-bold">LINE</div>
-                                    <div class="bg-emerald-50 p-3 rounded-2xl text-emerald-900 space-y-1 max-w-[85%] border border-emerald-200">
+                                    <div class="bg-emerald-50 p-3 rounded-2xl text-emerald-900 space-y-1 max-w-[85%] border border-emerald-200 break-words">
                                         <p class="font-bold">⏰ 預約前一天自動提醒通知 (Cron)</p>
                                         <p>提醒您明日 14:00 有美甲預約，期待與您相見！如需改期請提前告知。</p>
                                     </div>
                                 </div>
                             </div>
 
-                            <button onclick="triggerSimulatedLinePush()" class="w-full py-3 bg-emerald-600 text-white rounded-xl text-xs font-medium hover:bg-emerald-700 transition-all flex items-center justify-center space-x-2 shadow-xs">
-                                <i class="fa-regular fa-paper-plane"></i>
-                               <span>測試手動發送「預約前一天提醒通知」給所有預約客</span>
+                            <button onclick="triggerSimulatedLinePush()" class="w-full py-3 bg-emerald-600 text-white rounded-xl text-xs font-medium hover:bg-emerald-700 transition-all flex items-center justify-center space-x-2 shadow-xs px-2 text-center">
+                                <i class="fa-regular fa-paper-plane shrink-0"></i>
+                               <span class="truncate">測試手動發送「預約前一天提醒通知」</span>
                             </button>
                         </div>
 
                         <!-- 系統狀態與串接說明 -->
-                        <div class="space-y-4">
-                            <div class="p-5 bg-white rounded-2xl french-border shadow-xs space-y-3">
+                        <div class="space-y-4 min-w-0">
+                            <div class="p-4 sm:p-5 bg-white rounded-2xl french-border shadow-xs space-y-3">
                                 <h4 class="font-bold text-morandi-dark text-xs">通知排程與自動化清單</h4>
                                 <div class="space-y-2 text-xs text-morandi-accent">
                                     <div class="flex justify-between py-1.5 border-b border-morandi-secondary/20">
@@ -577,9 +582,10 @@
                                 </div>
                             </div>
 
-                            <div class="p-5 bg-white rounded-2xl french-border shadow-xs space-y-3">
+                            <div class="p-4 sm:p-5 bg-white rounded-2xl french-border shadow-xs space-y-3">
                                 <h4 class="font-bold text-morandi-dark text-xs">LINE Developers Webhook API</h4>
-                                <input type="text" readonly value="https://script.google.com/macros/s/AKfycbwtk09O_oybjTDTmSMsqHPGFaYV66kPkjyBDM84A5aUicRv8KHmlfy8itVNGuZyly9IFQ/exec" class="w-full px-3 py-2 bg-morandi-light/60 rounded-xl text-xs text-morandi-accent border border-morandi-secondary/40">
+                                <!-- 加入 break-anywhere 讓超長網址在手機上能自動折行換行 -->
+                                <input type="text" readonly value="https://script.google.com/macros/s/AKfycbwtk09O_oybjTDTmSMsqHPGFaYV66kPkjyBDM84A5aUicRv8KHmlfy8itVNGuZyly9IFQ/exec" class="w-full px-3 py-2 bg-morandi-light/60 rounded-xl text-[11px] text-morandi-accent border border-morandi-secondary/40 break-anywhere">
                                 <p class="text-[10px] text-morandi-accent">請將此 API 網址填入 LINE 官方後台，即可自動接收客人預約指令。</p>
                             </div>
                         </div>
@@ -601,18 +607,18 @@
                     <i class="fa-solid fa-xmark text-base"></i>
                 </button>
             </div>
-            <p class="text-xs text-morandi-accent">請輸入管理密碼進入後台（預設密碼：<span class="font-mono font-bold text-morandi-dark">8888</span>）或直接點擊驗證：</p>
+            <p class="text-xs text-morandi-accent">請輸入管理密碼進入後台（預設密碼：<span class="font-mono font-bold text-morandi-dark">8888</span>）：</p>
             <div>
                 <input type="password" id="admin-pwd-input" placeholder="請輸入管理密碼" class="w-full px-3 py-2.5 rounded-xl border border-morandi-secondary/60 text-xs focus:outline-none focus:ring-1 focus:ring-morandi-primary bg-morandi-light/30">
             </div>
             <div class="flex justify-end space-x-2 pt-2">
                 <button onclick="closeAdminPasswordModal()" class="px-4 py-2 bg-morandi-light text-morandi-dark rounded-xl text-xs font-medium">取消</button>
-                <button onclick="verifyAdminPassword()" class="px-4 py-2 bg-morandi-primary text-white rounded-xl text-xs font-medium">確認進入後台</button>
+                <button onclick="verifyAdminPassword()" class="px-4 py-2 bg-morandi-primary text-white rounded-xl text-xs font-medium">確認進入</button>
             </div>
         </div>
     </div>
 
-    <!-- 參考圖片預覽 Modal (點擊圖片放大檢視) -->
+    <!-- 參考圖片預覽 Modal -->
     <div id="photo-preview-modal" class="fixed inset-0 bg-black/70 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white max-w-xl w-full rounded-3xl p-6 shadow-2xl french-border space-y-4 relative">
             <div class="flex justify-between items-center pb-2 border-b border-morandi-secondary/30">
@@ -703,7 +709,6 @@
 
     <!-- JavaScript 邏輯 -->
     <script>
-        // 模擬資料庫 (包含預設參考圖片網址以便展示)
         let bookings = [
             { 
                 id: 'B20261001', 
@@ -747,25 +752,23 @@
 
         let selectedSlot = null;
         const allSlots = ['10:00', '13:00', '15:30', '18:00'];
-        let uploadedPhotos = []; // 最多 5 張
+        let uploadedPhotos = [];
 
-        // 切換主分頁 (客戶預端 vs 管理者後台)
         function switchTab(tabName) {
             document.getElementById('view-client').classList.add('hidden');
             document.getElementById('view-admin').classList.add('hidden');
 
             if (tabName === 'client') {
                 document.getElementById('view-client').classList.remove('hidden');
-                document.getElementById('nav-client').className = 'px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all bg-morandi-primary text-white shadow-sm flex items-center space-x-1.5';
+                document.getElementById('nav-client').className = 'px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all bg-morandi-primary text-white shadow-sm flex items-center space-x-1';
             } else if (tabName === 'admin') {
                 document.getElementById('view-admin').classList.remove('hidden');
-                document.getElementById('nav-client').className = 'px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all text-morandi-dark hover:bg-morandi-light flex items-center space-x-1.5';
+                document.getElementById('nav-client').className = 'px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all text-morandi-dark hover:bg-morandi-light flex items-center space-x-1';
                 switchAdminSubTab('calendar');
                 renderAdminTable();
             }
         }
 
-        // 管理後台內部子分頁切換
         function switchAdminSubTab(subName) {
             document.getElementById('subview-calendar').classList.add('hidden');
             document.getElementById('subview-members').classList.add('hidden');
@@ -773,22 +776,21 @@
 
             ['subnav-calendar', 'subnav-members', 'subnav-line'].forEach(id => {
                 const el = document.getElementById(id);
-                if(el) el.className = 'px-4 py-2 rounded-xl transition-all text-morandi-dark hover:bg-white';
+                if(el) el.className = 'px-3 sm:px-4 py-2 rounded-xl transition-all text-morandi-dark hover:bg-white whitespace-nowrap';
             });
 
             if (subName === 'calendar') {
                 document.getElementById('subview-calendar').classList.remove('hidden');
-                document.getElementById('subnav-calendar').className = 'px-4 py-2 rounded-xl transition-all bg-morandi-primary text-white shadow-xs';
+                document.getElementById('subnav-calendar').className = 'px-3 sm:px-4 py-2 rounded-xl transition-all bg-morandi-primary text-white shadow-xs whitespace-nowrap';
             } else if (subName === 'members') {
                 document.getElementById('subview-members').classList.remove('hidden');
-                document.getElementById('subnav-members').className = 'px-4 py-2 rounded-xl transition-all bg-morandi-primary text-white shadow-xs';
+                document.getElementById('subnav-members').className = 'px-3 sm:px-4 py-2 rounded-xl transition-all bg-morandi-primary text-white shadow-xs whitespace-nowrap';
             } else if (subName === 'line') {
                 document.getElementById('subview-line').classList.remove('hidden');
-                document.getElementById('subnav-line').className = 'px-4 py-2 rounded-xl transition-all bg-morandi-primary text-white shadow-xs';
+                document.getElementById('subnav-line').className = 'px-3 sm:px-4 py-2 rounded-xl transition-all bg-morandi-primary text-white shadow-xs whitespace-nowrap relative';
             }
         }
 
-        // 登入後台驗證 Modal 控管
         function openAdminPasswordModal() {
             document.getElementById('admin-password-modal').classList.remove('hidden');
             document.getElementById('admin-pwd-input').value = '';
@@ -808,15 +810,12 @@
             }
         }
 
-        // 當點選返回客人預約，或模擬給客人的連結時，隱藏管理者後台按鈕
         function exitAdminPortal() {
             switchTab('client');
-            // 示範當連結給客人的時候，管理者入口按鈕自動隱藏
             document.getElementById('admin-entrance-wrapper').style.display = 'none';
-            showToast('已切換為「客人預約連結模式」（管理者後台入口已隱藏）');
+            showToast('已切換為「客人預約連結模式」');
         }
 
-        // 處理客人上傳參考圖片（最多 5 張）
         function handlePhotoUpload(event) {
             const files = event.target.files;
             if (!files) return;
@@ -834,21 +833,19 @@
                 };
                 reader.readAsDataURL(file);
             }
-            event.target.value = ''; // 清空以允許重複選取相同檔案
+            event.target.value = '';
         }
 
-        // 渲染上傳圖片縮圖
         function renderPhotoThumbnails() {
             const container = document.getElementById('photo-upload-container');
             const addBtnLabel = document.getElementById('photo-add-btn');
             
-            // 移除舊的縮圖（保留新增按鈕）
             const existingThumbs = container.querySelectorAll('.photo-thumb-item');
             existingThumbs.forEach(el => el.remove());
 
             uploadedPhotos.forEach((imgSrc, index) => {
                 const div = document.createElement('div');
-                div.className = 'photo-thumb-item relative w-16 h-16 rounded-xl overflow-hidden french-border bg-white shadow-xs';
+                div.className = 'photo-thumb-item relative w-16 h-16 rounded-xl overflow-hidden french-border bg-white shadow-xs shrink-0';
                 div.innerHTML = `
                     <img src="${imgSrc}" class="w-full h-full object-cover">
                     <button type="button" onclick="removePhoto(${index})" class="absolute top-0.5 right-0.5 bg-morandi-dark/80 text-white w-4 h-4 rounded-full text-[9px] flex items-center justify-center hover:bg-morandi-red">
@@ -871,7 +868,6 @@
             renderPhotoThumbnails();
         }
 
-        // 渲染時段動態監控
         function renderSlots() {
             const dateVal = document.getElementById('book-date').value;
             const container = document.getElementById('slots-container');
@@ -917,8 +913,6 @@
             if(adminFree) adminFree.innerText = `${availableCount} 時段`;
         }
 
-        // 提交預約
-// 提交預約
         async function submitBooking() {
             const name = document.getElementById('book-name').value.trim();
             const phone = document.getElementById('book-phone').value.trim();
@@ -937,12 +931,9 @@
             const checkboxes = document.querySelectorAll('input[name="style-pref"]:checked');
             const styles = Array.from(checkboxes).map(cb => cb.value);
 
-            // 組合美甲項目字串
             const serviceStr = styles.join(', ') || '一般美甲服務';
-            // 組合完整時間字串 (例如: 2026-10-05T14:00)
             const timeStr = `${date} ${selectedSlot}`;
 
-            // 整理要傳送到 Google Apps Script 的資料
             const formData = {
                 name: name,
                 phone: phone,
@@ -950,11 +941,9 @@
                 time: timeStr
             };
 
-            // ⬇️ 【請將下方引號內的網址換成妳的 Google Apps Script 網頁應用程式網址】
             const scriptURL = 'https://script.google.com/macros/s/AKfycbwtk09O_oybjTDTmSMsqHPGFaYV66kPkjyBDM84A5aUicRv8KHmlfy8itVNGuZyly9IFQ/exec';
 
             try {
-                // 1. 傳送資料到 Google 後端（寫入試算表 + 加到 Google 日曆）
                 await fetch(scriptURL, {
                     method: 'POST',
                     mode: 'no-cors',
@@ -964,7 +953,6 @@
                     body: JSON.stringify(formData)
                 });
 
-                // 2. 本地前端畫面同步新增
                 const newBooking = {
                     id: 'B' + Math.floor(100000 + Math.random() * 900000),
                     name,
@@ -992,7 +980,6 @@
             }
         }
 
-        // 渲染後台表格（顯示參考圖片縮圖）
         function renderAdminTable(filterText = '') {
             const tbody = document.getElementById('admin-booking-table');
             tbody.innerHTML = '';
@@ -1008,12 +995,11 @@
                 const tr = document.createElement('tr');
                 tr.className = 'hover:bg-morandi-light/40 transition-all';
                 
-                // 照片 HTML 渲染
                 let photosHtml = '';
                 if (b.photos && b.photos.length > 0) {
-                    photosHtml = `<div class="flex gap-1 mt-1.5">`;
+                    photosHtml = `<div class="flex gap-1 mt-1.5 flex-wrap">`;
                     b.photos.forEach(imgUrl => {
-                        photosHtml += `<img src="${imgUrl}" onclick="openPhotoPreviewModal('${imgUrl}')" class="w-10 h-10 rounded-lg object-cover cursor-pointer french-border hover:opacity-80 transition-all">`;
+                        photosHtml += `<img src="${imgUrl}" onclick="openPhotoPreviewModal('${imgUrl}')" class="w-10 h-10 rounded-lg object-cover cursor-pointer french-border hover:opacity-80 transition-all shrink-0">`;
                     });
                     photosHtml += `</div>`;
                 } else {
@@ -1022,27 +1008,27 @@
 
                 tr.innerHTML = `
                     <td class="p-4 align-top">
-                        <span class="font-bold text-morandi-dark">${b.id}</span>
-                        <div class="text-[10px] text-morandi-accent">${b.date} ${b.slot}</div>
+                        <span class="font-bold text-morandi-dark whitespace-nowrap">${b.id}</span>
+                        <div class="text-[10px] text-morandi-accent whitespace-nowrap">${b.date} ${b.slot}</div>
                     </td>
                     <td class="p-4 align-top">
-                        <div class="font-semibold text-morandi-dark">${b.name}</div>
-                        <div class="text-[10px] text-morandi-accent">${b.phone}</div>
+                        <div class="font-semibold text-morandi-dark whitespace-nowrap">${b.name}</div>
+                        <div class="text-[10px] text-morandi-accent whitespace-nowrap">${b.phone}</div>
                     </td>
                     <td class="p-4 align-top">
-                        <div class="flex flex-wrap gap-1">
-                            ${b.styles.map(s => `<span class="px-2 py-0.5 bg-morandi-pink/60 text-morandi-dark rounded-md text-[10px]">${s}</span>`).join('')}
+                        <div class="flex flex-wrap gap-1 max-w-[150px]">
+                            ${b.styles.map(s => `<span class="px-2 py-0.5 bg-morandi-pink/60 text-morandi-dark rounded-md text-[10px] whitespace-nowrap">${s}</span>`).join('')}
                         </div>
                     </td>
-                    <td class="p-4 align-top max-w-xs">
-                        <div class="text-morandi-dark truncate">${b.remark}</div>
+                    <td class="p-4 align-top max-w-[200px]">
+                        <div class="text-morandi-dark break-words">${b.remark}</div>
                         ${photosHtml}
                     </td>
                     <td class="p-4 align-top">
-                        <span class="px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-lg text-[10px] font-semibold">${b.status}</span>
+                        <span class="px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-lg text-[10px] font-semibold whitespace-nowrap">${b.status}</span>
                     </td>
                     <td class="p-4 align-top text-right space-x-1">
-                        <button onclick="cancelBooking('${b.id}')" class="px-2.5 py-1 bg-white border border-morandi-secondary/60 rounded-lg text-[10px] text-morandi-dark hover:bg-rose-50 hover:text-rose-600 transition-all">取消</button>
+                        <button onclick="cancelBooking('${b.id}')" class="px-2.5 py-1 bg-white border border-morandi-secondary/60 rounded-lg text-[10px] text-morandi-dark hover:bg-rose-50 hover:text-rose-600 transition-all whitespace-nowrap">取消</button>
                     </td>
                 `;
                 tbody.appendChild(tr);
@@ -1064,7 +1050,6 @@
             }
         }
 
-        // 圖片放大預覽 Modal
         function openPhotoPreviewModal(imgUrl) {
             document.getElementById('preview-modal-img').src = imgUrl;
             document.getElementById('photo-preview-modal').classList.remove('hidden');
@@ -1073,7 +1058,6 @@
             document.getElementById('photo-preview-modal').classList.add('hidden');
         }
 
-        // Modal 控管
         function openNotificationModal() {
             document.getElementById('notification-modal').classList.remove('hidden');
         }
@@ -1117,10 +1101,9 @@
         }
 
         function triggerSimulatedLinePush() {
-            showToast('LINE 機器人：已成功發送「預約前一天提醒通知」給所有預約客！');
+            showToast('LINE 機器人：已成功發送「預約前一天提醒通知」！');
         }
 
-        // Toast 提示
         function showToast(msg) {
             const toast = document.getElementById('toast');
             document.getElementById('toast-msg').innerText = msg;
@@ -1130,7 +1113,6 @@
             }, 3500);
         }
 
-        // 初始化
         window.onload = function() {
             renderSlots();
             renderPhotoThumbnails();
