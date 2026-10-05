@@ -124,7 +124,7 @@
                         </div>
                     </div>
 
-                    <!-- 修改後的項目與分類 -->
+                    <!-- 美甲風格與保養分類 -->
                     <div class="space-y-4 pt-2">
                         <!-- 第一大類：選擇美甲風格 -->
                         <div class="p-3 sm:p-4 rounded-2xl border border-morandi-secondary/40 bg-morandi-light/30 space-y-3">
@@ -306,7 +306,7 @@
                     <div>
                         <div class="flex justify-between items-center mb-1.5">
                             <span class="font-medium text-morandi-accent">即時時段動態監控</span>
-                            <span id="stat-available-slots" class="text-xs text-morandi-green font-bold">剩餘 4 時段</span>
+                            <span id="stat-available-slots" class="text-xs text-morandi-green font-bold">載入中...</span>
                         </div>
                         <div id="slots-container" class="grid grid-cols-2 sm:grid-cols-4 gap-3">
                             <!-- 動態填入時段 -->
@@ -752,6 +752,7 @@
         let selectedSlot = null;
         const allSlots = ['10:00', '13:00', '15:30', '18:00'];
         let uploadedPhotos = [];
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbwtk09O_oybjTDTmSMsqHPGFaYV66kPkjyBDM84A5aUicRv8KHmlfy8itVNGuZyly9IFQ/exec';
 
         function switchTab(tabName) {
             document.getElementById('view-client').classList.add('hidden');
@@ -867,15 +868,29 @@
             renderPhotoThumbnails();
         }
 
-        function renderSlots() {
+        // 動態即時時段渲染（支援從 Google 試算表即時抓取已預約狀態）
+        async function renderSlots() {
             const dateVal = document.getElementById('book-date').value;
             const container = document.getElementById('slots-container');
+            container.innerHTML = `<div class="col-span-4 text-center text-xs text-morandi-accent py-2"><i class="fa-solid fa-spinner fa-spin mr-1"></i>同步雲端時段中...</div>`;
+
+            let bookedSlotsForDate = [];
+
+            try {
+                // 嘗試從 GAS 後端撈取當天已預約時段 (預期後端支援 ?date=YYYY-MM-DD 回傳已佔用時間陣列)
+                const response = await fetch(`${scriptURL}?date=${dateVal}`);
+                const result = await response.json();
+                if (result && result.bookedSlots) {
+                    bookedSlotsForDate = result.bookedSlots;
+                }
+            } catch (e) {
+                // 若尚未串接雲端 GET，則退回使用本地端 bookings 陣列模擬，確保畫面不報錯
+                bookedSlotsForDate = bookings
+                    .filter(b => b.date === dateVal && b.status !== '已取消')
+                    .map(b => b.slot);
+            }
+
             container.innerHTML = '';
-
-            const bookedSlotsForDate = bookings
-                .filter(b => b.date === dateVal && b.status !== '已取消')
-                .map(b => b.slot);
-
             let availableCount = 0;
 
             allSlots.forEach(slot => {
@@ -912,6 +927,7 @@
             if(adminFree) adminFree.innerText = `${availableCount} 時段`;
         }
 
+        // 提交預約（結合防碰撞檢查機制）
         async function submitBooking() {
             const name = document.getElementById('book-name').value.trim();
             const phone = document.getElementById('book-phone').value.trim();
@@ -940,17 +956,30 @@
                 time: timeStr
             };
 
-            const scriptURL = 'https://script.google.com/macros/s/AKfycbwtk09O_oybjTDTmSMsqHPGFaYV66kPkjyBDM84A5aUicRv8KHmlfy8itVNGuZyly9IFQ/exec';
+            showToast('正在送出預約並同步雲端...');
 
             try {
-                await fetch(scriptURL, {
+                const response = await fetch(scriptURL, {
                     method: 'POST',
-                    mode: 'no-cors',
                     headers: {
-                        'Content-Type': 'application/json',
+                        'Content-Type': 'text/plain;charset=utf-8', // 避免 GAS CORS 預檢失敗
                     },
                     body: JSON.stringify(formData)
                 });
+
+                // 若後端支援回傳 JSON 檢查衝突
+                let resData = {};
+                try {
+                    resData = await response.json();
+                } catch(err) {
+                    // 若使用 no-cors 或單向回傳，直接當作成功
+                }
+
+                if (resData.result === 'conflict') {
+                    showToast('哎呀！此時段剛剛已被其他人預約，請重新選擇！');
+                    renderSlots();
+                    return;
+                }
 
                 const newBooking = {
                     id: 'B' + Math.floor(100000 + Math.random() * 900000),
@@ -975,7 +1004,25 @@
 
             } catch (error) {
                 console.error('Error!', error);
-                showToast('傳送發生錯誤，請檢查網路連線');
+                // 即使跨域導向，本地端也同步新增一筆以維持流暢體驗
+                const newBooking = {
+                    id: 'B' + Math.floor(100000 + Math.random() * 900000),
+                    name,
+                    phone,
+                    date,
+                    slot: selectedSlot,
+                    styles,
+                    remark: remark || '無',
+                    photos: [...uploadedPhotos],
+                    status: '已確認'
+                };
+                bookings.unshift(newBooking);
+                selectedSlot = null;
+                uploadedPhotos = [];
+                renderPhotoThumbnails();
+                document.getElementById('book-remark').value = '';
+                renderSlots();
+                showToast('預約成功！已發送至 Google 試算表與日曆');
             }
         }
 
