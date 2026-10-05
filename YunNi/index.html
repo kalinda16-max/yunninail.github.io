@@ -34,6 +34,11 @@
         }
     </script>
     <style>
+        html, body {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
         body {
             background-color: #F7F4EF;
             color: #5C534D;
@@ -83,21 +88,21 @@
             <!-- 導覽切換按鈕區 -->
             <div class="flex items-center space-x-1.5 sm:space-x-2 shrink-0">
                 <!-- 客人預約前端切換按鈕 -->
-                <button onclick="switchTab('client')" id="nav-client" class="px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all bg-morandi-primary text-white shadow-sm flex items-center space-x-1">
-                    <i class="fa-solid fa-mobile-screen"></i>
+                <button onclick="switchTab('client')" id="nav-client" class="h-10 min-w-10 px-2 sm:px-3 rounded-xl text-xs sm:text-sm font-medium transition-all bg-morandi-primary text-white shadow-sm flex items-center justify-center space-x-1 shrink-0">
+                    <i class="fa-solid fa-mobile-screen text-sm"></i>
                     <span class="hidden xs:inline">客人預約端</span>
                 </button>
 
                 <!-- 管理者專屬後台入口按鈕 -->
                 <div id="admin-entrance-wrapper">
-                    <button onclick="openAdminPasswordModal()" id="nav-admin-portal" class="px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all text-morandi-dark hover:bg-morandi-light french-border flex items-center space-x-1 bg-morandi-light/50">
-                        <i class="fa-solid fa-lock text-morandi-accent"></i>
+                    <button onclick="openAdminPasswordModal()" id="nav-admin-portal" class="h-10 min-w-10 px-2 sm:px-3 rounded-xl text-xs sm:text-sm font-medium transition-all text-morandi-dark hover:bg-morandi-light french-border flex items-center justify-center space-x-1 bg-morandi-light/50 shrink-0">
+                        <i class="fa-solid fa-lock text-sm text-morandi-accent"></i>
                         <span class="hidden sm:inline">管理者後台入口</span>
                     </button>
                 </div>
 
-                <button onclick="openNotificationModal()" class="p-2 sm:p-2.5 rounded-xl bg-morandi-light text-morandi-dark hover:bg-morandi-pink transition-all relative shrink-0">
-                    <i class="fa-regular fa-bell"></i>
+                <button onclick="openNotificationModal()" class="h-10 w-10 rounded-xl bg-morandi-light text-morandi-dark hover:bg-morandi-pink transition-all relative shrink-0 flex items-center justify-center">
+                    <i class="fa-regular fa-bell text-sm"></i>
                     <span class="absolute -top-1 -right-1 bg-morandi-red text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-bold">3</span>
                 </button>
             </div>
@@ -354,9 +359,6 @@
                 <div class="min-w-0">
                     <div class="flex flex-wrap items-center gap-2">
                         <span class="px-3 py-1 bg-morandi-dark text-white rounded-full text-xs font-semibold shrink-0">管理者專屬後台</span>
-                        <button onclick="exitAdminPortal()" class="px-2.5 py-1 bg-morandi-pink text-morandi-dark rounded-full text-xs font-bold hover:bg-morandi-secondary transition-all truncate">
-                            <i class="fa-solid fa-arrow-left mr-1"></i>返回客人預約畫面
-                        </button>
                     </div>
                     <h2 class="text-xl sm:text-2xl font-bold text-morandi-dark mt-1.5 truncate">Chic Nail Studio 管理與營運中心</h2>
                 </div>
@@ -386,9 +388,6 @@
                     <div class="flex flex-wrap gap-2 w-full sm:w-auto">
                         <button onclick="openAddEventModal()" class="flex-1 sm:flex-none px-4 py-2 bg-morandi-primary text-white rounded-xl text-xs font-medium hover:bg-morandi-accent transition-all shadow-xs text-center">
                             <i class="fa-solid fa-plus mr-1"></i>新增事件/休息日
-                        </button>
-                        <button onclick="showToast('已成功匯出排班與營收報表')" class="flex-1 sm:flex-none px-4 py-2 bg-morandi-light text-morandi-dark rounded-xl text-xs font-medium hover:bg-morandi-secondary/35 transition-all border border-morandi-secondary/40 text-center">
-                            <i class="fa-solid fa-file-arrow-down mr-1"></i>匯出報表
                         </button>
                     </div>
                 </div>
@@ -421,7 +420,7 @@
                         </h3>
                         <input type="text" id="search-input" placeholder="搜尋客人姓名..." onkeyup="filterBookings()" class="w-full sm:w-auto px-3 py-1.5 rounded-xl border border-morandi-secondary/50 text-xs focus:outline-none focus:ring-1 focus:ring-morandi-primary">
                     </div>
-                    <div class="overflow-x-auto">
+                    <div class="overflow-x-auto overscroll-x-contain w-full min-w-0">
                         <table class="w-full text-left border-collapse min-w-[650px]">
                             <thead>
                                 <tr class="bg-morandi-light/60 text-xs text-morandi-accent uppercase tracking-wider">
@@ -449,7 +448,7 @@
                             <h3 class="font-bold text-morandi-dark text-md">會員標籤、老闆評分與黑名單風控</h3>
                             <p class="text-xs text-morandi-accent mt-1">資料即時與 Google 試算表雙向同步，精確掌握客戶儲值與爽約風險。</p>
                         </div>
-                        <button onclick="fetchMembersFromCloud()" class="px-3.5 py-2 bg-morandi-light text-morandi-dark rounded-xl text-xs font-medium hover:bg-morandi-secondary/40 transition-all border border-morandi-secondary/40 shrink-0">
+                        <button id="refresh-members-btn" onclick="refreshMembersData()" class="px-3.5 py-2 bg-morandi-light text-morandi-dark rounded-xl text-xs font-medium hover:bg-morandi-secondary/40 transition-all border border-morandi-secondary/40 shrink-0">
                             <i class="fa-solid fa-rotate mr-1"></i>重新整理會員資料
                         </button>
                     </div>
@@ -678,7 +677,7 @@
             <div class="grid grid-cols-2 gap-3">
                 <div>
                     <label class="block text-xs font-medium text-morandi-accent mb-1">日期</label>
-                    <input type="date" id="event-date" class="w-full px-3 py-2 rounded-xl border border-morandi-secondary/60 text-xs" value="2026-10-05">
+                    <input type="date" id="event-date" class="w-full px-3 py-2 rounded-xl border border-morandi-secondary/60 text-xs box-border" value="2026-10-05">
                 </div>
                 <div>
                     <label class="block text-xs font-medium text-morandi-accent mb-1">佔用時段</label>
@@ -756,7 +755,7 @@
                 document.getElementById('nav-client').className = 'px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all bg-morandi-primary text-white shadow-sm flex items-center space-x-1';
             } else if (tabName === 'admin') {
                 document.getElementById('view-admin').classList.remove('hidden');
-                document.getElementById('nav-client').className = 'px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-all text-morandi-dark hover:bg-morandi-light flex items-center space-x-1';
+                document.getElementById('nav-client').className = 'h-10 min-w-10 px-2 sm:px-3 rounded-xl text-xs sm:text-sm font-medium transition-all text-morandi-dark hover:bg-morandi-light flex items-center justify-center space-x-1 shrink-0';
                 switchAdminSubTab('calendar');
                 renderAdminTable();
                 fetchMembersFromCloud(); // 進入後台時自動從 Google 試算表同步會員
@@ -796,7 +795,7 @@
         }
         function verifyAdminPassword() {
             const pwd = document.getElementById('admin-pwd-input').value.trim();
-            if (pwd === '8888' || pwd === '') {
+            if (pwd === '8888') {
                 // 驗證成功後，使用 localStorage 記住管理者身份
                 localStorage.setItem('yunni_admin_logged', 'true');
                 closeAdminPasswordModal();
@@ -808,10 +807,32 @@
         }
 
         function exitAdminPortal() {
-            // 登出時清除 localStorage 中的管理者身份紀錄
             localStorage.removeItem('yunni_admin_logged');
+
+            const url = new URL(window.location.href);
+            if (url.searchParams.get('admin') === '1') {
+                url.searchParams.delete('admin');
+                window.history.replaceState({}, document.title, url.pathname + url.search + url.hash);
+            }
+
             switchTab('client');
             showToast('已登出管理者並切換為客人預約畫面');
+        }
+
+        async function refreshMembersData() {
+            const btn = document.getElementById('refresh-members-btn');
+            if (!btn) return;
+
+            const originalClass = btn.className;
+            btn.className = 'px-3.5 py-2 bg-morandi-primary text-white rounded-xl text-xs font-medium transition-all border border-morandi-primary shrink-0';
+            btn.disabled = true;
+
+            try {
+                await fetchMembersFromCloud();
+            } finally {
+                btn.className = originalClass;
+                btn.disabled = false;
+            }
         }
 
         // 從 Google 試算表（GAS）非同步載入會員資料
