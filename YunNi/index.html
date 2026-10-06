@@ -1126,24 +1126,33 @@
             localStorage.setItem('yunni_bookings', JSON.stringify(bookings));
         }
 
-        async function syncBookingsFromCloud() {
-            try {
-                const response = await fetch(`${scriptURL}?action=getBookings`, { cache: 'no-store' });
-                const result = await response.json();
-                const cloudBookings = Array.isArray(result)
-                    ? result
-                    : (result && Array.isArray(result.bookings) ? result.bookings : []);
-                
-                cloudBookings.map(normalizeBooking).filter(Boolean).forEach(b => {
-                    upsertBooking(b);
-                });
-            } catch (e) {
-                console.log('預約資料雲端同步暫不可用，使用本機資料', e);
-            }
-            renderAdminTable();
-            updateAdminDashboardStats();
-            updateNotificationCenter();
+async function syncBookingsFromCloud() {
+    try {
+        const response = await fetch(`${scriptURL}?action=getBookings`, { cache: 'no-store' });
+        const result = await response.json();
+        const cloudBookings = Array.isArray(result)
+            ? result
+            : (result && Array.isArray(result.bookings) ? result.bookings : []);
+        
+        // 【關鍵修正】將雲端抓回來的有效資料直接全權取代本地 bookings，
+        // 這樣只要你在 Google 試算表刪除該列，網頁重新整理或同步時就會跟著消失。
+        const normalizedCloudBookings = cloudBookings.map(normalizeBooking).filter(Boolean);
+        
+        if (normalizedCloudBookings.length > 0) {
+            bookings = normalizedCloudBookings;
+            localStorage.setItem('yunni_bookings', JSON.stringify(bookings));
+        } else {
+            // 如果雲端回傳空陣列，也可以視需求決定是否清空本機
+            bookings = [];
+            localStorage.setItem('yunni_bookings', JSON.stringify([]));
         }
+    } catch (e) {
+        console.log('預約資料雲端同步暫不可用，使用本機資料', e);
+    }
+    renderAdminTable();
+    updateAdminDashboardStats();
+    updateNotificationCenter();
+}
 
         function getLocalDateString(date = new Date()) {
             const y = date.getFullYear();
