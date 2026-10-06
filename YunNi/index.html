@@ -1322,7 +1322,7 @@
                     <div class="text-morandi-dark break-words">${b.remark || '無'}</div>
                     ${photosHtml}
             </td>
-            <td class="p-4 align-top">
+            <td class="p-4 align-top text-left h-full flex items-center">
                     <span id="status-badge-${b.id}" class="px-2.5 py-1 ${
                        b.status === '已取消' ? 'bg-rose-100 text-rose-800' :
                        b.status === '提早完成' ? 'bg-amber-100 text-amber-800' :
@@ -1330,7 +1330,7 @@
                        'bg-emerald-100 text-emerald-800'
                     } rounded-lg text-[10px] font-semibold whitespace-nowrap">${b.status || '已確認'}</span>
             </td>
-            <td class="p-4 align-top text-right space-x-1 whitespace-nowrap">
+            <td class="p-4 align-top text-left space-x-1 whitespace-nowrap">
                     <button onclick="updateBookingStatus('${String(b.id).replace(/'/g, "\\'")}', '提早完成')" class="px-2 py-1 bg-white border border-morandi-secondary/60 rounded-lg text-[10px] text-morandi-dark hover:bg-amber-50 hover:text-amber-700 transition-all">提早完成</button>
                     <button onclick="updateBookingStatus('${String(b.id).replace(/'/g, "\\'")}', '已完成')" class="px-2 py-1 bg-white border border-morandi-secondary/60 rounded-lg text-[10px] text-morandi-dark hover:bg-blue-50 hover:text-blue-700 transition-all">已完成</button>
                     <button onclick="updateBookingStatus('${String(b.id).replace(/'/g, "\\'")}', '已取消')" class="px-2 py-1 bg-white border border-morandi-secondary/60 rounded-lg text-[10px] text-morandi-dark hover:bg-rose-50 hover:text-rose-600 transition-all">取消</button>
