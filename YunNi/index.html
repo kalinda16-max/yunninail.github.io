@@ -427,32 +427,40 @@
                 </div>
 
                 <!-- 預約清單表格 -->
-                <div class="bg-white rounded-3xl french-border shadow-sm overflow-hidden">
-                    <div class="p-4 sm:p-5 border-b border-morandi-secondary/30 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-                        <h3 class="font-bold text-morandi-dark text-md flex items-center">
-                            <i class="fa-solid fa-clipboard-list text-morandi-primary mr-2"></i>預約與行程總覽表
-                        </h3>
-                        <input type="text" id="search-input" placeholder="搜尋客人姓名..." onkeyup="filterBookings()" class="w-full sm:w-auto px-3 py-1.5 rounded-xl border border-morandi-secondary/50 text-xs focus:outline-none focus:ring-1 focus:ring-morandi-primary">
-                    </div>
-                       <div class="w-full overflow-x-auto bg-white">
-                           <table class="w-full text-left border-collapse min-w-[650px] bg-white">
-                              <thead>
-                                <tr class="bg-morandi-light text-xs text-morandi-accent uppercase tracking-wider border-y border-morandi-secondary/40 shadow-2xs">
-                                    <th class="p-4 font-semibold">日期時間</th>
-                                    <th class="p-4 font-semibold">客人與手機</th>
-                                    <th class="p-4 font-semibold">風格標籤</th>
-                                    <th class="p-4 font-semibold">備註與參考圖</th>
-                                    <th class="p-4 font-semibold">狀態</th>
-                                    <th class="p-4 font-semibold">操作</th>
-                                </tr>
-                            </thead>
-                            <tbody id="admin-booking-table" class="divide-y divide-morandi-secondary/20 text-xs text-morandi-dark">
-                                <!-- 動態填入 -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+<div class="bg-white rounded-3xl french-border shadow-sm overflow-hidden mb-6">
+    <!-- 標題與搜尋列 -->
+    <div class="p-4 sm:p-5 border-b border-morandi-secondary/30 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+        <h3 class="font-bold text-morandi-dark text-md flex items-center">
+            <i class="fa-solid fa-clipboard-list text-morandi-primary mr-2"></i>預約與行程總覽表
+        </h3>
+        <input type="text" id="search-input" placeholder="搜尋客人姓名..." onkeyup="filterBookings()" class="w-full sm:w-auto px-3 py-1.5 rounded-xl border border-morandi-secondary/50 text-xs focus:outline-none focus:ring-1 focus:ring-morandi-primary">
+    </div>
+
+    <!-- 💻 1. 電腦版維持傳統表格 (中大型螢幕以上顯示 md:block) -->
+    <div class="hidden md:block w-full overflow-x-auto bg-white">
+        <table class="w-full text-left border-collapse min-w-[700px] bg-white">
+            <thead>
+                <tr class="bg-morandi-light text-xs text-morandi-accent uppercase tracking-wider border-y border-morandi-secondary/40">
+                    <th class="p-4 font-semibold">日期時間</th>
+                    <th class="p-4 font-semibold">客人與手機</th>
+                    <th class="p-4 font-semibold">風格標籤</th>
+                    <th class="p-4 font-semibold">備註與參考圖</th>
+                    <th class="p-4 font-semibold">狀態</th>
+                    <th class="p-4 font-semibold text-right">操作</th>
+                </tr>
+            </thead>
+            <tbody id="admin-booking-table-desktop" class="divide-y divide-morandi-secondary/20 text-xs text-morandi-dark">
+                <!-- 這裡放桌機版的動態資料 -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 📱 2. 手機版改用「美觀卡片清單」，完全不用左右滑動！ (手機螢幕顯示 md:hidden) -->
+    <div id="admin-booking-table-mobile" class="md:hidden divide-y divide-morandi-secondary/20 bg-white p-3 space-y-3">
+        <!-- 這裡放手機版的動態卡片資料 -->
+    </div>
+</div>
+
 
             <!-- 子分頁 B: 會員管理與風控（改為動態從試算表撈取） -->
             <div id="subview-members" class="hidden space-y-6">
