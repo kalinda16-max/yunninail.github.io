@@ -1500,24 +1500,38 @@ async function syncEventToCloud(eventRecord) {
             }
         }
 
-        async function triggerSimulatedLinePush() {
-            const tomorrow = new Date();
-            tomorrow.setDate(tomorrow.getDate() + 1);
-            const tomorrowStr = getLocalDateString(tomorrow);
-            const target = bookings.find(b => b.date === tomorrowStr && isRealBooking(b) && b.status !== '已取消')
-                || bookings.find(isRealBooking)
-                || null;
+async function triggerSimulatedLinePush() {
 
-            const ok = await notifyLine('booking_reminder', target || {
-                date: tomorrowStr,
-                slot: '',
-                name: 'LINE 測試通知',
-                phone: '',
-                remark: '預約前一天提醒通知測試'
-            });
+    try {
 
-            if (ok) showToast('LINE：已送出「預約前一天提醒通知」');
+        const response = await fetch(scriptURL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'text/plain;charset=utf-8'
+            },
+            body: JSON.stringify({
+                action: 'sendLinePush',
+                message:
+                    '✨ 預約前一天提醒測試\n\n' +
+                    '明日 14:00 有美甲預約，請提前確認。'
+            })
+        });
+
+        const result = await response.json();
+
+        if (result.result === 'success') {
+            showToast('LINE 已成功發送測試通知！');
+        } else {
+            console.error(result);
+            showToast('LINE 發送失敗，請檢查 LINE 設定');
         }
+
+    } catch (error) {
+
+        console.error(error);
+        showToast('LINE 發送失敗，無法連線到 Google Apps Script');
+    }
+}
 
         function showToast(msg) {
             const toast = document.getElementById('toast');
