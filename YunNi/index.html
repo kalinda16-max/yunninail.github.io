@@ -396,8 +396,7 @@
             <div id="subview-calendar" class="space-y-6">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-4 sm:p-5 rounded-2xl french-border shadow-xs">
                     <div>
-                        <h3 class="font-bold text-morandi-dark text-md">全自動空位監控與店內事件排程</h3>
-                        <p class="text-xs text-morandi-accent mt-0.5">免手動計算空位、不需來回訊息確認，所有預約與店休一目了然。</p>
+                        <h3 class="font-bold text-morandi-dark text-md">空位監控與店內事件排程</h3>
                     </div>
                     <div class="flex flex-wrap gap-2 w-full sm:w-auto">
                         <button onclick="openAddEventModal()" class="flex-1 sm:flex-none px-4 py-2 bg-morandi-primary text-white rounded-xl text-xs font-medium hover:bg-morandi-accent transition-all shadow-xs text-center">
@@ -427,40 +426,37 @@
                 </div>
 
                 <!-- 預約清單表格 -->
-<div class="bg-white rounded-3xl french-border shadow-sm overflow-hidden mb-6">
-    <!-- 標題與搜尋列 -->
+<div class="bg-white rounded-3xl french-border shadow-sm overflow-hidden w-full">
     <div class="p-4 sm:p-5 border-b border-morandi-secondary/30 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
         <h3 class="font-bold text-morandi-dark text-md flex items-center">
             <i class="fa-solid fa-clipboard-list text-morandi-primary mr-2"></i>預約與行程總覽表
         </h3>
         <input type="text" id="search-input" placeholder="搜尋客人姓名..." onkeyup="filterBookings()" class="w-full sm:w-auto px-3 py-1.5 rounded-xl border border-morandi-secondary/50 text-xs focus:outline-none focus:ring-1 focus:ring-morandi-primary">
     </div>
-
-    <!-- 💻 1. 電腦版維持傳統表格 (中大型螢幕以上顯示 md:block) -->
-    <div class="hidden md:block w-full overflow-x-auto bg-white">
-        <table class="w-full text-left border-collapse min-w-[700px] bg-white">
+    <div class="w-full overflow-x-auto bg-white">
+        <table class="w-full text-left border-collapse min-w-[800px] bg-white">
             <thead>
-                <tr class="bg-morandi-light text-xs text-morandi-accent uppercase tracking-wider border-y border-morandi-secondary/40">
-                    <th class="p-4 font-semibold">日期時間</th>
-                    <th class="p-4 font-semibold">客人與手機</th>
-                    <th class="p-4 font-semibold">風格標籤</th>
-                    <th class="p-4 font-semibold">備註與參考圖</th>
-                    <th class="p-4 font-semibold">狀態</th>
-                    <th class="p-4 font-semibold text-right">操作</th>
+                <tr class="bg-morandi-light text-xs text-morandi-accent uppercase tracking-wider border-y border-morandi-secondary/40 shadow-2xs">
+                    <!-- 將 align-middle 改為 align-top，確保所有標題從頂端開始對齊 -->
+                    <th class="p-4 font-semibold min-w-[110px] text-left align-top">預約時間</th>
+                    <th class="p-4 font-semibold min-w-[130px] text-left align-top">名稱手機</th>
+                    <th class="p-4 font-semibold min-w-[110px] text-left align-top">風格標籤</th>
+                    <th class="p-4 font-semibold min-w-[280px] text-left align-top">備註與參考圖</th>
+                    <th class="p-4 font-semibold min-w-[90px] text-left align-top">狀態</th>
+                    <th class="p-4 font-semibold min-w-[100px] text-left align-top">操作</th>
                 </tr>
             </thead>
-            <tbody id="admin-booking-table-desktop" class="divide-y divide-morandi-secondary/20 text-xs text-morandi-dark">
-                <!-- 這裡放桌機版的動態資料 -->
+            <tbody id="admin-booking-table" class="divide-y divide-morandi-secondary/20 text-xs text-morandi-dark">
+                <!-- 
+                  💡 務必確保你在 JavaScript 動態填入 <td> 時，每一格都加上：
+                  class="p-4 text-left align-top whitespace-normal break-words"
+                  特別是 align-top，這樣即使「備註與參考圖」有圖片高度較高，隔壁的狀態與操作按鈕也會整齊貼在最上方，不會上下亂飄！
+                -->
             </tbody>
         </table>
-    </div>
-
-    <!-- 📱 2. 手機版改用「美觀卡片清單」，完全不用左右滑動！ (手機螢幕顯示 md:hidden) -->
-    <div id="admin-booking-table-mobile" class="md:hidden divide-y divide-morandi-secondary/20 bg-white p-3 space-y-3">
-        <!-- 這裡放手機版的動態卡片資料 -->
-    </div>
+      </div>
+   </div>
 </div>
-
 
             <!-- 子分頁 B: 會員管理與風控（改為動態從試算表撈取） -->
             <div id="subview-members" class="hidden space-y-6">
@@ -477,10 +473,11 @@
 
                     <!-- 動態會員卡片渲染容器 -->
                     <div id="members-container" class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
-                        <div class="col-span-3 text-center py-8 text-xs text-morandi-accent">
-                            <i class="fa-solid fa-spinner fa-spin mr-1"></i>正在從 Google 試算表載入會員資料...
-                        </div>
-                    </div>
+                       <div class="col-span-3 flex justify-center items-center py-8">
+                         <div class="text-center text-xs text-morandi-accent px-4">
+                           <i class="fa-solid fa-spinner fa-spin mr-1"></i>正在從 Google 試算表載入會員資料...
+                         </div>
+                     </div>
                 </div>
             </div>
 
