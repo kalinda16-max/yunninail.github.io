@@ -63,13 +63,11 @@
             word-break: break-all;
             overflow-wrap: break-word;
         }
-        /* 強制所有輸入框、日期框嚴格遵守寬度限制，不超出容器 */
         input, select, textarea {
             max-width: 100%;
             box-sizing: border-box;
         }
 
-        /* 預約總覽表只讓表格內容水平滑動，外層背景不跟著滑動 */
         #admin-booking-table-wrap {
             background: #FFFFFF;
             overflow-x: auto;
@@ -98,15 +96,12 @@
                 </div>
             </div>
             
-            <!-- 導覽切換按鈕區 -->
             <div class="flex items-center space-x-1.5 sm:space-x-2 shrink-0">
-                <!-- 客人預約端：固定 w-10 h-10（手機版變正方形），大螢幕時自動變寬並顯示文字 -->
                 <button onclick="switchTab('client')" id="nav-client" class="h-10 w-10 sm:w-auto sm:px-3 rounded-xl text-xs sm:text-sm font-medium transition-all bg-morandi-primary text-white shadow-sm flex items-center justify-center space-x-1 shrink-0">
                     <i class="fa-solid fa-mobile-screen text-sm"></i>
                     <span class="hidden sm:inline">客人預約端</span>
                 </button>
 
-                <!-- 管理者後台入口：同步改為 h-10 w-10（手機版變正方形），大螢幕時自動延展 -->
                 <div id="admin-entrance-wrapper">
                     <button onclick="openAdminPasswordModal()" id="nav-admin-portal" class="h-10 w-10 sm:w-auto sm:px-3 rounded-xl text-xs sm:text-sm font-medium transition-all bg-morandi-secondary/20 text-morandi-dark hover:bg-morandi-secondary/30 flex items-center justify-center space-x-1 shrink-0">
                         <i class="fa-solid fa-lock text-sm text-morandi-accent"></i>
@@ -114,7 +109,6 @@
                     </button>
                 </div>
 
-                <!-- 通知按鈕：固定 w-10 h-10 -->
                 <button onclick="openNotificationModal()" class="h-10 w-10 rounded-xl bg-morandi-secondary/20 text-morandi-dark hover:bg-morandi-secondary/30 transition-all relative shrink-0 flex items-center justify-center">
                     <i class="fa-regular fa-bell text-sm"></i>
                     <span id="notification-badge" class="absolute -top-1 -right-1 bg-morandi-red text-white text-[9px] min-w-4 h-4 px-1 rounded-full flex items-center justify-center font-bold hidden">0</span>
@@ -129,14 +123,12 @@
         <!-- 1. 客人手機預約前端 VIEW -->
         <div id="view-client" class="space-y-6 max-w-2xl mx-auto">
             <div class="bg-white p-4 sm:p-8 rounded-3xl french-border shadow-md space-y-6 overflow-hidden">
-                <!-- 店家招牌 Banner -->
                 <div class="bg-gradient-to-r from-morandi-pink/50 to-morandi-light p-4 sm:p-6 rounded-2xl text-center space-y-2 french-border">
                     <span class="px-3 py-1 bg-white/80 text-morandi-accent rounded-full text-xs font-semibold">YunNi Nail Studio 線上預約</span>
                     <h2 class="text-lg sm:text-2xl font-bold text-morandi-dark">❤︎ 讓指甲成為妳的時尚配件 ❤︎</h2>
                     <p class="text-xs text-morandi-accent">顏值傾城，指尖亦要傾國。</p>
                 </div>
 
-                <!-- 預約表單主體 -->
                 <div class="space-y-4 text-xs sm:text-sm min-w-0">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div class="min-w-0">
@@ -149,9 +141,7 @@
                         </div>
                     </div>
 
-                    <!-- 美甲風格與保養分類 -->
                     <div class="space-y-4 pt-2">
-                        <!-- 第一大類：選擇美甲風格 -->
                         <div class="p-3 sm:p-4 rounded-2xl border border-morandi-secondary/40 bg-morandi-light/30 space-y-3">
                             <div class="flex items-center space-x-2 text-morandi-dark font-bold text-sm border-b border-morandi-secondary/30 pb-2">
                                 <i class="fa-solid fa-wand-magic-sparkles text-morandi-primary"></i>
@@ -159,7 +149,6 @@
                             </div>
 
                             <div class="grid grid-cols-2 gap-4 pt-1">
-                                <!-- 純色系列 -->
                                 <div class="space-y-2 min-w-0">
                                     <h4 class="font-semibold text-morandi-dark text-xs flex items-center">
                                         <span class="mr-1.5 text-morandi-primary">✾</span>純色系列
@@ -188,7 +177,6 @@
                                     </div>
                                 </div>
 
-                                <!-- 精緻美甲系列 -->
                                 <div class="space-y-2 min-w-0">
                                     <h4 class="font-semibold text-morandi-dark text-xs flex items-center">
                                         <span class="mr-1.5 text-morandi-primary">✾</span>精緻美甲系列
@@ -214,7 +202,6 @@
                                 </div>
                             </div>
 
-                            <!-- 延長系列 -->
                             <div class="pt-2 border-t border-morandi-secondary/20">
                                 <h4 class="font-semibold text-morandi-dark text-xs flex items-center mb-1.5">
                                     <span class="mr-1.5 text-morandi-primary">✾</span>延長系列
@@ -232,7 +219,6 @@
                             </div>
                         </div>
 
-                        <!-- 第二大類：基礎保養系列 -->
                         <div class="p-3 sm:p-4 rounded-2xl border border-morandi-secondary/40 bg-morandi-light/30 space-y-3">
                             <div class="flex items-center space-x-2 text-morandi-dark font-bold text-sm border-b border-morandi-secondary/30 pb-2">
                                 <i class="fa-solid fa-hands-bubbles text-morandi-primary"></i>
@@ -240,7 +226,6 @@
                             </div>
 
                             <div class="grid grid-cols-2 gap-4 pt-1">
-                                <!-- 基本保養 & 微保養 -->
                                 <div class="space-y-3 min-w-0">
                                     <div class="space-y-1.5">
                                         <h4 class="font-semibold text-morandi-dark text-xs flex items-center">
@@ -275,7 +260,6 @@
                                     </div>
                                 </div>
 
-                                <!-- 凍甲、捲甲矯正與其他 -->
                                 <div class="space-y-3 min-w-0">
                                     <div class="space-y-1.5">
                                         <h4 class="font-semibold text-morandi-dark text-xs flex items-center">
@@ -312,7 +296,6 @@
                                 </div>
                             </div>
 
-                            <!-- 足底硬繭處理 -->
                             <div class="pt-2 border-t border-morandi-secondary/20 pl-2 sm:pl-4">
                                 <label class="flex items-center text-xs text-morandi-dark hover:text-morandi-accent cursor-pointer">
                                     <input type="checkbox" name="style-pref" value="足底硬繭處理" class="rounded text-morandi-primary mr-2 w-3.5 h-3.5 shrink-0">
@@ -322,7 +305,6 @@
                         </div>
                     </div>
 
-                    <!-- 嚴格限制寬度的預約日期輸入框區塊 -->
                     <div class="w-full min-w-0 overflow-hidden">
                         <label class="block font-medium text-morandi-accent mb-1.5">預約日期</label>
                         <input type="date" id="book-date" class="block w-full max-w-full px-4 py-2.5 rounded-xl border border-morandi-secondary/60 focus:outline-none focus:ring-1 focus:ring-morandi-primary bg-morandi-light/30 text-xs sm:text-sm box-border appearance-none" style="min-width: 0;" value="2026-10-05" onchange="renderSlots()">
@@ -334,7 +316,6 @@
                             <span id="stat-available-slots" class="text-xs text-morandi-green font-bold">載入中...</span>
                         </div>
                         <div id="slots-container" class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                            <!-- 動態填入時段 -->
                         </div>
                     </div>
 
@@ -342,7 +323,6 @@
                         <label class="block font-medium text-morandi-accent mb-1.5">備註 / 卸甲需求 / 參考描述</label>
                         <textarea id="book-remark" rows="3" placeholder="例如：需要卸甲，指甲偏軟..." class="w-full max-w-full px-4 py-2.5 rounded-xl border border-morandi-secondary/60 focus:outline-none focus:ring-1 focus:ring-morandi-primary bg-morandi-light/30 mb-2 resize-none box-border"></textarea>
 
-                        <!-- 參考圖片上傳區 (最多 5 張) -->
                         <div class="space-y-2">
                             <div class="flex justify-between items-center text-xs text-morandi-accent">
                                 <span>上傳參考圖片（最多 5 張）</span>
@@ -368,7 +348,6 @@
 
         <!-- 2. 整合式管理者後台 VIEW -->
         <div id="view-admin" class="hidden space-y-6">
-            <!-- 後台頂部標題列與切換子分頁 -->
             <div class="bg-white p-4 sm:p-6 rounded-3xl french-border shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div class="min-w-0">
                     <div class="flex flex-wrap items-center gap-2">
@@ -377,15 +356,15 @@
                     <h2 class="text-xl sm:text-2xl font-bold text-morandi-dark mt-1.5 truncate">Chic Nail Studio 管理與營運中心</h2>
                 </div>
 
-                <!-- 後台內部分頁切換 -->
-                <div class="flex bg-morandi-light p-1 rounded-2xl french-border text-xs font-medium w-full sm:w-auto overflow-x-auto shrink-0">
-                    <button onclick="switchAdminSubTab('calendar')" id="subnav-calendar" class="px-3 sm:px-4 py-2 rounded-xl transition-all bg-morandi-primary text-white shadow-xs whitespace-nowrap">
+                <!-- 需求5修正：改為純按鈕排列，不滑動、不切色塊、不切字 -->
+                <div class="flex flex-wrap bg-morandi-light p-1 rounded-2xl french-border text-xs font-medium w-full sm:w-auto shrink-0 gap-1">
+                    <button onclick="switchAdminSubTab('calendar')" id="subnav-calendar" class="flex-1 sm:flex-none px-3 py-2 rounded-xl transition-all bg-morandi-primary text-white shadow-xs text-center">
                         <i class="fa-solid fa-calendar-days mr-1.5"></i>行事曆與排班
                     </button>
-                    <button onclick="switchAdminSubTab('members')" id="subnav-members" class="px-3 sm:px-4 py-2 rounded-xl transition-all text-morandi-dark hover:bg-white whitespace-nowrap">
+                    <button onclick="switchAdminSubTab('members')" id="subnav-members" class="flex-1 sm:flex-none px-3 py-2 rounded-xl transition-all text-morandi-dark hover:bg-white text-center">
                         <i class="fa-solid fa-users-gear mr-1.5"></i>會員與風控
                     </button>
-                    <button onclick="switchAdminSubTab('line')" id="subnav-line" class="px-3 sm:px-4 py-2 rounded-xl transition-all text-morandi-dark hover:bg-white relative whitespace-nowrap">
+                    <button onclick="switchAdminSubTab('line')" id="subnav-line" class="flex-1 sm:flex-none px-3 py-2 rounded-xl transition-all text-morandi-dark hover:bg-white relative text-center">
                         <i class="fa-brands fa-line mr-1.5 text-emerald-600"></i>LINE官方整合
                         <span class="absolute top-1 right-1 w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
                     </button>
@@ -405,7 +384,6 @@
                     </div>
                 </div>
 
-                <!-- 數據統計：全部改由目前預約、會員與店休資料計算 -->
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <div class="bg-white p-4 sm:p-5 rounded-2xl french-border shadow-xs">
                         <span class="text-xs text-morandi-accent">本日預約數</span>
@@ -425,40 +403,34 @@
                     </div>
                 </div>
 
-                <!-- 預約清單表格 -->
-<div class="bg-white rounded-3xl french-border shadow-sm overflow-hidden w-full">
-    <div class="p-4 sm:p-5 border-b border-morandi-secondary/30 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-        <h3 class="font-bold text-morandi-dark text-md flex items-center">
-            <i class="fa-solid fa-clipboard-list text-morandi-primary mr-2"></i>預約與行程總覽表
-        </h3>
-        <input type="text" id="search-input" placeholder="搜尋客人姓名..." onkeyup="filterBookings()" class="w-full sm:w-auto px-3 py-1.5 rounded-xl border border-morandi-secondary/50 text-xs focus:outline-none focus:ring-1 focus:ring-morandi-primary">
-    </div>
-    <div class="w-full overflow-x-auto bg-white">
-        <table class="w-full text-left border-collapse min-w-[800px] bg-white">
-            <thead>
-                <tr class="bg-morandi-light text-xs text-morandi-accent uppercase tracking-wider border-y border-morandi-secondary/40 shadow-2xs">
-                    <!-- 將 align-middle 改為 align-top，確保所有標題從頂端開始對齊 -->
-                    <th class="p-4 font-semibold min-w-[110px] text-left align-top">預約時間</th>
-                    <th class="p-4 font-semibold min-w-[130px] text-left align-top">名稱手機</th>
-                    <th class="p-4 font-semibold min-w-[110px] text-left align-top">風格標籤</th>
-                    <th class="p-4 font-semibold min-w-[280px] text-left align-top">備註與參考圖</th>
-                    <th class="p-4 font-semibold min-w-[90px] text-left align-top">狀態</th>
-                    <th class="p-4 font-semibold min-w-[100px] text-left align-top">操作</th>
-                </tr>
-            </thead>
-            <tbody id="admin-booking-table" class="divide-y divide-morandi-secondary/20 text-xs text-morandi-dark">
-                <!-- 
-                  💡 務必確保你在 JavaScript 動態填入 <td> 時，每一格都加上：
-                  class="p-4 text-left align-top whitespace-normal break-words"
-                  特別是 align-top，這樣即使「備註與參考圖」有圖片高度較高，隔壁的狀態與操作按鈕也會整齊貼在最上方，不會上下亂飄！
-                -->
-            </tbody>
-        </table>
-      </div>
-   </div>
-</div>
+                <!-- 預約清單表格：需求2設定為無論手機或電腦皆正常置中、對齊、不推擠 -->
+                <div class="bg-white rounded-3xl french-border shadow-sm overflow-hidden w-full">
+                    <div class="p-4 sm:p-5 border-b border-morandi-secondary/30 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                        <h3 class="font-bold text-morandi-dark text-md flex items-center">
+                            <i class="fa-solid fa-clipboard-list text-morandi-primary mr-2"></i>預約與行程總覽表
+                        </h3>
+                        <input type="text" id="search-input" placeholder="搜尋客人姓名..." onkeyup="filterBookings()" class="w-full sm:w-auto px-3 py-1.5 rounded-xl border border-morandi-secondary/50 text-xs focus:outline-none focus:ring-1 focus:ring-morandi-primary">
+                    </div>
+                    <div class="w-full overflow-x-auto bg-white">
+                        <table class="w-full text-center border-collapse min-w-[800px] bg-white">
+                            <thead>
+                                <tr class="bg-morandi-light text-xs text-morandi-accent uppercase tracking-wider border-y border-morandi-secondary/40 shadow-2xs">
+                                    <th class="p-4 font-semibold min-w-[110px] text-center align-middle">預約時間</th>
+                                    <th class="p-4 font-semibold min-w-[130px] text-center align-middle">名稱手機</th>
+                                    <th class="p-4 font-semibold min-w-[110px] text-center align-middle">風格標籤</th>
+                                    <th class="p-4 font-semibold min-w-[280px] text-center align-middle">備註與參考圖</th>
+                                    <th class="p-4 font-semibold min-w-[90px] text-center align-middle">狀態</th>
+                                    <th class="p-4 font-semibold min-w-[100px] text-center align-middle">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-booking-table" class="divide-y divide-morandi-secondary/20 text-xs text-morandi-dark">
+                            </tbody>
+                        </table>
+                      </div>
+                   </div>
+                </div>
 
-            <!-- 子分頁 B: 會員管理與風控（改為動態從試算表撈取） -->
+            <!-- 子分頁 B: 會員管理與風控（包含需求4：超過20筆自動換頁） -->
             <div id="subview-members" class="hidden space-y-6">
                 <div class="bg-white p-4 sm:p-6 rounded-3xl french-border shadow-sm space-y-4">
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
@@ -471,18 +443,22 @@
                         </button>
                     </div>
 
-                    <!-- 動態會員卡片渲染容器 -->
                     <div id="members-container" class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
                        <div class="col-span-3 flex justify-center items-center py-8">
                          <div class="text-center text-xs text-morandi-accent px-4">
                            <i class="fa-solid fa-spinner fa-spin mr-1"></i>正在從 Google 試算表載入會員資料...
                          </div>
-                     </div>
+                       </div>
+                    </div>
+
+                    <!-- 會員分頁控制按鈕 -->
+                    <div id="members-pagination" class="flex justify-center items-center space-x-2 pt-4">
+                    </div>
                 </div>
             </div>
 
-            <!-- 子分頁 C: LINE 官方帳號整合 -->
-            <div id="subview-line" class="hidden space-y-6">
+            <!-- 子分頁 C: LINE 官方帳號整合（需求1修正：預設不隱館，可正常顯示） -->
+            <div id="subview-line" class="space-y-6">
                 <div class="bg-white p-4 sm:p-6 rounded-3xl french-border shadow-sm space-y-5">
                     <div class="flex flex-col sm:flex-row items-start sm:items-center space-y-3 sm:space-y-0 sm:space-x-4 pb-4 border-b border-morandi-secondary/30">
                         <div class="w-14 h-14 rounded-2xl bg-emerald-500 text-white flex items-center justify-center text-2xl shadow-md shrink-0">
@@ -496,7 +472,6 @@
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- LINE Chat 模擬 -->
                         <div class="bg-morandi-light/50 p-4 sm:p-5 rounded-2xl french-border space-y-4">
                             <div class="flex justify-between items-center pb-2 border-b border-morandi-secondary/30">
                                 <span class="font-bold text-morandi-dark text-xs flex items-center truncate">
@@ -530,7 +505,6 @@
                             </button>
                         </div>
 
-                        <!-- 系統狀態與串接說明 -->
                         <div class="space-y-4 min-w-0">
                             <div class="p-4 sm:p-5 bg-white rounded-2xl french-border shadow-xs space-y-3">
                                 <h4 class="font-bold text-morandi-dark text-xs">通知排程與自動化清單</h4>
@@ -674,26 +648,24 @@
         </div>
     </div>
 
-<!-- 新增店內事件/休息日 Modal -->
+<!-- 新增店內事件/休息日 Modal：需求3修正日期與佔位輸入框的樣式長度大小一致 -->
     <div id="event-modal" class="fixed inset-0 bg-black/40 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white max-w-md w-full rounded-3xl p-6 shadow-xl french-border space-y-4 my-auto">
             <h3 class="font-bold text-morandi-dark text-md">新增店內事件與時段佔位</h3>
             
-            <!-- 事件標題 -->
             <div>
                 <label class="block text-xs font-medium text-morandi-accent mb-1">事件標題</label>
-                <input type="text" id="event-title" placeholder="例如：店休 / 員工進修 / 消毒日" class="w-full px-3 py-2 rounded-xl border border-morandi-secondary/60 text-xs">
+                <input type="text" id="event-title" placeholder="例如：店休 / 員工進修 / 消毒日" class="w-full px-3 py-2.5 rounded-xl border border-morandi-secondary/60 text-xs bg-morandi-light/30">
             </div>
 
-            <!-- 日期與佔用時段（左右並排） -->
             <div class="grid grid-cols-2 gap-3">
                 <div class="min-w-0 overflow-hidden">
                     <label class="block text-xs font-medium text-morandi-accent mb-1">日期</label>
-                    <input type="date" id="event-date" class="w-full px-3 py-2 rounded-xl border border-morandi-secondary/60 text-xs box-border appearance-none" style="min-width: 0;" value="2026-10-05">
+                    <input type="date" id="event-date" class="w-full px-3 py-2.5 rounded-xl border border-morandi-secondary/60 text-xs bg-morandi-light/30 box-border appearance-none" style="min-width: 0;" value="2026-10-05">
                 </div>
                 <div class="min-w-0 overflow-hidden">
                     <label class="block text-xs font-medium text-morandi-accent mb-1">佔用時段</label>
-                    <select id="event-slot" class="block w-full max-w-full px-3 py-2 rounded-xl border border-morandi-secondary/60 text-xs bg-white box-border">
+                    <select id="event-slot" class="w-full px-3 py-2.5 rounded-xl border border-morandi-secondary/60 text-xs bg-morandi-light/30 box-border">
                         <option value="ALL">✨ 全天店休</option>
                         <option value="09:00">09:00 AM</option>
                         <option value="13:00">13:00 PM</option>
@@ -705,10 +677,9 @@
                 </div>
             </div>
 
-            <!-- 底部按鈕（左儲存、右取消） -->
             <div class="flex justify-between space-x-2 pt-2">
-                <button onclick="saveEvent()" class="px-4 py-2 bg-morandi-primary text-white rounded-xl text-xs font-medium w-full">儲存事件</button>
-                <button onclick="closeAddEventModal()" class="px-4 py-2 bg-morandi-light text-morandi-dark rounded-xl text-xs font-medium w-full">取消</button>
+                <button onclick="saveEvent()" class="px-4 py-2.5 bg-morandi-primary text-white rounded-xl text-xs font-medium w-full">儲存事件</button>
+                <button onclick="closeAddEventModal()" class="px-4 py-2.5 bg-morandi-light text-morandi-dark rounded-xl text-xs font-medium w-full">取消</button>
             </div>
         </div>
     </div>
@@ -725,8 +696,9 @@
         let members = [];
         let notifications = [];
         let monthlyDepositTotal = null;
+        let currentMemberPage = 1;
+        const membersPerPage = 20;
 
-        // 本機快取只作為雲端暫時無法回傳時的備援，不改變既有頁面樣式
         try {
             const cachedBookings = JSON.parse(localStorage.getItem('yunni_bookings') || '[]');
             if (Array.isArray(cachedBookings)) bookings = cachedBookings;
@@ -754,7 +726,7 @@
                 switchAdminSubTab('calendar');
                 renderAdminTable();
                 syncBookingsFromCloud();
-                fetchMembersFromCloud(); // 進入後台時自動從 Google 試算表同步會員
+                fetchMembersFromCloud();
                 updateAdminDashboardStats();
             }
         }
@@ -766,19 +738,19 @@
 
             ['subnav-calendar', 'subnav-members', 'subnav-line'].forEach(id => {
                 const el = document.getElementById(id);
-                if(el) el.className = 'px-3 sm:px-4 py-2 rounded-xl transition-all text-morandi-dark hover:bg-white whitespace-nowrap';
+                if(el) el.className = 'flex-1 sm:flex-none px-3 py-2 rounded-xl transition-all text-morandi-dark hover:bg-white text-center';
             });
 
             if (subName === 'calendar') {
                 document.getElementById('subview-calendar').classList.remove('hidden');
-                document.getElementById('subnav-calendar').className = 'px-3 sm:px-4 py-2 rounded-xl transition-all bg-morandi-primary text-white shadow-xs whitespace-nowrap';
+                document.getElementById('subnav-calendar').className = 'flex-1 sm:flex-none px-3 py-2 rounded-xl transition-all bg-morandi-primary text-white shadow-xs text-center';
             } else if (subName === 'members') {
                 document.getElementById('subview-members').classList.remove('hidden');
-                document.getElementById('subnav-members').className = 'px-3 sm:px-4 py-2 rounded-xl transition-all bg-morandi-primary text-white shadow-xs whitespace-nowrap';
+                document.getElementById('subnav-members').className = 'flex-1 sm:flex-none px-3 py-2 rounded-xl transition-all bg-morandi-primary text-white shadow-xs text-center';
                 renderMembersGrid();
             } else if (subName === 'line') {
                 document.getElementById('subview-line').classList.remove('hidden');
-                document.getElementById('subnav-line').className = 'px-3 sm:px-4 py-2 rounded-xl transition-all bg-morandi-primary text-white shadow-xs whitespace-nowrap relative';
+                document.getElementById('subnav-line').className = 'flex-1 sm:flex-none px-3 py-2 rounded-xl transition-all bg-morandi-primary text-white shadow-xs relative text-center';
             }
         }
 
@@ -793,7 +765,6 @@
         function verifyAdminPassword() {
             const pwd = document.getElementById('admin-pwd-input').value.trim();
             if (pwd === '8888') {
-                // 驗證成功後，使用 localStorage 記住管理者身份
                 localStorage.setItem('yunni_admin_logged', 'true');
                 closeAdminPasswordModal();
                 switchTab('admin');
@@ -803,27 +774,12 @@
             }
         }
 
-        function exitAdminPortal() {
-            localStorage.removeItem('yunni_admin_logged');
-
-            const url = new URL(window.location.href);
-            if (url.searchParams.get('admin') === '1') {
-                url.searchParams.delete('admin');
-                window.history.replaceState({}, document.title, url.pathname + url.search + url.hash);
-            }
-
-            switchTab('client');
-            showToast('已登出管理者並切換為客人預約畫面');
-        }
-
         async function refreshMembersData() {
             const btn = document.getElementById('refresh-members-btn');
             if (!btn) return;
-
             const originalClass = btn.className;
             btn.className = 'px-3.5 py-2 bg-morandi-primary text-white rounded-xl text-xs font-medium transition-all border border-morandi-primary shrink-0';
             btn.disabled = true;
-
             try {
                 await fetchMembersFromCloud();
             } finally {
@@ -832,7 +788,6 @@
             }
         }
 
-        // 從 Google 試算表（GAS）非同步載入會員資料
         async function fetchMembersFromCloud() {
             try {
                 const response = await fetch(`${scriptURL}?action=getMembers`, { cache: 'no-store' });
@@ -854,17 +809,26 @@
             updateAdminDashboardStats();
         }
 
-        // 渲染管理者後台的會員卡片格子
+        // 需求4：會員名單超過20筆自動換頁
         function renderMembersGrid() {
             const container = document.getElementById('members-container');
+            const paginationContainer = document.getElementById('members-pagination');
             container.innerHTML = '';
+            paginationContainer.innerHTML = '';
 
             if (members.length === 0) {
                 container.innerHTML = `<div class="col-span-3 text-center py-6 text-xs text-morandi-accent">目前尚無會員資料紀錄</div>`;
                 return;
             }
 
-            members.forEach(m => {
+            const totalPages = Math.ceil(members.length / membersPerPage);
+            if (currentMemberPage > totalPages) currentMemberPage = totalPages || 1;
+
+            const startIndex = (currentMemberPage - 1) * membersPerPage;
+            const endIndex = startIndex + membersPerPage;
+            const currentMembersSlice = members.slice(startIndex, endIndex);
+
+            currentMembersSlice.forEach(m => {
                 const isRisk = ['觀察名單', '高風險'].includes(String(m.status || ''));
                 const cardDiv = document.createElement('div');
                 cardDiv.className = `p-4 sm:p-5 rounded-2xl french-border space-y-3 ${isRisk ? 'bg-rose-50/60 border-rose-200' : 'bg-morandi-light/50'}`;
@@ -894,9 +858,22 @@
                 `;
                 container.appendChild(cardDiv);
             });
+
+            // 渲染分頁按鈕
+            if (totalPages > 1) {
+                for (let i = 1; i <= totalPages; i++) {
+                    const pageBtn = document.createElement('button');
+                    pageBtn.className = `px-3 py-1 rounded-xl text-xs font-medium transition-all ${currentMemberPage === i ? 'bg-morandi-primary text-white shadow-xs' : 'bg-morandi-light text-morandi-dark hover:bg-morandi-secondary/40'}`;
+                    pageBtn.innerText = i;
+                    pageBtn.onclick = () => {
+                        currentMemberPage = i;
+                        renderMembersGrid();
+                    };
+                    paginationContainer.appendChild(pageBtn);
+                }
+            }
         }
 
-        // 開啟會員編輯 Modal
         function openEditMemberModal(phone) {
             const member = members.find(m => String(m.phone ?? '') === String(phone ?? ''));
             if (!member) { showToast('找不到此會員資料，請先重新整理會員資料'); return; }
@@ -915,7 +892,6 @@
             document.getElementById('edit-member-modal').classList.add('hidden');
         }
 
-        // 儲存會員變更並雙向同步回 Google 試算表
         async function saveMemberChanges() {
             const phone = document.getElementById('edit-member-phone').value;
             const balance = parseInt(document.getElementById('edit-member-balance').value) || 0;
@@ -935,7 +911,6 @@
             renderMembersGrid();
             updateAdminDashboardStats();
 
-            // 發送 POST 請求將更新後的會員資料寫回 Google Apps Script
             try {
                 const response = await fetch(scriptURL, {
                     method: 'POST',
@@ -1036,7 +1011,6 @@
                 });
             }
 
-            // 店休是一筆 ALL 資料，前台顯示時才展開成全部鎖定時段
             const localForDate = bookings.filter(b => b.date === dateVal && b.status !== '已取消');
             if (localForDate.some(b => b.slot === 'ALL' || b.isClosed)) {
                 bookedSlotsForDate = [...allSlots];
@@ -1161,10 +1135,6 @@
             if (todayEl) todayEl.innerText = `${todayBookings} 位`;
             if (riskEl) riskEl.innerText = `${riskCount} 人`;
             if (balanceEl) balanceEl.innerText = `NT$ ${monthBalance.toLocaleString()}`;
-
-            // 本月儲值只採用雲端提供的 monthlyDepositTotal，
-            // 或會員資料明確提供的 monthlyDeposit / depositThisMonth / monthlyRecharge，
-            // 不再把「目前餘額」誤當成「本月儲值」。
         }
 
         async function submitBooking() {
@@ -1270,6 +1240,7 @@
             }
         }
 
+        // 需求2：將總覽表的表格內容與對齊設定完整置中並確保排版整齊
         function renderAdminTable(filterText = '') {
             const tbody = document.getElementById('admin-booking-table');
             tbody.innerHTML = '';
@@ -1292,7 +1263,7 @@
 
                 let photosHtml = '';
                 if (b.photos && b.photos.length > 0) {
-                    photosHtml = `<div class="flex gap-1 mt-1.5 flex-wrap">`;
+                    photosHtml = `<div class="flex gap-1 mt-1.5 flex-wrap justify-center">`;
                     b.photos.forEach(imgUrl => {
                         photosHtml += `<img src="${imgUrl}" onclick="openPhotoPreviewModal('${String(imgUrl).replace(/'/g, "\\'")}')" class="w-10 h-10 rounded-lg object-cover cursor-pointer french-border hover:opacity-80 transition-all shrink-0">`;
                     });
@@ -1306,31 +1277,31 @@
                     : ['一般美甲服務'];
 
                 tr.innerHTML = `
-                <td class="p-4 align-top">
+                <td class="p-4 align-middle text-center">
                     <div class="font-bold text-morandi-dark whitespace-nowrap">${b.date} ${b.slot}</div>
                 </td>
-                <td class="p-4 align-top">
+                <td class="p-4 align-middle text-center">
                    <div class="font-semibold text-morandi-dark whitespace-nowrap">${b.name}</div>
                     <div class="text-[10px] text-morandi-accent whitespace-nowrap">${b.phone}</div>
                 </td>
-                <td class="p-4 align-top">
-                    <div class="flex flex-wrap gap-1 max-w-[150px]">
+                <td class="p-4 align-middle text-center">
+                    <div class="flex flex-wrap gap-1 justify-center max-w-[150px] mx-auto">
                     ${styles.map(s => `<span class="px-2 py-0.5 bg-morandi-pink/60 text-morandi-dark rounded-md text-[10px] whitespace-nowrap">${s}</span>`).join('')}
                 </div>
             </td>
-            <td class="p-4 align-top max-w-[200px]">
+            <td class="p-4 align-middle text-center max-w-[200px]">
                     <div class="text-morandi-dark break-words">${b.remark || '無'}</div>
                     ${photosHtml}
             </td>
-            <td class="p-4 align-top text-left h-full flex items-center">
-                    <span id="status-badge-${b.id}" class="px-2.5 py-1 ${
+            <td class="p-4 align-middle text-center">
+                    <span id="status-badge-${b.id}" class="inline-block px-2.5 py-1 ${
                        b.status === '已取消' ? 'bg-rose-100 text-rose-800' :
                        b.status === '提早完成' ? 'bg-amber-100 text-amber-800' :
                        b.status === '已完成' ? 'bg-blue-100 text-blue-800' :
                        'bg-emerald-100 text-emerald-800'
                     } rounded-lg text-[10px] font-semibold whitespace-nowrap">${b.status || '已確認'}</span>
             </td>
-            <td class="p-4 align-top text-left space-x-1 whitespace-nowrap">
+            <td class="p-4 align-middle text-center space-x-1 whitespace-nowrap">
                     <button onclick="updateBookingStatus('${String(b.id).replace(/'/g, "\\'")}', '提早完成')" class="px-2 py-1 bg-white border border-morandi-secondary/60 rounded-lg text-[10px] text-morandi-dark hover:bg-amber-50 hover:text-amber-700 transition-all">提早完成</button>
                     <button onclick="updateBookingStatus('${String(b.id).replace(/'/g, "\\'")}', '已完成')" class="px-2 py-1 bg-white border border-morandi-secondary/60 rounded-lg text-[10px] text-morandi-dark hover:bg-blue-50 hover:text-blue-700 transition-all">已完成</button>
                     <button onclick="updateBookingStatus('${String(b.id).replace(/'/g, "\\'")}', '已取消')" class="px-2 py-1 bg-white border border-morandi-secondary/60 rounded-lg text-[10px] text-morandi-dark hover:bg-rose-50 hover:text-rose-600 transition-all">取消</button>
@@ -1350,7 +1321,7 @@
             if (!item) {
                showToast('找不到此預約紀錄');
             return;
-    }
+        }
 
             item.status = newStatus;
             localStorage.setItem('yunni_bookings', JSON.stringify(bookings));
@@ -1363,30 +1334,30 @@
         showToast(`預約 ${id} 狀態已更新為：${newStatus}`);
 
         try {
-        const response = await fetch(scriptURL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify({
-                action: 'updateBookingStatus',
-                id: item.id,
-                phone: item.phone,
-                date: item.date,
-                slot: item.slot,
-                status: newStatus
-            })
-        });
-        let result = {};
-        try { result = await response.json(); } catch (e) {}
-        if (response.ok && result.result !== 'error') {
-            showToast(`狀態「${newStatus}」已成功同步至 Google 試算表`);
-        } else {
-            showToast('狀態已更新本機，雲端同步回應異常');
+            const response = await fetch(scriptURL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify({
+                    action: 'updateBookingStatus',
+                    id: item.id,
+                    phone: item.phone,
+                    date: item.date,
+                    slot: item.slot,
+                    status: newStatus
+                })
+            });
+            let result = {};
+            try { result = await response.json(); } catch (e) {}
+            if (response.ok && result.result !== 'error') {
+                showToast(`狀態「${newStatus}」已成功同步至 Google 試算表`);
+            } else {
+                showToast('狀態已更新本機，雲端同步回應異常');
+            }
+        } catch (error) {
+            console.error('雲端狀態同步失敗', error);
+            showToast('狀態已更新本機，請稍後檢查網路連線');
         }
-    } catch (error) {
-        console.error('雲端狀態同步失敗', error);
-        showToast('狀態已更新本機，請稍後檢查網路連線');
     }
-}
 
         function openPhotoPreviewModal(imgUrl) {
             document.getElementById('preview-modal-img').src = imgUrl;
@@ -1461,56 +1432,51 @@
             document.getElementById('event-modal').classList.add('hidden');
         }
 
-function saveEvent() {
-    const title = document.getElementById('event-title').value.trim();
-    const date = document.getElementById('event-date').value;
-    const slot = document.getElementById('event-slot').value;
+        function saveEvent() {
+            const title = document.getElementById('event-title').value.trim();
+            const date = document.getElementById('event-date').value;
+            const slot = document.getElementById('event-slot').value;
 
-    if (!title || !date) {
-        showToast('請輸入事件標題與日期');
-        return;
-    }
+            if (!title || !date) {
+                showToast('請輸入事件標題與日期');
+                return;
+            }
 
-    // 店休/事件永遠只建立一筆資料；ALL 代表整天店休，
-    // 前台 renderSlots() 再依 ALL 鎖定所有時段，因此不會在總覽表產生多筆店休紀錄。
-    const eventRecord = {
-        id: 'E' + Date.now(),
-        name: slot === 'ALL' ? `[全天店休] ${title}` : `[店家事件] ${title}`,
-        phone: 'N/A',
-        date,
-        slot,
-        styles: [slot === 'ALL' ? '整天休息日' : '行事曆佔位'],
-        remark: title,
-        photos: [],
-        status: '已占用',
-        type: 'event',
-        isClosed: slot === 'ALL'
-    };
+            const eventRecord = {
+                id: 'E' + Date.now(),
+                name: slot === 'ALL' ? `[全天店休] ${title}` : `[店家事件] ${title}`,
+                phone: 'N/A',
+                date,
+                slot,
+                styles: [slot === 'ALL' ? '整天休息日' : '行事曆佔位'],
+                remark: title,
+                photos: [],
+                status: '已占用',
+                type: 'event',
+                isClosed: slot === 'ALL'
+            };
 
-    upsertBooking(eventRecord);
-    closeAddEventModal();
-    renderSlots();
-    renderAdminTable();
-    updateAdminDashboardStats();
-    updateNotificationCenter();
+            upsertBooking(eventRecord);
+            closeAddEventModal();
+            renderSlots();
+            renderAdminTable();
+            updateAdminDashboardStats();
+            updateNotificationCenter();
+            syncEventToCloud(eventRecord);
+            showToast(slot === 'ALL' ? '已設定整天店休，行事曆與所有空檔已同步鎖定' : '已新增店內事件並同步行事曆');
+        }
 
-    // 將同一筆店休/事件資料同步至 GAS；若後端尚未支援 action，
-    // 本機資料仍會保留，且行事曆/空檔會立即套用。
-    syncEventToCloud(eventRecord);
-    showToast(slot === 'ALL' ? '已設定整天店休，行事曆與所有空檔已同步鎖定' : '已新增店內事件並同步行事曆');
-}
-
-async function syncEventToCloud(eventRecord) {
-    try {
-        await fetch(scriptURL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify({ action: 'createEvent', event: eventRecord })
-        });
-    } catch (e) {
-        console.error('店休/事件雲端同步失敗', e);
-    }
-}
+        async function syncEventToCloud(eventRecord) {
+            try {
+                await fetch(scriptURL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ action: 'createEvent', event: eventRecord })
+                });
+            } catch (e) {
+                console.error('店休/事件雲端同步失敗', e);
+            }
+        }
 
         async function notifyLine(type, booking = null) {
             const payload = {
@@ -1542,38 +1508,35 @@ async function syncEventToCloud(eventRecord) {
             }
         }
 
-async function triggerSimulatedLinePush() {
+        async function triggerSimulatedLinePush() {
+            try {
+                const response = await fetch(scriptURL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'text/plain;charset=utf-8'
+                    },
+                    body: JSON.stringify({
+                        action: 'sendLinePush',
+                        message:
+                            '✨ 預約前一天提醒測試\n\n' +
+                            '明日 14:00 有美甲預約，請提前確認。'
+                    })
+                });
 
-    try {
+                const result = await response.json();
 
-        const response = await fetch(scriptURL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'text/plain;charset=utf-8'
-            },
-            body: JSON.stringify({
-                action: 'sendLinePush',
-                message:
-                    '✨ 預約前一天提醒測試\n\n' +
-                    '明日 14:00 有美甲預約，請提前確認。'
-            })
-        });
+                if (result.result === 'success') {
+                    showToast('LINE 已成功發送測試通知！');
+                } else {
+                    console.error(result);
+                    showToast('LINE 發送失敗，請檢查 LINE 設定');
+                }
 
-        const result = await response.json();
-
-        if (result.result === 'success') {
-            showToast('LINE 已成功發送測試通知！');
-        } else {
-            console.error(result);
-            showToast('LINE 發送失敗，請檢查 LINE 設定');
+            } catch (error) {
+                console.error(error);
+                showToast('LINE 發送失敗，無法連線到 Google Apps Script');
+            }
         }
-
-    } catch (error) {
-
-        console.error(error);
-        showToast('LINE 發送失敗，無法連線到 Google Apps Script');
-    }
-}
 
         function showToast(msg) {
             const toast = document.getElementById('toast');
@@ -1585,13 +1548,11 @@ async function triggerSimulatedLinePush() {
         }
 
         window.onload = function() {
-            // 檢查網址列是否有 ?admin=1 或 localStorage 是否已紀錄管理者登入狀態
             const urlParams = new URLSearchParams(window.location.search);
             const isAdminParam = urlParams.get('admin') === '1';
             const isLocalStorageAdmin = localStorage.getItem('yunni_admin_logged') === 'true';
 
             if (isAdminParam || isLocalStorageAdmin) {
-                // 如果透過 ?admin=1 進入，順便幫忙寫入 localStorage 記憶狀態
                 if (isAdminParam) {
                     localStorage.setItem('yunni_admin_logged', 'true');
                 }
