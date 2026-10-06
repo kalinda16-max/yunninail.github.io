@@ -434,16 +434,16 @@
                         </h3>
                         <input type="text" id="search-input" placeholder="搜尋客人姓名..." onkeyup="filterBookings()" class="w-full sm:w-auto px-3 py-1.5 rounded-xl border border-morandi-secondary/50 text-xs focus:outline-none focus:ring-1 focus:ring-morandi-primary">
                     </div>
-                    <div id="admin-booking-table-wrap" class="w-full min-w-0 bg-white">
-                        <table class="w-full text-left border-collapse min-w-[650px] bg-white">
-                            <thead>
-                                <tr class="bg-morandi-light/60 text-xs text-morandi-accent uppercase tracking-wider">
+                       <div class="w-full overflow-x-auto bg-white">
+                           <table class="w-full text-left border-collapse min-w-[650px] bg-white">
+                              <thead>
+                                <tr class="bg-morandi-light text-xs text-morandi-accent uppercase tracking-wider border-y border-morandi-secondary/40 shadow-2xs">
                                     <th class="p-4 font-semibold">日期時間</th>
                                     <th class="p-4 font-semibold">客人與手機</th>
                                     <th class="p-4 font-semibold">風格標籤</th>
                                     <th class="p-4 font-semibold">備註與參考圖</th>
                                     <th class="p-4 font-semibold">狀態</th>
-                                    <th class="p-4 font-semibold text-right">操作</th>
+                                    <th class="p-4 font-semibold">操作</th>
                                 </tr>
                             </thead>
                             <tbody id="admin-booking-table" class="divide-y divide-morandi-secondary/20 text-xs text-morandi-dark">
