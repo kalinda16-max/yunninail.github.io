@@ -1001,73 +1001,75 @@
             }
         }
 
-        async function renderSlots() {
-            const dateVal = document.getElementById('book-date').value;
-            const container = document.getElementById('slots-container');
-            container.innerHTML = `<div class="col-span-4 text-center text-xs text-morandi-accent py-2"><i class="fa-solid fa-spinner fa-spin mr-1"></i>同步雲端時段中...</div>`;
+async function renderSlots() {
+    const dateVal = document.getElementById('book-date').value;
+    const container = document.getElementById('slots-container');
+    container.innerHTML = `<div class="col-span-4 text-center text-xs text-morandi-accent py-2"><i class="fa-solid fa-spinner fa-spin mr-1"></i>同步雲端時段中...</div>`;
 
-            let bookedSlotsForDate = [];
-            const cloudData = await getCloudDateData(dateVal);
+    let bookedSlotsForDate = [];
+    const cloudData = await getCloudDateData(dateVal);
 
-            if (Array.isArray(cloudData.bookedSlots)) {
-                bookedSlotsForDate = [...cloudData.bookedSlots];
-            }
-            if (Array.isArray(cloudData.bookings)) {
-                cloudData.bookings.forEach(b => {
-                    const normalized = normalizeBooking(b);
-                    if (normalized) upsertBooking(normalized);
-                });
-            }
+    if (Array.isArray(cloudData.bookedSlots)) {
+        bookedSlotsForDate = [...cloudData.bookedSlots];
+    }
+    if (Array.isArray(cloudData.bookings)) {
+        cloudData.bookings.forEach(b => {
+            const normalized = normalizeBooking(b);
+            if (normalized) upsertBooking(normalized);
+        });
+    }
 
-            const localForDate = bookings.filter(b => b.date === dateVal && b.status !== '已取消');
-            if (localForDate.some(b => b.slot === 'ALL' || b.isClosed)) {
-                bookedSlotsForDate = [...allSlots];
-            } else {
-                bookedSlotsForDate = [...new Set([
-                    ...bookedSlotsForDate,
-                    ...localForDate.map(b => b.slot).filter(Boolean)
-                ])];
-            }
+    const localForDate = bookings.filter(b => b.date === dateVal && b.status !== '已取消');
+    
+    // 【關鍵修正】同時檢查本機或雲端回傳的 'ALL'、'isClosed' 或 '已占用'
+    if (localForDate.some(b => b.slot === 'ALL' || b.isClosed || b.status === '已占用') || bookedSlotsForDate.includes('ALL')) {
+        bookedSlotsForDate = [...allSlots]; // 將所有時段全部標記為已佔用
+    } else {
+        bookedSlotsForDate = [...new Set([
+            ...bookedSlotsForDate,
+            ...localForDate.map(b => b.slot).filter(Boolean)
+        ])];
+    }
 
-            container.innerHTML = '';
-            let availableCount = 0;
+    container.innerHTML = '';
+    let availableCount = 0;
 
-            allSlots.forEach(slot => {
-                const isBooked = bookedSlotsForDate.includes(slot);
-                if (!isBooked) availableCount++;
+    allSlots.forEach(slot => {
+        const isBooked = bookedSlotsForDate.includes(slot);
+        if (!isBooked) availableCount++;
 
-                const btn = document.createElement('button');
-                btn.type = 'button';
-                btn.className = `p-3 rounded-xl text-xs sm:text-sm font-medium border transition-all flex flex-col items-center justify-center space-y-1 ${
-                    isBooked 
-                        ? 'bg-morandi-secondary/20 border-morandi-secondary/40 text-morandi-accent/40 cursor-not-allowed line-through' 
-                        : selectedSlot === slot 
-                            ? 'bg-morandi-dark text-white border-morandi-dark shadow-sm' 
-                            : 'bg-white border-morandi-secondary/60 text-morandi-dark hover:border-morandi-primary'
-                }`;
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = `p-3 rounded-xl text-xs sm:text-sm font-medium border transition-all flex flex-col items-center justify-center space-y-1 ${
+            isBooked 
+                ? 'bg-morandi-secondary/20 border-morandi-secondary/40 text-morandi-accent/40 cursor-not-allowed line-through' 
+                : selectedSlot === slot 
+                    ? 'bg-morandi-dark text-white border-morandi-dark shadow-sm' 
+                    : 'bg-white border-morandi-secondary/60 text-morandi-dark hover:border-morandi-primary'
+        }`;
 
-                btn.innerHTML = `
-                    <i class="fa-regular fa-clock"></i>
-                    <span>${slot}</span>
-                    <span class="text-[10px] ${isBooked ? 'text-red-400' : 'text-morandi-green'}">${isBooked ? '已被預約' : '可預約'}</span>
-                `;
+        btn.innerHTML = `
+            <i class="fa-regular fa-clock"></i>
+            <span>${slot}</span>
+            <span class="text-[10px] ${isBooked ? 'text-red-400' : 'text-morandi-green'}">${isBooked ? '已被預約' : '可預約'}</span>
+        `;
 
-                if (!isBooked) {
-                    btn.onclick = () => {
-                        selectedSlot = slot;
-                        renderSlots();
-                    };
-                }
-                container.appendChild(btn);
-            });
-
-            document.getElementById('stat-available-slots').innerText = `剩餘 ${availableCount} 時段`;
-            if (dateVal === getLocalDateString()) {
-                const adminFree = document.getElementById('admin-free-slots');
-                if (adminFree) adminFree.innerText = `${availableCount} 時段`;
-            }
-            updateAdminDashboardStats();
+        if (!isBooked) {
+            btn.onclick = () => {
+                selectedSlot = slot;
+                renderSlots();
+            };
         }
+        container.appendChild(btn);
+    });
+
+    document.getElementById('stat-available-slots').innerText = `剩餘 ${availableCount} 時段`;
+    if (dateVal === getLocalDateString()) {
+        const adminFree = document.getElementById('admin-free-slots');
+        if (adminFree) adminFree.innerText = `${availableCount} 時段`;
+    }
+    updateAdminDashboardStats();
+}
 
         function normalizeBooking(b) {
             if (!b || !b.date) return null;
