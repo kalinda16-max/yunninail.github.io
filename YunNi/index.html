@@ -1340,18 +1340,48 @@
             renderAdminTable(val);
         }
 
-        function cancelBooking(id) {
-            const item = bookings.find(b => b.id === id);
-            if (item) {
-                item.status = '已取消';
-                localStorage.setItem('yunni_bookings', JSON.stringify(bookings));
-                renderAdminTable();
-                renderSlots();
-                updateAdminDashboardStats();
-                updateNotificationCenter();
-                showToast(`已取消預約 ${id}`);
-            }
+        async function updateBookingStatus(id, newStatus) {
+            const item = bookings.find(b => String(b.id) === String(id));
+            if (!item) {
+               showToast('找不到此預約紀錄');
+            return;
+    }
+
+            item.status = newStatus;
+            localStorage.setItem('yunni_bookings', JSON.stringify(bookings));
+    
+            if (typeof renderAdminTable === 'function') renderAdminTable();
+            if (typeof renderSlots === 'function') renderSlots();
+            if (typeof updateAdminDashboardStats === 'function') updateAdminDashboardStats();
+            if (typeof updateNotificationCenter === 'function') updateNotificationCenter();
+    
+        showToast(`預約 ${id} 狀態已更新為：${newStatus}`);
+
+        try {
+        const response = await fetch(scriptURL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify({
+                action: 'updateBookingStatus',
+                id: item.id,
+                phone: item.phone,
+                date: item.date,
+                slot: item.slot,
+                status: newStatus
+            })
+        });
+        let result = {};
+        try { result = await response.json(); } catch (e) {}
+        if (response.ok && result.result !== 'error') {
+            showToast(`狀態「${newStatus}」已成功同步至 Google 試算表`);
+        } else {
+            showToast('狀態已更新本機，雲端同步回應異常');
         }
+    } catch (error) {
+        console.error('雲端狀態同步失敗', error);
+        showToast('狀態已更新本機，請稍後檢查網路連線');
+    }
+}
 
         function openPhotoPreviewModal(imgUrl) {
             document.getElementById('preview-modal-img').src = imgUrl;
