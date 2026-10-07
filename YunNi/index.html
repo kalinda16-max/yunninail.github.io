@@ -1028,7 +1028,7 @@ async function renderSlots() {
 
     const localForDate = bookings.filter(b => b.date === dateVal && b.status !== '已取消');
     
-    // 【關鍵修正】同時檢查本機或雲端回傳的 'ALL'、'isClosed' 或 '已占用'
+    // 檢查本機或雲端回傳的 'ALL'、'isClosed' 或 '已占用'
     if (localForDate.some(b => b.slot === 'ALL' || b.isClosed || b.status === '已占用') || bookedSlotsForDate.includes('ALL')) {
         bookedSlotsForDate = [...allSlots]; // 將所有時段全部標記為已佔用
     } else {
@@ -1041,8 +1041,26 @@ async function renderSlots() {
     container.innerHTML = '';
     let availableCount = 0;
 
+    // 【新增】取得今天日期字串與當前時間（24小時制轉成數字，例如 11:44 ➔ 1144）
+    const todayStr = getLocalDateString(new Date());
+    const isToday = (dateVal === todayStr);
+    const now = new Date();
+    const currentHourMinute = now.getHours() * 100 + now.getMinutes();
+
     allSlots.forEach(slot => {
-        const isBooked = bookedSlotsForDate.includes(slot);
+        let isBooked = bookedSlotsForDate.includes(slot);
+        let badgeText = isBooked ? '已被預約' : '可預約';
+
+        // 【關鍵新增】如果是今天，檢查時段是否已經過期
+        if (isToday) {
+            const [h, m] = slot.split(':').map(Number);
+            const slotHourMinute = h * 100 + m;
+            if (slotHourMinute <= currentHourMinute) {
+                isBooked = true; // 強制將過期時段視為不可選
+                badgeText = '已過期';
+            }
+        }
+
         if (!isBooked) availableCount++;
 
         const btn = document.createElement('button');
@@ -1058,7 +1076,7 @@ async function renderSlots() {
         btn.innerHTML = `
             <i class="fa-regular fa-clock"></i>
             <span>${slot}</span>
-            <span class="text-[10px] ${isBooked ? 'text-red-400' : 'text-morandi-green'}">${isBooked ? '已被預約' : '可預約'}</span>
+            <span class="text-[10px] ${badgeText === '可預約' ? 'text-morandi-green' : 'text-red-400'}">${badgeText}</span>
         `;
 
         if (!isBooked) {
