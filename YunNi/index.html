@@ -812,12 +812,15 @@
                 if (result && typeof result.monthlyDepositTotal !== 'undefined') {
                     monthlyDepositTotal = Number(result.monthlyDepositTotal) || 0;
                 }
-                if (cloudMembers.length > 0) {
                     members = cloudMembers;
                     localStorage.setItem('yunni_members', JSON.stringify(members));
-                }
+
             } catch (e) {
-                console.log('使用本地快取會員資料', e);
+                console.log('無法連線雲端，使用本地快取會員資料', e);
+                const localCache = localStorage.getItem('yunni_members');
+                if (localCache) {
+                    try { members = JSON.parse(localCache); } catch (err) {}
+                }
             }
             renderMembersGrid();
             updateAdminDashboardStats();
