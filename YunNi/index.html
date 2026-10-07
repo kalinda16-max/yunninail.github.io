@@ -1556,20 +1556,16 @@ async function syncBookingsFromCloud() {
                     method: 'POST',
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     body: JSON.stringify({
-                        action: 'createBooking',
-                        name: eventRecord.name,
-                        phone: 'N/A',
-                        service: eventRecord.remark,
-                        time: `${eventRecord.date} ${eventRecord.slot}`,
-                        date: eventRecord.date,
-                        slot: eventRecord.slot,
-                        status: '已占用'
+                        action: 'createEvent', // 🌟 修正：對應 GAS 後端的 createCalendarEvent 函式
+                        title: eventRecord.remark, // 事件標題（例如：店休 / 消毒日）
+                        date: eventRecord.date,    // 日期
+                        slot: eventRecord.slot     // 時段（'ALL' 或具體時段）
                     })
                 });
-            } catch (e) {
-                console.log('事件同步雲端失敗', e);
-            }
+        } catch (e) {
+            console.log('事件同步雲端失敗', e);
         }
+    }
 
         function triggerSimulatedLinePush() {
             showToast('已成功模擬發送「預約前一天提醒通知」至 LINE 官方頻道');
