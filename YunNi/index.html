@@ -1626,6 +1626,22 @@ async function syncEventToCloud(eventRecord) {
             syncBookingsFromCloud();
             fetchMembersFromCloud();
         };
+        function handlePhotoUpload(event) {
+    const files = event.target.files;
+    if (!files) return;
+
+    for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        
+        // 呼叫我們剛剛寫好的嚴格壓縮函數
+        compressAndUpload(file, function(compressedDataUrl) {
+            // 這裡把壓縮後的極小圖片字串存入你的上傳陣列中
+            uploadedPhotos.push(compressedDataUrl); 
+            renderPhotoThumbnails(); // 重新渲染縮圖
+        });
+    }
+    event.target.value = ''; // 清空 input 讓重複上傳同一張圖也能觸發
+}
     </script>
 </body>
 </html>
