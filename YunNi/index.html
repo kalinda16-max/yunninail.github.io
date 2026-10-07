@@ -1520,56 +1520,69 @@ async function syncBookingsFromCloud() {
             document.getElementById('event-modal').classList.add('hidden');
         }
 
-        function saveEvent() {
-            const title = document.getElementById('event-title').value.trim();
-            const date = document.getElementById('event-date').value;
-            const slot = document.getElementById('event-slot').value;
+function saveEvent() {
+    const title = document.getElementById('event-title').value.trim();
+    const startDateStr = document.getElementById('event-date').value;
+    const slot = document.getElementById('event-slot').value;
+    const days = parseInt(document.getElementById('event-days').value) || 1;
 
-            if (!title || !date) {
-                showToast('請輸入事件標題與日期');
-                return;
-            }
-
-            const eventRecord = {
-                id: 'E' + Date.now(),
-                name: title,
-                phone: 'N/A',
-                date,
-                slot,
-                styles: [slot === 'ALL' ? '整天休息日' : '行事曆佔位'],
-                remark: title,
-                photos: [],
-                status: '已占用',
-                type: 'event',
-                isClosed: slot === 'ALL'
-            };
-
-            upsertBooking(eventRecord);
-            closeAddEventModal();
-            renderSlots();
-            renderAdminTable();
-            updateAdminDashboardStats();
-            updateNotificationCenter();
-            syncEventToCloud(eventRecord);
-            showToast(slot === 'ALL' ? '已設定整天店休，行事曆與所有空檔已同步鎖定' : '已新增店內事件並同步行事曆');
-        }
-
-        async function syncEventToCloud(eventRecord) {
-            try {
-                await fetch(scriptURL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify({
-                        action: 'createEvent', // 🌟 修正：對應 GAS 後端的 createCalendarEvent 函式
-                        title: eventRecord.remark, // 事件標題（例如：店休 / 消毒日）
-                        date: eventRecord.date,    // 日期
-                        slot: eventRecord.slot     // 時段（'ALL' 或具體時段）
-                    })
-                });
-        } catch (e) {
-            console.log('事件同步雲端失敗', e);
-        }
+    if (!title || !startDateStr) {
+        showToast('請輸入事件標題與開始日期');
+        return;
     }
+
+    // 在前端本地迴圈產生連續天數的佔位紀錄
+    const startDate = new Date(startDateStr);
+    for (let i = 0; i < days; i++) {
+        const currentDate = new Date(startDate);
+        currentDate.setDate(startDate.getDate() + i);
+        const dateStr = getLocalDateString(currentDate);
+
+        const eventRecord = {
+            id: 'E' + Date.now() + i,
+            name: title,
+            phone: 'N/A',
+            date: dateStr,
+            slot,
+            styles: [slot === 'ALL' ? '整天休息日' : '行事曆佔位'],
+            remark: title,
+            photos: [],
+            status: '已占用',
+            type: 'event',
+            isClosed: slot === 'ALL'
+        };
+
+        upsertBooking(eventRecord);
+    }
+
+    closeAddEventModal();
+    renderSlots();
+    renderAdminTable();
+    updateAdminDashboardStats();
+    updateNotificationCenter();
+
+    // 傳遞 days 參數至雲端一次建立
+    syncEventToCloud({ title, date: startDateStr, slot, days });
+    showToast(`已成功設定從 ${startDateStr} 起共 ${days} 天的店休/事件！`);
+}
+
+async function syncEventToCloud(eventRecord) {
+    try {
+        await fetch(scriptURL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify({
+                action: 'createEvent',
+                title: eventRecord.title,
+                date: eventRecord.date,
+                slot: eventRecord.slot,
+                days: eventRecord.days || 1
+            })
+        });
+    } catch (e) {
+        console.log('事件同步雲端失敗', e);
+    }
+}
 
         function triggerSimulatedLinePush() {
             showToast('已成功模擬發送「預約前一天提醒通知」至 LINE 官方頻道');
