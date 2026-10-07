@@ -434,6 +434,7 @@
         </table>
     </div>
 </div>
+            </div>
 
             <!-- 子分頁 B: 會員管理與風控 -->
             <div id="subview-members" class="hidden space-y-6">
@@ -704,6 +705,7 @@
         let bookings = [];
         let members = [];
         let notifications = [];
+        let notificationsRead = localStorage.getItem('yunni_notifications_read') === 'true';
         let monthlyDepositTotal = null;
         let currentMemberPage = 1;
         const membersPerPage = 20;
@@ -1128,6 +1130,10 @@ async function renderSlots() {
                     parsedPhotos = [b.photos];
                 }
             }
+            if (!parsedPhotos.length) {
+                parsedPhotos = [b.photo1, b.photo2, b.photo3, b.photo4, b.photo5]
+                    .filter(photo => typeof photo === 'string' && photo.trim() !== '');
+            }
 
             return {
                 id: String(b.id || ('B' + Date.now() + Math.floor(Math.random() * 1000))),
@@ -1257,7 +1263,13 @@ async function syncBookingsFromCloud() {
                 slot: selectedSlot,
                 styles: JSON.stringify(styles),
                 remark,
-                photos: JSON.stringify(uploadedPhotos)
+                photos: JSON.stringify(uploadedPhotos),
+                photoCount: uploadedPhotos.length,
+                photo1: uploadedPhotos[0] || '',
+                photo2: uploadedPhotos[1] || '',
+                photo3: uploadedPhotos[2] || '',
+                photo4: uploadedPhotos[3] || '',
+                photo5: uploadedPhotos[4] || ''
             };
 
             showToast('正在送出預約並同步雲端...');
@@ -1306,6 +1318,9 @@ async function syncBookingsFromCloud() {
                 renderPhotoThumbnails();
                 // ==================================================================================================
 
+                notificationsRead = false;
+                notifications = [];
+                localStorage.removeItem('yunni_notifications_read');
                 renderSlots();
                 renderAdminTable();
                 updateAdminDashboardStats();
@@ -1336,6 +1351,9 @@ async function syncBookingsFromCloud() {
                 uploadedPhotos = [];
                 renderPhotoThumbnails();
 
+                notificationsRead = false;
+                notifications = [];
+                localStorage.removeItem('yunni_notifications_read');
                 renderSlots();
                 renderAdminTable();
                 updateAdminDashboardStats();
@@ -1379,8 +1397,8 @@ async function syncBookingsFromCloud() {
                 let photosHtml = '';
                 if (b.photos && b.photos.length > 0) {
                     photosHtml = `<div class="flex gap-1 mt-1.5 flex-wrap justify-center">`;
-                    b.photos.forEach(imgUrl => {
-                        photosHtml += `<img src="${imgUrl}" onclick="openPhotoPreviewModal('${String(imgUrl).replace(/'/g, "\\'")}')" class="w-10 h-10 rounded-lg object-cover cursor-pointer french-border hover:opacity-80 transition-all shrink-0">`;
+                    b.photos.forEach((imgUrl, photoIndex) => {
+                        photosHtml += `<img src="${String(imgUrl).replace(/"/g, '&quot;')}" data-photo-index="${photoIndex}" class="admin-booking-photo w-10 h-10 rounded-lg object-cover cursor-pointer french-border hover:opacity-80 transition-all shrink-0">`;
                     });
                     photosHtml += `</div>`;
                 } else {
@@ -1423,6 +1441,16 @@ async function syncBookingsFromCloud() {
             </td>
                 `;
                 tbody.appendChild(tr);
+
+                tr.querySelectorAll('.admin-booking-photo').forEach(photoEl => {
+                    photoEl.addEventListener('click', (event) => {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        const photoIndex = Number(photoEl.dataset.photoIndex);
+                        const photoSrc = Array.isArray(b.photos) ? b.photos[photoIndex] : '';
+                        if (photoSrc) openPhotoPreviewModal(photoSrc);
+                    });
+                });
             });
         }
 
@@ -1485,7 +1513,22 @@ async function syncBookingsFromCloud() {
         function openNotificationModal() {
             updateNotificationCenter();
             document.getElementById('notification-modal').classList.remove('hidden');
+
+            // 老闆開啟通知中心即視為已查看；查看後清空通知與右上角徽章。
+            if (notifications.length > 0) {
+                notificationsRead = true;
+                localStorage.setItem('yunni_notifications_read', 'true');
+                notifications = [];
+                const list = document.getElementById('notification-list');
+                const badge = document.getElementById('notification-badge');
+                if (list) list.innerHTML = `<div class="p-3 bg-morandi-light/60 rounded-2xl text-center text-morandi-accent">目前沒有新的系統通知</div>`;
+                if (badge) {
+                    badge.innerText = '0';
+                    badge.classList.add('hidden');
+                }
+            }
         }
+
         function closeNotificationModal() {
             document.getElementById('notification-modal').classList.add('hidden');
         }
@@ -1494,6 +1537,15 @@ async function syncBookingsFromCloud() {
             const list = document.getElementById('notification-list');
             const badge = document.getElementById('notification-badge');
             if (!list || !badge) return;
+
+            // 已查看的通知不再重新產生；只有新的預約事件才會重置為未讀。
+            if (notificationsRead) {
+                notifications = [];
+                list.innerHTML = `<div class="p-3 bg-morandi-light/60 rounded-2xl text-center text-morandi-accent">目前沒有新的系統通知</div>`;
+                badge.innerText = '0';
+                badge.classList.add('hidden');
+                return;
+            }
 
             const today = new Date();
             const tomorrow = new Date(today);
@@ -1522,6 +1574,7 @@ async function syncBookingsFromCloud() {
                 });
             }
 
+            notifications = items;
             if (!items.length) {
                 list.innerHTML = `<div class="p-3 bg-morandi-light/60 rounded-2xl text-center text-morandi-accent">目前沒有新的系統通知</div>`;
             } else {
