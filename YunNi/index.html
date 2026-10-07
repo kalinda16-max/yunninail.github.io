@@ -407,31 +407,33 @@
                 </div>
 
                 <!-- 預約清單表格 -->
-                <div class="bg-white rounded-3xl french-border shadow-sm overflow-hidden w-full">
-                    <div class="p-4 sm:p-5 border-b border-morandi-secondary/30 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-                        <h3 class="font-bold text-morandi-dark text-md flex items-center">
-                            <i class="fa-solid fa-clipboard-list text-morandi-primary mr-2"></i>預約與行程總覽表
-                        </h3>
-                        <input type="text" id="search-input" placeholder="搜尋客人姓名..." onkeyup="filterBookings()" class="w-full sm:w-auto px-3 py-1.5 rounded-xl border border-morandi-secondary/50 text-xs focus:outline-none focus:ring-1 focus:ring-morandi-primary">
-                    </div>
-                    <div class="w-full overflow-x-auto bg-white">
-                        <table class="w-full text-center border-collapse min-w-[800px] bg-white">
-                            <thead>
-                                <tr class="bg-morandi-light text-xs text-morandi-accent uppercase tracking-wider border-y border-morandi-secondary/40 shadow-2xs">
-                                    <th class="p-4 font-semibold min-w-[110px] text-center align-middle">預約時間</th>
-                                    <th class="p-4 font-semibold min-w-[130px] text-center align-middle">名稱手機</th>
-                                    <th class="p-4 font-semibold min-w-[110px] text-center align-middle">風格標籤</th>
-                                    <th class="p-4 font-semibold min-w-[280px] text-center align-middle">備註與參考圖</th>
-                                    <th class="p-4 font-semibold min-w-[90px] text-center align-middle">狀態</th>
-                                    <th class="p-4 font-semibold min-w-[100px] text-center align-middle">操作</th>
-                                </tr>
-                            </thead>
-                            <tbody id="admin-booking-table" class="divide-y divide-morandi-secondary/20 text-xs text-morandi-dark">
-                            </tbody>
-                        </table>
-                      </div>
-                   </div>
-                </div>
+<div class="bg-white rounded-3xl french-border shadow-sm w-full overflow-hidden">
+    <!-- 標題與搜尋列區塊 -->
+    <div class="p-4 sm:p-5 border-b border-morandi-secondary/30 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+        <h3 class="font-bold text-morandi-dark text-md flex items-center">
+            <i class="fa-solid fa-clipboard-list text-morandi-primary mr-2"></i>預約與行程總覽表
+        </h3>
+        <input type="text" id="search-input" placeholder="搜尋客人姓名..." onkeyup="filterBookings()" class="w-full sm:w-auto px-3 py-1.5 rounded-xl border border-morandi-secondary/50 text-xs focus:outline-none focus:ring-1 focus:ring-morandi-primary">
+    </div>
+    
+    <!-- 表格滾動區塊：確保寬度受控且不外溢 -->
+    <div class="w-full overflow-x-auto bg-white block">
+        <table class="w-full text-center border-collapse min-w-[800px] bg-white">
+            <thead>
+                <tr class="bg-morandi-light text-xs text-morandi-accent uppercase tracking-wider border-y border-morandi-secondary/40">
+                    <th class="p-4 font-semibold min-w-[110px] text-center align-middle">預約時間</th>
+                    <th class="p-4 font-semibold min-w-[130px] text-center align-middle">名稱手機</th>
+                    <th class="p-4 font-semibold min-w-[110px] text-center align-middle">風格標籤</th>
+                    <th class="p-4 font-semibold min-w-[280px] text-center align-middle">備註與參考圖</th>
+                    <th class="p-4 font-semibold min-w-[90px] text-center align-middle">狀態</th>
+                    <th class="p-4 font-semibold min-w-[100px] text-center align-middle">操作</th>
+                </tr>
+            </thead>
+            <tbody id="admin-booking-table" class="divide-y divide-morandi-secondary/20 text-xs text-morandi-dark">
+            </tbody>
+        </table>
+    </div>
+</div>
 
             <!-- 子分頁 B: 會員管理與風控 -->
             <div id="subview-members" class="hidden space-y-6">
@@ -652,44 +654,44 @@
     </div>
 
     <!-- 新增店內事件/休息日 Modal -->
-    <div id="event-modal" class="fixed inset-0 bg-black/40 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white max-w-md w-full rounded-3xl p-6 shadow-xl french-border space-y-4 my-auto">
-            <h3 class="font-bold text-morandi-dark text-md">新增店內事件與時段佔位</h3>
-            
-            <div>
-                <label class="block text-xs font-medium text-morandi-accent mb-1">事件標題</label>
-                <input type="text" id="event-title" placeholder="例如：店休 / 員工進修 / 消毒日" class="w-full px-3 py-2.5 rounded-xl border border-morandi-secondary/60 text-xs bg-morandi-light/30">
-            </div>
+<div id="event-modal" class="fixed inset-0 bg-black/40 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white max-w-md w-full rounded-3xl p-6 shadow-xl french-border space-y-4 my-auto">
+        <h3 class="font-bold text-morandi-dark text-md">新增店內事件與時段佔位</h3>
+        
+        <div>
+            <label class="block text-xs font-medium text-morandi-accent mb-1">事件標題</label>
+            <input type="text" id="event-title" placeholder="例如：店休 / 員工進修 / 消毒日" class="w-full px-3 py-2.5 rounded-xl border border-morandi-secondary/60 text-xs bg-morandi-light/30 focus:outline-none focus:border-morandi-primary" style="box-shadow: none !important;">
+        </div>
 
-<div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                <div class="min-w-0 overflow-hidden">
-                    <label class="block text-xs font-medium text-morandi-accent mb-1">開始日期</label>
-                    <input type="date" id="event-date" class="w-full px-3 py-2.5 rounded-xl border border-morandi-secondary/60 text-xs bg-morandi-light/30 box-border appearance-none" style="min-width: 0;">
-                </div>
-                <div class="min-w-0 overflow-hidden">
-                    <label class="block text-xs font-medium text-morandi-accent mb-1">連續天數</label>
-                    <input type="number" id="event-days" value="1" min="1" max="30" class="w-full px-3 py-2.5 rounded-xl border border-morandi-secondary/60 text-xs bg-morandi-light/30 box-border">
-                </div>
-                <div class="min-w-0 overflow-hidden">
-                    <label class="block text-xs font-medium text-morandi-accent mb-1">佔用時段</label>
-                    <select id="event-slot" class="w-full px-3 py-2.5 rounded-xl border border-morandi-secondary/60 text-xs bg-morandi-light/30 box-border">
-                        <option value="ALL">✨ 全天店休</option>
-                        <option value="09:00">09:00 AM</option>
-                        <option value="13:00">13:00 PM</option>
-                        <option value="17:00">17:00 PM</option>
-                        <option value="21:00">21:00 PM</option>
-                        <option value="01:00">01:00 AM</option>
-                        <option value="05:00">05:00 AM</option>
-                    </select>
-                </div>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div class="min-w-0 overflow-hidden">
+                <label class="block text-xs font-medium text-morandi-accent mb-1">開始日期</label>
+                <input type="date" id="event-date" class="w-full px-3 py-2.5 rounded-xl border border-morandi-secondary/60 text-xs bg-morandi-light/30 box-border appearance-none focus:outline-none focus:border-morandi-primary" style="min-width: 0; -webkit-appearance: none; box-shadow: none !important;">
             </div>
-
-            <div class="flex justify-between space-x-2 pt-2">
-                <button onclick="saveEvent()" class="px-4 py-2.5 bg-morandi-primary text-white rounded-xl text-xs font-medium w-full">儲存事件</button>
-                <button onclick="closeAddEventModal()" class="px-4 py-2.5 bg-morandi-light text-morandi-dark rounded-xl text-xs font-medium w-full">取消</button>
+            <div class="min-w-0 overflow-hidden">
+                <label class="block text-xs font-medium text-morandi-accent mb-1">連續天數</label>
+                <input type="text" id="event-days" value="1" inputmode="numeric" oninput="this.value=this.value.replace(/\D/g,'')" class="w-full px-3 py-2.5 rounded-xl border border-morandi-secondary/60 text-xs bg-morandi-light/30 box-border focus:outline-none focus:border-morandi-primary" style="box-shadow: none !important;">
+            </div>
+            <div class="min-w-0 overflow-hidden">
+                <label class="block text-xs font-medium text-morandi-accent mb-1">佔用時段</label>
+                <select id="event-slot" class="w-full px-3 py-2.5 rounded-xl border border-morandi-secondary/60 text-xs bg-morandi-light/30 box-border focus:outline-none focus:border-morandi-primary" style="box-shadow: none !important;">
+                    <option value="ALL">✨ 全天店休</option>
+                    <option value="09:00">09:00 AM</option>
+                    <option value="13:00">13:00 PM</option>
+                    <option value="17:00">17:00 PM</option>
+                    <option value="21:00">21:00 PM</option>
+                    <option value="01:00">01:00 AM</option>
+                    <option value="05:00">05:00 AM</option>
+                </select>
             </div>
         </div>
+
+        <div class="flex justify-between space-x-2 pt-2">
+            <button onclick="saveEvent()" class="px-4 py-2.5 bg-morandi-primary text-white rounded-xl text-xs font-medium w-full">儲存事件</button>
+            <button onclick="closeAddEventModal()" class="px-4 py-2.5 bg-morandi-light text-morandi-dark rounded-xl text-xs font-medium w-full">取消</button>
+        </div>
     </div>
+</div>
 
     <!-- Toast 提示框 -->
     <div id="toast" class="fixed bottom-6 right-6 bg-morandi-dark text-white px-5 py-3 rounded-2xl shadow-lg transform translate-y-20 opacity-0 transition-all duration-300 z-50 flex items-center space-x-2 text-xs">
