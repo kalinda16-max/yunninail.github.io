@@ -1528,7 +1528,7 @@ async function syncBookingsFromCloud() {
 
             const eventRecord = {
                 id: 'E' + Date.now(),
-                name: slot === 'ALL' ? `[全天店休] ${title}` : `[店家事件] ${title}`,
+                name: title,
                 phone: 'N/A',
                 date,
                 slot,
