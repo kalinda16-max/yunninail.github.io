@@ -1285,7 +1285,7 @@ async function syncBookingsFromCloud() {
                 action: 'createBooking',
                 name: name,
                 phone: phone,
-                service: serviceStr + (remark ? ` (備註: ${remark})` : ''),
+                service: serviceStr,
                 time: timeStr,
                 date,
                 slot: selectedSlot,
