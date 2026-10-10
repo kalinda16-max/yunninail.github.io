@@ -1284,12 +1284,7 @@ async function syncBookingsFromCloud() {
                 styles: JSON.stringify(styles),
                 remark,
                 photos: JSON.stringify(uploadedPhotos),
-                photoCount: uploadedPhotos.length,
-                photo1: uploadedPhotos[0] || '',
-                photo2: uploadedPhotos[1] || '',
-                photo3: uploadedPhotos[2] || '',
-                photo4: uploadedPhotos[3] || '',
-                photo5: uploadedPhotos[4] || ''
+                photoCount: uploadedPhotos.length
             };
 
             showToast('正在送出預約並同步雲端...');
@@ -1319,18 +1314,19 @@ async function syncBookingsFromCloud() {
                 }
 
                 const newBooking = {
-                    id: 'B' + Math.floor(100000 + Math.random() * 900000),
+                    id: resData.id || ('B' + Math.floor(100000 + Math.random() * 900000)),
                     name,
                     phone,
                     date,
                     slot: selectedSlot,
                     styles,
                     remark: remark || '無',
-                    photos: [...uploadedPhotos],
+                    photos: Array.isArray(resData.photos) ? resData.photos : [],
                     status: '已確認'
                 };
 
                 upsertBooking(newBooking);
+                await syncBookingsFromCloud();
 
                 // ==================== 修正排查項目一：預約成功連線雲端後，自動清空表單資料 ====================
                 nameInput.value = '';
@@ -1349,40 +1345,16 @@ async function syncBookingsFromCloud() {
                 renderAdminTable();
                 updateAdminDashboardStats();
                 updateNotificationCenter();
-                showToast('預約成功！資料已同步至雲端，頁面表單已清空');
+                if (resData.photoWarning) {
+                    showToast('預約已成功，但參考照片上傳失敗；請稍後聯絡店家補傳照片。');
+                } else {
+                    showToast('預約成功！資料與參考照片已同步至雲端，頁面表單已清空');
+                }
 
             } catch (error) {
-                console.error('Error!', error);
-                const newBooking = {
-                    id: 'B' + Math.floor(100000 + Math.random() * 900000),
-                    name,
-                    phone,
-                    date,
-                    slot: selectedSlot,
-                    styles,
-                    remark: remark || '無',
-                    photos: [...uploadedPhotos],
-                    status: '已確認'
-                };
-                upsertBooking(newBooking);
-
-                // 即使發生異常，也確保表單清空
-                nameInput.value = '';
-                phoneInput.value = '';
-                remarkInput.value = '';
-                checkboxes.forEach(cb => cb.checked = false);
-                selectedSlot = null;
-                uploadedPhotos = [];
-                renderPhotoThumbnails();
-
-                notificationsRead = false;
-                notifications = [];
-                localStorage.removeItem('yunni_notifications_read');
-                renderSlots();
-                renderAdminTable();
-                updateAdminDashboardStats();
-                updateNotificationCenter();
-                showToast('預約已暫存本機並清空表單');
+                console.error('預約送出失敗：', error);
+                // 雲端未確認成功時，不建立假的本機預約，也不清空表單或照片，方便使用者重試。
+                showToast('目前無法確認預約是否送出成功，請先重新整理預約資料並確認時段，再重試。');
             }
         }
 
