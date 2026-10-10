@@ -88,7 +88,7 @@
         <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <div class="flex items-center space-x-2 sm:space-x-3 min-w-0">
                 <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-morandi-pink flex items-center justify-center text-morandi-dark shadow-inner shrink-0">
-                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <img src="./image/icons/hands.png" alt="YunNi Nail Studio" class="w-6 h-6 object-contain">
                 </div>
                 <div class="min-w-0">
                     <h1 class="font-bold text-sm sm:text-lg tracking-wider text-morandi-dark truncate">YunNi Nail Studio</h1>
@@ -102,14 +102,14 @@
                     <span class="hidden sm:inline">客人預約端</span>
                 </button>
 
-                <div id="admin-entrance-wrapper">
+                <div id="admin-entrance-wrapper" class="hidden">
                     <button onclick="openAdminPasswordModal()" id="nav-admin-portal" class="h-10 w-10 sm:w-auto sm:px-3 rounded-xl text-xs sm:text-sm font-medium transition-all bg-morandi-secondary/20 text-morandi-dark hover:bg-morandi-secondary/30 flex items-center justify-center space-x-1 shrink-0">
                         <i class="fa-solid fa-lock text-sm text-morandi-accent"></i>
                         <span class="hidden sm:inline">管理者後台入口</span>
                     </button>
                 </div>
 
-                <button onclick="openNotificationModal()" class="h-10 w-10 rounded-xl bg-morandi-secondary/20 text-morandi-dark hover:bg-morandi-secondary/30 transition-all relative shrink-0 flex items-center justify-center">
+                <button id="nav-notification" onclick="openNotificationModal()" class="hidden h-10 w-10 rounded-xl bg-morandi-secondary/20 text-morandi-dark hover:bg-morandi-secondary/30 transition-all relative shrink-0 flex items-center justify-center">
                     <i class="fa-regular fa-bell text-sm"></i>
                     <span id="notification-badge" class="absolute -top-1 -right-1 bg-morandi-red text-white text-[9px] min-w-4 h-4 px-1 rounded-full flex items-center justify-center font-bold hidden">0</span>
                 </button>
@@ -735,7 +735,18 @@
             }, 3000);
         }
 
+        function updateAdminOnlyControls() {
+            const isAdmin = localStorage.getItem('yunni_admin_logged') === 'true';
+            // 為避免客人看到管理入口，未登入時需使用網址 ?admin=1 顯示登入入口。
+            const showAdminLogin = new URLSearchParams(window.location.search).get('admin') === '1';
+            const entrance = document.getElementById('admin-entrance-wrapper');
+            const notification = document.getElementById('nav-notification');
+            if (entrance) entrance.classList.toggle('hidden', !(isAdmin || showAdminLogin));
+            if (notification) notification.classList.toggle('hidden', !isAdmin);
+        }
+
         function switchTab(tabName) {
+            updateAdminOnlyControls();
             document.getElementById('view-client').classList.add('hidden');
             document.getElementById('view-admin').classList.add('hidden');
 
@@ -788,6 +799,7 @@
             const pwd = document.getElementById('admin-pwd-input').value.trim();
             if (pwd === '8888') {
                 localStorage.setItem('yunni_admin_logged', 'true');
+                updateAdminOnlyControls();
                 closeAdminPasswordModal();
                 switchTab('admin');
                 showToast('成功進入管理者後台');
@@ -819,6 +831,14 @@
                     : (result && Array.isArray(result.members) ? result.members : []);
                 if (result && typeof result.monthlyDepositTotal !== 'undefined') {
                     monthlyDepositTotal = Number(result.monthlyDepositTotal) || 0;
+                }
+                // GAS 的會員端點不會附帶本月儲值總額，因此另外呼叫 getMonthlyDeposit。
+                try {
+                    const depositResponse = await fetch(`${scriptURL}?action=getMonthlyDeposit`, { cache: 'no-store' });
+                    const depositResult = await depositResponse.json();
+                    monthlyDepositTotal = Number(depositResult && depositResult.total) || 0;
+                } catch (depositError) {
+                    console.log('本月儲值總額暫時無法同步', depositError);
                 }
                     members = cloudMembers;
                     localStorage.setItem('yunni_members', JSON.stringify(members));
@@ -1293,6 +1313,10 @@ async function syncBookingsFromCloud() {
                     renderSlots();
                     return;
                 }
+                if (resData.result !== 'success' && resData.status !== 'success') {
+                    showToast(resData.message || '雲端未確認收到預約，請稍後再試；表單資料已保留。');
+                    return;
+                }
 
                 const newBooking = {
                     id: 'B' + Math.floor(100000 + Math.random() * 900000),
@@ -1513,20 +1537,11 @@ async function syncBookingsFromCloud() {
         function openNotificationModal() {
             updateNotificationCenter();
             document.getElementById('notification-modal').classList.remove('hidden');
-
-            // 老闆開啟通知中心即視為已查看；查看後清空通知與右上角徽章。
-            if (notifications.length > 0) {
-                notificationsRead = true;
-                localStorage.setItem('yunni_notifications_read', 'true');
-                notifications = [];
-                const list = document.getElementById('notification-list');
-                const badge = document.getElementById('notification-badge');
-                if (list) list.innerHTML = `<div class="p-3 bg-morandi-light/60 rounded-2xl text-center text-morandi-accent">目前沒有新的系統通知</div>`;
-                if (badge) {
-                    badge.innerText = '0';
-                    badge.classList.add('hidden');
-                }
-            }
+            // 開啟後只標記為已讀並隱藏數字徽章，不清空通知內容。
+            notificationsRead = true;
+            localStorage.setItem('yunni_notifications_read', 'true');
+            const badge = document.getElementById('notification-badge');
+            if (badge) badge.classList.add('hidden');
         }
 
         function closeNotificationModal() {
@@ -1538,15 +1553,7 @@ async function syncBookingsFromCloud() {
             const badge = document.getElementById('notification-badge');
             if (!list || !badge) return;
 
-            // 已查看的通知不再重新產生；只有新的預約事件才會重置為未讀。
-            if (notificationsRead) {
-                notifications = [];
-                list.innerHTML = `<div class="p-3 bg-morandi-light/60 rounded-2xl text-center text-morandi-accent">目前沒有新的系統通知</div>`;
-                badge.innerText = '0';
-                badge.classList.add('hidden');
-                return;
-            }
-
+            // 已讀只影響徽章，不清空通知文字；重新整理後仍可查看目前通知。
             const today = new Date();
             const tomorrow = new Date(today);
             tomorrow.setDate(today.getDate() + 1);
@@ -1590,7 +1597,7 @@ async function syncBookingsFromCloud() {
             }
 
             badge.innerText = String(items.length);
-            badge.classList.toggle('hidden', items.length === 0);
+            badge.classList.toggle('hidden', items.length === 0 || notificationsRead);
         }
 
         function openAddEventModal() {
@@ -1669,6 +1676,7 @@ async function syncEventToCloud(eventRecord) {
         }
 
         window.onload = function() {
+            updateAdminOnlyControls();
             const todayStr = getLocalDateString();
             const dateInput = document.getElementById('book-date');
             const eventDateInput = document.getElementById('event-date');
@@ -1679,22 +1687,59 @@ async function syncEventToCloud(eventRecord) {
             syncBookingsFromCloud();
             fetchMembersFromCloud();
         };
-        function handlePhotoUpload(event) {
-    const files = event.target.files;
-    if (!files) return;
+        // 將圖片縮小成可傳送的 JPEG Data URL，避免原始照片過大導致雲端欄位截斷。
+        function compressAndUpload(file, callback) {
+            if (!file || !file.type || !file.type.startsWith('image/')) {
+                showToast('請選擇圖片檔案');
+                return;
+            }
+            const reader = new FileReader();
+            reader.onerror = () => showToast('圖片讀取失敗，請重新選擇');
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onerror = () => showToast('圖片格式無法讀取，請改用 JPG 或 PNG');
+                img.onload = function() {
+                    const maxSide = 640;
+                    const scale = Math.min(1, maxSide / Math.max(img.naturalWidth, img.naturalHeight));
+                    const canvas = document.createElement('canvas');
+                    canvas.width = Math.max(1, Math.round(img.naturalWidth * scale));
+                    canvas.height = Math.max(1, Math.round(img.naturalHeight * scale));
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    let quality = 0.62;
+                    let dataUrl = canvas.toDataURL('image/jpeg', quality);
+                    while (dataUrl.length > 38000 && quality > 0.25) {
+                        quality -= 0.08;
+                        dataUrl = canvas.toDataURL('image/jpeg', quality);
+                    }
+                    // 單張控制在約 38KB 字元內，盡量避免 Google 試算表單格字元限制。
+                    if (dataUrl.length > 48000) {
+                        const shrink = document.createElement('canvas');
+                        shrink.width = Math.max(1, Math.round(canvas.width * 0.7));
+                        shrink.height = Math.max(1, Math.round(canvas.height * 0.7));
+                        shrink.getContext('2d').drawImage(canvas, 0, 0, shrink.width, shrink.height);
+                        dataUrl = shrink.toDataURL('image/jpeg', 0.35);
+                    }
+                    callback(dataUrl);
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
 
-    for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        
-        // 呼叫我們剛剛寫好的嚴格壓縮函數
-        compressAndUpload(file, function(compressedDataUrl) {
-            // 這裡把壓縮後的極小圖片字串存入你的上傳陣列中
-            uploadedPhotos.push(compressedDataUrl); 
-            renderPhotoThumbnails(); // 重新渲染縮圖
-        });
-    }
-    event.target.value = ''; // 清空 input 讓重複上傳同一張圖也能觸發
-}
+        function handlePhotoUpload(event) {
+            const files = Array.from(event.target.files || []);
+            if (!files.length) return;
+            const available = Math.max(0, 5 - uploadedPhotos.length);
+            if (files.length > available) showToast('最多只能上傳 5 張參考圖片');
+            files.slice(0, available).forEach(file => {
+                compressAndUpload(file, function(compressedDataUrl) {
+                    uploadedPhotos.push(compressedDataUrl);
+                    renderPhotoThumbnails();
+                });
+            });
+            event.target.value = '';
+        }
     </script>
 </body>
 </html>
