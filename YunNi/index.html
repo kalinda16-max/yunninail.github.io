@@ -407,14 +407,24 @@
                 </div>
 
                 <!-- 預約清單表格 -->
-<div class="bg-white rounded-3xl french-border shadow-sm w-full overflow-hidden">
-    <!-- 標題與搜尋列區塊 -->
-    <div class="p-4 sm:p-5 border-b border-morandi-secondary/30 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-        <h3 class="font-bold text-morandi-dark text-md flex items-center">
+   <div class="bg-white rounded-3xl french-border shadow-sm w-full overflow-hidden">
+            <!-- 標題與搜尋列區塊 -->
+            <div class="p-4 sm:p-5 border-b border-morandi-secondary/30 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+            <h3 class="font-bold text-morandi-dark text-md flex items-center">
             <i class="fa-solid fa-clipboard-list text-morandi-primary mr-2"></i>預約與行程總覽表
         </h3>
-        <input type="text" id="search-input" placeholder="搜尋客人姓名..." onkeyup="filterBookings()" class="w-full sm:w-auto px-3 py-1.5 rounded-xl border border-morandi-secondary/50 text-xs focus:outline-none focus:ring-1 focus:ring-morandi-primary">
-    </div>
+        
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 w-full sm:w-auto">
+            <!-- 💡 新增：店休/事件顯示切換開關 -->
+            <label class="flex items-center cursor-pointer space-x-1.5 text-xs text-morandi-accent bg-morandi-light/50 px-3 py-1.5 rounded-xl border border-morandi-secondary/40 select-none">
+                <input type="checkbox" id="toggle-show-events" onchange="renderAdminTable()" class="rounded border-morandi-secondary text-morandi-primary focus:ring-morandi-primary">
+                <span>顯示店休與行程</span>
+            </label>
+            
+            <!-- 搜尋框 -->
+            <input type="text" id="search-input" placeholder="搜尋客人姓名..." onkeyup="filterBookings()" class="w-full sm:w-auto px-3 py-1.5 rounded-xl border border-morandi-secondary/50 text-xs focus:outline-none focus:ring-1 focus:ring-morandi-primary">
+        </div>
+    </div> 
     
     <!-- 表格滾動區塊：確保寬度受控且不外溢 -->
     <div class="w-full overflow-x-auto bg-white block">
@@ -1291,7 +1301,22 @@ async function syncBookingsFromCloud() {
         }
 
         function isRealBooking(b) {
-            return b && b.status !== '已取消';
+            if (!b || b.status === '已取消') return false;
+
+            const showEventsCheckbox = document.getElementById('toggle-show-events');
+            const showEvents = showEventsCheckbox ? showEventsCheckbox.checked : false;
+
+            const isEventItem = b.type === 'event' || b.isClosed || b.status === '已占用' || 
+                                String(b.name || '').startsWith('[店家事件]') || 
+                                String(b.name || '').startsWith('[全天店休]') ||
+                                String(b.service || '') === '店休';
+
+            if (isEventItem) {
+                // 如果是店休/事件：只有當「顯示店休與行程」被勾選時，才允許在表格中顯示
+                return showEvents; 
+            }
+            // 如果是一般客人預約：永遠視為真實預約
+            return true;
         }
 
         function updateAdminDashboardStats() {
