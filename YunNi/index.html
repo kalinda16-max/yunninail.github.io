@@ -703,9 +703,11 @@
     </div>
 
     <!-- Toast 提示框 -->
-    <div id="toast" class="fixed bottom-6 right-6 bg-morandi-dark text-white px-5 py-3 rounded-2xl shadow-lg transform translate-y-20 opacity-0 transition-all duration-300 z-50 flex items-center space-x-2 text-xs">
-        <i class="fa-solid fa-circle-check text-morandi-green"></i>
-        <span id="toast-msg">操作成功</span>
+      <div id="toast" class="fixed inset-x-0 bottom-16 sm:bottom-20 flex justify-center z-50 pointer-events-none px-4 transform translate-y-20 opacity-0 transition-all duration-300">
+           <div class="bg-morandi-dark text-white px-5 py-3 rounded-2xl shadow-xl flex items-center space-x-2 text-xs pointer-events-auto backdrop-blur-md border border-morandi-secondary/30">
+               <i class="fa-solid fa-circle-check text-morandi-green"></i>
+                 <span id="toast-msg">操作成功</span>
+        </div>
     </div>
 
     <!-- JavaScript 邏輯 -->
@@ -1434,6 +1436,7 @@ async function syncBookingsFromCloud() {
                 // 🔒 無論成功或失敗，最後都要自動關閉中下方的載入視窗
                 hideLoadingModal();
         }
+    }
 
         function renderAdminTable(filterText = '') {
             const tbody = document.getElementById('admin-booking-table');
