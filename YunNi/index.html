@@ -419,11 +419,11 @@
             <!-- 勾選框 -->
             <label class="flex items-center cursor-pointer space-x-1.5 text-xs text-morandi-accent bg-morandi-light/50 px-3 py-1.5 rounded-xl border border-morandi-secondary/40 select-none shrink-0">
                 <input type="checkbox" id="toggle-show-events" onchange="renderAdminTable()" class="rounded border-morandi-secondary text-morandi-primary focus:ring-morandi-primary">
-                <span>只看店休與行程</span>
+                <span>店休與行程</span>
             </label>
             
             <!-- 搜尋框 -->
-            <input type="text" id="search-input" placeholder="搜尋姓名..." onkeyup="filterBookings()" class="px-3 py-1.5 rounded-xl border border-morandi-secondary/50 text-xs focus:outline-none focus:ring-1 focus:ring-morandi-primary w-32 sm:w-44">
+            <input type="text" id="search-input" placeholder="搜尋姓名..." onkeyup="filterBookings()" class="px-3 py-1.5 rounded-xl border border-morandi-secondary/50 text-xs focus:outline-none focus:ring-1 focus:ring-morandi-primary w-44 sm:w-44">
         </div>
     </div>
     
@@ -583,9 +583,6 @@
                 <h3 class="font-bold text-morandi-dark text-md flex items-center">
                     <i class="fa-solid fa-user-pen text-morandi-primary mr-2"></i>編輯會員資料與儲值金
                 </h3>
-                <button onclick="closeEditMemberModal()" class="text-morandi-accent hover:text-morandi-dark">
-                    <i class="fa-solid fa-xmark text-lg"></i>
-                </button>
             </div>
             <input type="hidden" id="edit-member-phone">
             <div class="space-y-3 text-xs">
@@ -606,9 +603,11 @@
                 <div>
                     <label class="block font-medium text-morandi-accent mb-1">風險與會員標籤</label>
                     <select id="edit-member-status" class="w-full px-3 py-2 rounded-xl border border-morandi-secondary/60 bg-white">
-                        <option value="正常會員">正常會員 (VIP)</option>
+                        <option value="一般會員">一般會員</option>
+                        <option value="VIP會員">VIP會員</option>
                         <option value="觀察名單">觀察名單</option>
                         <option value="高風險">高風險 (曾爽約)</option>
+                        <option value="黑名單">黑名單</option>
                     </select>
                 </div>
                 <div>
@@ -923,7 +922,14 @@
             const currentMembersSlice = members.slice(startIndex, endIndex);
 
             currentMembersSlice.forEach(m => {
-                const isRisk = ['觀察名單', '高風險'].includes(String(m.status || ''));
+                const isRisk = ['觀察名單', '高風險', '黑名單'].includes(String(m.status || ''));
+                const statusBadgeClass = 
+                    m.status === 'VIP會員' ? 'bg-amber-100 text-amber-800' : 
+                    m.status === '黑名單' ? 'bg-red-200 text-red-900 font-extrabold' : 
+                    m.status === '高風險' ? 'bg-rose-100 text-rose-800' : 
+                    m.status === '觀察名單' ? 'bg-amber-50 text-amber-700' : 
+                    'bg-emerald-100 text-emerald-800'; // 一般會員
+
                 const cardDiv = document.createElement('div');
                 cardDiv.className = `p-4 sm:p-5 rounded-2xl french-border space-y-3 ${isRisk ? 'bg-rose-50/60 border-rose-200' : 'bg-morandi-light/50'}`;
                 
@@ -1332,7 +1338,7 @@ function isRealBooking(b) {
         function updateAdminDashboardStats() {
             const today = getLocalDateString();
             const todayBookings = bookings.filter(b => b.date === today && isRealBooking(b) && b.status !== '已取消').length;
-            const riskCount = members.filter(m => ['觀察名單', '高風險'].includes(String(m.status || ''))).length;
+            const riskCount = members.filter(m => ['觀察名單', '高風險', '黑名單'].includes(String(m.status || ''))).length;
             const monthDepositFields = members.reduce((sum, m) => {
                 const value = Number(m.monthlyDeposit ?? m.depositThisMonth ?? m.monthlyRecharge);
                 return sum + (Number.isFinite(value) ? value : 0);
