@@ -1480,18 +1480,30 @@ function isRealBooking(b) {
             // ==================== 修正排查項目二：後台總覽表去重檢查 ====================
             const uniqueMap = new Map();
             bookings.forEach(b => {
-                if (isRealBooking(b)) {
+            // 💡 只要不是已取消的項目（不管是預約還是店休），都允許納入去重與顯示清單
+                if (b && b.status !== '已取消') {
                     const key = `${b.phone}_${b.date}_${b.slot}`;
-                    if (!uniqueMap.has(key) || b.status !== '已取消') {
+                    if (!uniqueMap.has(key)) {
                         uniqueMap.set(key, b);
                     }
                 }
             });
 
+            // 💡 1. 確保去重時包含所有項目（店休與預約）
             const cleanedBookings = Array.from(uniqueMap.values());
-            const filtered = cleanedBookings.filter(b =>
-                String(b.name || '').includes(filterText) || String(b.phone || '').includes(filterText)
-            );
+
+            // 💡 2. 使用 shouldDisplayBooking(b) 來完美對應「顯示店休與行程」的勾選框狀態
+            const filtered = cleanedBookings.filter(b => {
+                if (!shouldDisplayBooking(b)) return false;
+
+                // 3. 關鍵字搜尋過濾
+                if (filterText) {
+                    const matchName = String(b.name || '').toLowerCase().includes(filterText.toLowerCase());
+                    const matchPhone = String(b.phone || '').toLowerCase().includes(filterText.toLowerCase());
+                    if (!matchName && !matchPhone) return false;
+                }
+                return true;
+            });
             // ===========================================================================
 
             if (filtered.length === 0) {
