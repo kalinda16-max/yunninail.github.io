@@ -1291,7 +1291,7 @@ async function syncBookingsFromCloud() {
         }
 
         function isRealBooking(b) {
-            return b && b.type !== 'event' && !b.isClosed && b.status !== '已占用' && !String(b.name || '').startsWith('[店家事件]') && !String(b.name || '').startsWith('[全天店休]');
+            return b && b.status !== '已取消';
         }
 
         function updateAdminDashboardStats() {
