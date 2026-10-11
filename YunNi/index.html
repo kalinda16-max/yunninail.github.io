@@ -977,7 +977,7 @@
 
         function handlePhotoUpload(event) {
             const files = event.target.files;
-            if (!files) return;
+            if (!files || files.length === 0) return;
 
             for (let i = 0; i < files.length; i++) {
                 if (uploadedPhotos.length >= 5) {
@@ -986,9 +986,40 @@
                 }
                 const file = files[i];
                 const reader = new FileReader();
+                
                 reader.onload = function(e) {
-                    uploadedPhotos.push(e.target.result);
-                    renderPhotoThumbnails();
+                    const img = new Image();
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        let width = img.width;
+                        let height = img.height;
+
+                        // 💡 黃金尺寸限制：最大寬或高不超過 1400px（確保美甲細節超清晰，但檔案大幅縮小）
+                        const MAX_SIZE = 1400;
+                        if (width > height) {
+                            if (width > MAX_SIZE) {
+                                height *= MAX_SIZE / width;
+                                width = MAX_SIZE;
+                            }
+                        } else {
+                            if (height > MAX_SIZE) {
+                                width *= MAX_SIZE / height;
+                                height = MAX_SIZE;
+                            }
+                        }
+
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+
+                        // 💡 品質設定為 0.85 (85%)，轉成 JPEG，肉眼極難看出失真，但檔案體積大幅縮減
+                        const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.85);
+
+                        uploadedPhotos.push(compressedDataUrl);
+                        renderPhotoThumbnails();
+                    };
+                    img.src = e.target.result;
                 };
                 reader.readAsDataURL(file);
             }
