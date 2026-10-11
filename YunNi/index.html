@@ -694,6 +694,14 @@
     </div>
 </div>
 
+  <!-- 預約處理中載入彈出視窗 (置於手機畫面中下位置) -->
+    <div id="loading-modal" class="fixed inset-x-0 bottom-16 sm:bottom-20 flex justify-center z-50 hidden pointer-events-none px-4">
+        <div class="bg-morandi-dark/95 text-white px-6 py-4 rounded-2xl shadow-xl flex items-center space-x-3 pointer-events-auto backdrop-blur-md border border-morandi-secondary/30 text-xs sm:text-sm">
+            <i class="fa-solid fa-spinner fa-spin text-morandi-pink text-base"></i>
+            <span id="loading-modal-text">正在上傳參考圖與建立預約，請稍候...</span>
+        </div>
+    </div>
+
     <!-- Toast 提示框 -->
     <div id="toast" class="fixed bottom-6 right-6 bg-morandi-dark text-white px-5 py-3 rounded-2xl shadow-lg transform translate-y-20 opacity-0 transition-all duration-300 z-50 flex items-center space-x-2 text-xs">
         <i class="fa-solid fa-circle-check text-morandi-green"></i>
@@ -1326,7 +1334,7 @@ async function syncBookingsFromCloud() {
                 photoCount: uploadedPhotos.length
             };
 
-            showToast('正在送出預約並同步雲端...');
+            showLoadingModal('正在上傳參考圖與建立預約，請稍候...');
 
             try {
                 const response = await fetch(scriptURL, {
@@ -1343,7 +1351,7 @@ async function syncBookingsFromCloud() {
                 } catch(err) {}
 
                 if (resData.result === 'conflict') {
-                    showToast('哎呀！此時段剛剛已被其他人預約，請重新選擇！');
+                    showToast('哎呀！此時段剛剛已被預約，請重新選擇！');
                     renderSlots();
                     return;
                 }
@@ -1385,16 +1393,18 @@ async function syncBookingsFromCloud() {
                 updateAdminDashboardStats();
                 updateNotificationCenter();
                 if (resData.photoWarning) {
-                    showToast('預約已成功，但參考照片上傳失敗；請稍後聯絡店家補傳照片。');
+                    showToast('預約成功，但參考照片上傳失敗！請稍後聯絡店家補傳照片。');
                 } else {
-                    showToast('預約成功！資料與參考照片已同步至雲端，頁面表單已清空');
+                    showToast('預約成功！');
                 }
 
             } catch (error) {
                 console.error('預約送出失敗：', error);
                 // 雲端未確認成功時，不建立假的本機預約，也不清空表單或照片，方便使用者重試。
-                showToast('目前無法確認預約是否送出成功，請先重新整理預約資料並確認時段，再重試。');
-            }
+                showToast('目前無法確認預約是否送出成功，請先重新整理，再重試。');
+            } finally {
+                // 🔒 無論成功或失敗，最後都要自動關閉中下方的載入視窗
+                hideLoadingModal();
         }
 
         function renderAdminTable(filterText = '') {
