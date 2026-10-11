@@ -744,6 +744,34 @@
             }, 3000);
         }
 
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            const msgEl = document.getElementById('toast-msg');
+            if (!toast || !msgEl) return;
+            msgEl.innerText = msg;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        // 💡 把這兩個函式貼在這裡
+        function showLoadingModal(msg) {
+            const modal = document.getElementById('loading-modal');
+            const textEl = document.getElementById('loading-modal-text');
+            if (modal && textEl) {
+                textEl.innerText = msg || '正在上傳參考圖與建立預約，請稍候...';
+                modal.classList.remove('hidden');
+            }
+        }
+
+        function hideLoadingModal() {
+            const modal = document.getElementById('loading-modal');
+            if (modal) {
+                modal.classList.add('hidden');
+            }
+        }
+
         function updateAdminOnlyControls() {
             const isAdmin = localStorage.getItem('yunni_admin_logged') === 'true';
             // 為避免客人看到管理入口，未登入時需使用網址 ?admin=1 顯示登入入口。
