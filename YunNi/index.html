@@ -357,7 +357,7 @@
                     <div class="flex flex-wrap items-center gap-2">
                         <span class="px-3 py-1 bg-morandi-dark text-white rounded-full text-xs font-semibold shrink-0">管理者專屬後台</span>
                     </div>
-                    <h2 class="text-xl sm:text-2xl font-bold text-morandi-dark mt-1.5 truncate">Chic Nail Studio 管理與營運中心</h2>
+                    <h2 class="text-xl sm:text-2xl font-bold text-morandi-dark mt-1.5 truncate">YunNi Nail Studio 管理與營運中心</h2>
                 </div>
 
                 <div class="flex flex-wrap bg-morandi-light p-1 rounded-2xl french-border text-xs font-medium w-full sm:w-auto shrink-0 gap-1">
@@ -1621,7 +1621,7 @@ function isRealBooking(b) {
             let result = {};
             try { result = await response.json(); } catch (e) {}
             if (response.ok && result.result !== 'error') {
-                showToast(`狀態「${newStatus}」已成功同步至 Google 試算表`);
+                showToast(`狀態「${newStatus}」已成功同步至 Google`);
             } else {
                 showToast('狀態已更新本機，雲端同步回應異常');
             }
@@ -1755,7 +1755,7 @@ function saveEvent() {
 
     // 傳遞 days 參數至雲端一次建立
     syncEventToCloud({ title, date: startDateStr, slot, days });
-    showToast(`已成功設定從 ${startDateStr} 起共 ${days} 天的店休/事件！`);
+    showToast(`已成功設定從 ${startDateStr} 起共 ${days} 天！`);
 }
 
 async function syncEventToCloud(eventRecord) {
