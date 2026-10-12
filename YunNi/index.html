@@ -565,13 +565,13 @@
                     <i class="fa-solid fa-xmark text-base"></i>
                 </button>
             </div>
-            <p class="text-xs text-morandi-accent">請輸入管理密碼進入後台（預設密碼：<span class="font-mono font-bold text-morandi-dark">8888</span>）：</p>
+            <p class="text-xs text-morandi-accent">請輸入管理密碼（預設密碼：<span class="font-mono font-bold text-morandi-dark">8888</span>）：</p>
             <div>
                 <input type="password" id="admin-pwd-input" placeholder="請輸入管理密碼" class="w-full px-3 py-2.5 rounded-xl border border-morandi-secondary/60 text-xs focus:outline-none focus:ring-1 focus:ring-morandi-primary bg-morandi-light/30">
             </div>
             <div class="flex justify-end space-x-2 pt-2">
                 <button onclick="closeAdminPasswordModal()" class="px-4 py-2 bg-morandi-light text-morandi-dark rounded-xl text-xs font-medium">取消</button>
-                <button onclick="verifyAdminPassword()" class="px-4 py-2 bg-morandi-primary text-white rounded-xl text-xs font-medium">確認進入</button>
+                <button onclick="verifyAdminPassword()" class="px-4 py-2 bg-morandi-primary text-white rounded-xl text-xs font-medium">確認</button>
             </div>
         </div>
     </div>
@@ -581,7 +581,7 @@
         <div class="bg-white max-w-md w-full rounded-3xl p-6 shadow-xl french-border space-y-4 my-auto">
             <div class="flex justify-between items-center pb-2 border-b border-morandi-secondary/30">
                 <h3 class="font-bold text-morandi-dark text-md flex items-center">
-                    <i class="fa-solid fa-user-pen text-morandi-primary mr-2"></i>編輯會員資料與儲值金
+                    <i class="fa-solid fa-user-pen text-morandi-primary mr-2"></i>編輯會員資料
                 </h3>
             </div>
             <input type="hidden" id="edit-member-phone">
@@ -601,7 +601,7 @@
                     </div>
                 </div>
                 <div>
-                    <label class="block font-medium text-morandi-accent mb-1">風險與會員標籤</label>
+                    <label class="block font-medium text-morandi-accent mb-1">會員資格</label>
                     <select id="edit-member-status" class="w-full px-3 py-2 rounded-xl border border-morandi-secondary/60 bg-white">
                         <option value="一般會員">一般會員</option>
                         <option value="VIP會員">VIP會員</option>
@@ -611,13 +611,13 @@
                     </select>
                 </div>
                 <div>
-                    <label class="block font-medium text-morandi-accent mb-1">備註說明 / 歷史紀錄</label>
+                    <label class="block font-medium text-morandi-accent mb-1">備註</label>
                     <textarea id="edit-member-remark" rows="2" class="w-full px-3 py-2 rounded-xl border border-morandi-secondary/60 resize-none"></textarea>
                 </div>
             </div>
             <div class="flex justify-end space-x-2 pt-2">
                 <button onclick="closeEditMemberModal()" class="px-4 py-2 bg-morandi-light text-morandi-dark rounded-xl text-xs font-medium">取消</button>
-                <button onclick="saveMemberChanges()" class="px-4 py-2 bg-morandi-primary text-white rounded-xl text-xs font-medium">儲存更新至雲端</button>
+                <button onclick="saveMemberChanges()" class="px-4 py-2 bg-morandi-primary text-white rounded-xl text-xs font-medium">儲存更新雲端</button>
             </div>
         </div>
     </div>
@@ -627,14 +627,14 @@
         <div class="bg-white max-w-xl w-full rounded-3xl p-6 shadow-2xl french-border space-y-4 relative my-auto">
             <div class="flex justify-between items-center pb-2 border-b border-morandi-secondary/30">
                 <h3 class="font-bold text-morandi-dark text-sm flex items-center">
-                    <i class="fa-solid fa-image text-morandi-primary mr-2"></i>參考圖片大圖檢視
+                    <i class="fa-solid fa-image text-morandi-primary mr-2"></i>參考圖片檢視
                 </h3>
                 <button onclick="closePhotoPreviewModal()" class="text-morandi-accent hover:text-morandi-dark">
                     <i class="fa-solid fa-xmark text-lg"></i>
                 </button>
             </div>
             <div class="flex justify-center items-center bg-morandi-light/50 p-4 rounded-2xl min-h-[300px]">
-                <img id="preview-modal-img" src="" alt="預覽大圖" class="max-h-[400px] max-w-full rounded-xl object-contain shadow-md">
+                <img id="preview-modal-img" src="" alt="預覽圖" class="max-h-[400px] max-w-full rounded-xl object-contain shadow-md">
             </div>
             <div class="flex justify-end">
                 <button onclick="closePhotoPreviewModal()" class="px-5 py-2 bg-morandi-dark text-white rounded-xl text-xs font-medium">關閉</button>
@@ -647,7 +647,7 @@
         <div class="bg-white max-w-md w-full rounded-3xl p-6 shadow-xl french-border space-y-4 my-auto">
             <div class="flex justify-between items-center pb-3 border-b border-morandi-secondary/30">
                 <h3 class="font-bold text-morandi-dark text-md flex items-center">
-                    <i class="fa-regular fa-bell text-morandi-primary mr-2"></i>即時系統通知中心
+                    <i class="fa-regular fa-bell text-morandi-primary mr-2"></i>通知中心
                 </h3>
                 <button onclick="closeNotificationModal()" class="text-morandi-accent hover:text-morandi-dark">
                     <i class="fa-solid fa-xmark text-lg"></i>
@@ -655,7 +655,7 @@
             </div>
             <div id="notification-list" class="space-y-3 max-h-60 overflow-y-auto text-xs">
                 <div class="p-3 bg-morandi-light/60 rounded-2xl text-center text-morandi-accent">
-                    目前沒有新的系統通知
+                    目前沒有新的通知
                 </div>
             </div>
             <div class="flex justify-end pt-2">
@@ -670,8 +670,8 @@
         <h3 class="font-bold text-morandi-dark text-md">新增店內事件與時段佔位</h3>
         
         <div>
-            <label class="block text-xs font-medium text-morandi-accent mb-1">事件標題</label>
-            <input type="text" id="event-title" placeholder="例如：店休 / 員工進修 / 消毒日" class="w-full px-3 py-2.5 rounded-xl border border-morandi-secondary/60 text-xs bg-morandi-light/30 focus:outline-none focus:border-morandi-primary" style="box-shadow: none !important;">
+            <label class="block text-xs font-medium text-morandi-accent mb-1">事件</label>
+            <input type="text" id="event-title" placeholder="例如：店休 / 出國" class="w-full px-3 py-2.5 rounded-xl border border-morandi-secondary/60 text-xs bg-morandi-light/30 focus:outline-none focus:border-morandi-primary" style="box-shadow: none !important;">
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -686,7 +686,7 @@
             <div class="min-w-0 overflow-hidden">
                 <label class="block text-xs font-medium text-morandi-accent mb-1">佔用時段</label>
                 <select id="event-slot" class="w-full px-3 py-2.5 rounded-xl border border-morandi-secondary/60 text-xs bg-morandi-light/30 box-border focus:outline-none focus:border-morandi-primary" style="box-shadow: none !important;">
-                    <option value="ALL">✨ 全天店休</option>
+                    <option value="ALL">✨全天店休✨</option>
                     <option value="09:00">09:00 AM</option>
                     <option value="13:00">13:00 PM</option>
                     <option value="17:00">17:00 PM</option>
@@ -698,7 +698,7 @@
         </div>
 
         <div class="flex justify-between space-x-2 pt-2">
-            <button onclick="saveEvent()" class="px-4 py-2.5 bg-morandi-primary text-white rounded-xl text-xs font-medium w-full">儲存事件</button>
+            <button onclick="saveEvent()" class="px-4 py-2.5 bg-morandi-primary text-white rounded-xl text-xs font-medium w-full">儲存</button>
             <button onclick="closeAddEventModal()" class="px-4 py-2.5 bg-morandi-light text-morandi-dark rounded-xl text-xs font-medium w-full">取消</button>
         </div>
     </div>
@@ -706,39 +706,45 @@
 <!-- 編輯預約資料 Modal (支援手動輸入時間) -->
 <div id="edit-booking-modal" class="fixed inset-0 bg-black/40 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white max-w-md w-full rounded-3xl p-6 shadow-xl french-border space-y-4 my-auto">
-            <div class="flex justify-between items-center pb-2 border-b border-morandi-secondary/30">
+            <!-- 💡 已移除右上角叉叉按鈕 -->
+            <div class="pb-2 border-b border-morandi-secondary/30">
                 <h3 class="font-bold text-morandi-dark text-md flex items-center">
-                    <i class="fa-solid fa-pen-to-square text-morandi-primary mr-2"></i>修改預約資料與時間
+                    <i class="fa-solid fa-pen-to-square text-morandi-primary mr-2"></i>編輯預約資料
                 </h3>
             </div>
+            
             <input type="hidden" id="edit-booking-id">
             <div class="space-y-3 text-xs">
                 <div>
-                    <label class="block font-medium text-morandi-accent mb-1">客人姓名與手機</label>
+                    <label class="block font-medium text-morandi-accent mb-1 pl-3">姓名與手機</label>
                     <input type="text" id="edit-booking-client-info" readonly class="w-full px-3 py-2 rounded-xl border border-morandi-secondary/40 bg-morandi-light/50 font-bold text-morandi-dark">
                 </div>
                 
-                <!-- 💡 手機版上下排列，平板/電腦版才會自動變左右並排 -->
+                <!-- 日期與手動時間輸入框 -->
                 <div class="space-y-3 sm:grid sm:grid-cols-2 sm:gap-3 sm:space-y-0">
                     <div class="min-w-0">
-                        <label class="block font-medium text-morandi-accent mb-1">預約日期</label>
-                        <input type="date" id="edit-booking-date" class="w-full max-w-full px-3 py-2 rounded-xl border border-morandi-secondary/60 focus:ring-1 focus:ring-morandi-primary box-border bg-white">
+                        <label class="block font-medium text-morandi-accent mb-1 pl-3">預約日期</label>
+                        <input type="date" id="edit-booking-date" class="w-full max-w-full h-[38px] px-3 py-2 rounded-xl border border-morandi-secondary/60 bg-white box-border focus:outline-none focus:border-morandi-primary focus:ring-1 focus:ring-morandi-primary">
                     </div>
                     <div class="min-w-0">
-                        <label class="block font-medium text-morandi-accent mb-1">預約時間 (可手動輸入)</label>
-                        <input type="text" id="edit-booking-slot" placeholder="例如 13:30" class="w-full max-w-full px-3 py-2 rounded-xl border border-morandi-secondary/60 focus:ring-1 focus:ring-morandi-primary bg-white box-border">
+                        <label class="block font-medium text-morandi-accent mb-1 pl-3">預約時間</label>
+                        <input type="text" id="edit-booking-slot" placeholder="例如 13:30" class="w-full max-w-full h-[38px] px-3 py-2 rounded-xl border border-morandi-secondary/60 bg-white box-border focus:outline-none focus:border-morandi-primary focus:ring-1 focus:ring-morandi-primary">
                     </div>
                 </div>
 
+                <!-- 服務項目 / 風格 -->
                 <div>
-                    <label class="block font-medium text-morandi-accent mb-1">服務項目 / 風格</label>
-                    <input type="text" id="edit-booking-service" class="w-full px-3 py-2 rounded-xl border border-morandi-secondary/60 focus:ring-1 focus:ring-morandi-primary bg-white">
+                    <label class="block font-medium text-morandi-accent mb-1 pl-3">服務項目</label>
+                    <input type="text" id="edit-booking-service" class="w-full h-[38px] px-3 py-2 rounded-xl border border-morandi-secondary/60 bg-white focus:outline-none focus:border-morandi-primary focus:ring-1 focus:ring-morandi-primary">
                 </div>
+
+                <!-- 備註說明 -->
                 <div>
-                    <label class="block font-medium text-morandi-accent mb-1">備註說明</label>
-                    <textarea id="edit-booking-remark" rows="2" class="w-full px-3 py-2 rounded-xl border border-morandi-secondary/60 resize-none bg-white"></textarea>
+                    <label class="block font-medium text-morandi-accent mb-1 pl-3">備註</label>
+                    <textarea id="edit-booking-remark" rows="2" class="w-full px-3 py-2 rounded-xl border border-morandi-secondary/60 bg-white resize-none focus:outline-none focus:border-morandi-primary focus:ring-1 focus:ring-morandi-primary"></textarea>
                 </div>
             </div>
+            
             <div class="flex justify-end space-x-2 pt-2">
                 <button onclick="closeEditBookingModal()" class="px-4 py-2 bg-morandi-light text-morandi-dark rounded-xl text-xs font-medium">取消</button>
                 <button onclick="saveBookingChanges()" class="px-4 py-2 bg-morandi-primary text-white rounded-xl text-xs font-medium">儲存修改並同步雲端</button>
