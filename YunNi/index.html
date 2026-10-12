@@ -703,6 +703,46 @@
         </div>
     </div>
 </div>
+<!-- 編輯預約資料 Modal (支援手動輸入時間) -->
+    <div id="edit-booking-modal" class="fixed inset-0 bg-black/40 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white max-w-md w-full rounded-3xl p-6 shadow-xl french-border space-y-4 my-auto">
+            <div class="flex justify-between items-center pb-2 border-b border-morandi-secondary/30">
+                <h3 class="font-bold text-morandi-dark text-md flex items-center">
+                    <i class="fa-solid fa-pen-to-square text-morandi-primary mr-2"></i>修改預約資料與時間
+                </h3>
+            </div>
+            <input type="hidden" id="edit-booking-id">
+            <div class="space-y-3 text-xs">
+                <div>
+                    <label class="block font-medium text-morandi-accent mb-1">客人姓名與手機</label>
+                    <input type="text" id="edit-booking-client-info" readonly class="w-full px-3 py-2 rounded-xl border border-morandi-secondary/40 bg-morandi-light/50 font-bold text-morandi-dark">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-medium text-morandi-accent mb-1">預約日期</label>
+                        <input type="date" id="edit-booking-date" class="w-full px-3 py-2 rounded-xl border border-morandi-secondary/60 focus:ring-1 focus:ring-morandi-primary">
+                    </div>
+                    <div>
+                        <label class="block font-medium text-morandi-accent mb-1">預約時間 (可手動輸入)</label>
+                        <!-- 💡 這裡改成文字輸入框，讓你自由打 13:30 或任何時間 -->
+                        <input type="text" id="edit-booking-slot" placeholder="例如 13:30" class="w-full px-3 py-2 rounded-xl border border-morandi-secondary/60 focus:ring-1 focus:ring-morandi-primary bg-white">
+                    </div>
+                </div>
+                <div>
+                    <label class="block font-medium text-morandi-accent mb-1">服務項目 / 風格</label>
+                    <input type="text" id="edit-booking-service" class="w-full px-3 py-2 rounded-xl border border-morandi-secondary/60 focus:ring-1 focus:ring-morandi-primary">
+                </div>
+                <div>
+                    <label class="block font-medium text-morandi-accent mb-1">備註說明</label>
+                    <textarea id="edit-booking-remark" rows="2" class="w-full px-3 py-2 rounded-xl border border-morandi-secondary/60 resize-none"></textarea>
+                </div>
+            </div>
+            <div class="flex justify-end space-x-2 pt-2">
+                <button onclick="closeEditBookingModal()" class="px-4 py-2 bg-morandi-light text-morandi-dark rounded-xl text-xs font-medium">取消</button>
+                <button onclick="saveBookingChanges()" class="px-4 py-2 bg-morandi-primary text-white rounded-xl text-xs font-medium">儲存修改並同步雲端</button>
+            </div>
+        </div>
+    </div>
 
   <!-- 預約處理中載入彈出視窗 (置於手機畫面中下位置) -->
     <div id="loading-modal" class="fixed inset-x-0 bottom-16 sm:bottom-20 flex justify-center z-50 hidden pointer-events-none px-4">
@@ -1583,6 +1623,7 @@ function isRealBooking(b) {
                     } rounded-lg text-[10px] font-semibold whitespace-nowrap">${b.status || '已確認'}</span>
             </td>
             <td class="p-4 align-middle text-center space-x-1 whitespace-nowrap">
+                    <button onclick="openEditBookingModal('${String(b.id).replace(/'/g, "\\'")}')" class="px-2 py-1 bg-white border border-morandi-secondary/60 rounded-lg text-[10px] text-morandi-dark hover:bg-morandi-primary hover:text-white transition-all">修改</button>
                     <button onclick="updateBookingStatus('${String(b.id).replace(/'/g, "\\'")}', '提早完成')" class="px-2 py-1 bg-white border border-morandi-secondary/60 rounded-lg text-[10px] text-morandi-dark hover:bg-amber-50 hover:text-amber-700 transition-all">提早完成</button>
                     <button onclick="updateBookingStatus('${String(b.id).replace(/'/g, "\\'")}', '已完成')" class="px-2 py-1 bg-white border border-morandi-secondary/60 rounded-lg text-[10px] text-morandi-dark hover:bg-blue-50 hover:text-blue-700 transition-all">已完成</button>
                     <button onclick="updateBookingStatus('${String(b.id).replace(/'/g, "\\'")}', '已取消')" class="px-2 py-1 bg-white border border-morandi-secondary/60 rounded-lg text-[10px] text-morandi-dark hover:bg-rose-50 hover:text-rose-600 transition-all">取消</button>
@@ -1605,6 +1646,83 @@ function isRealBooking(b) {
         function filterBookings() {
             const val = document.getElementById('search-input').value.trim();
             renderAdminTable(val);
+        }
+
+        function openEditBookingModal(id) {
+            const booking = bookings.find(b => String(b.id) === String(id));
+            if (!booking) {
+                showToast('找不到此預約紀錄');
+                return;
+            }
+
+            document.getElementById('edit-booking-id').value = booking.id;
+            document.getElementById('edit-booking-client-info').value = `${booking.name} (${booking.phone})`;
+            document.getElementById('edit-booking-date').value = booking.date || '';
+            document.getElementById('edit-booking-slot').value = booking.slot || '';
+            
+            const stylesText = Array.isArray(booking.styles) ? booking.styles.join(', ') : (booking.service || '');
+            document.getElementById('edit-booking-service').value = stylesText;
+            document.getElementById('edit-booking-remark').value = booking.remark || '';
+
+            document.getElementById('edit-booking-modal').classList.remove('hidden');
+        }
+
+        function closeEditBookingModal() {
+            document.getElementById('edit-booking-modal').classList.add('hidden');
+        }
+
+        async function saveBookingChanges() {
+            const id = document.getElementById('edit-booking-id').value;
+            const date = document.getElementById('edit-booking-date').value;
+            const slot = document.getElementById('edit-booking-slot').value.trim();
+            const service = document.getElementById('edit-booking-service').value.trim();
+            const remark = document.getElementById('edit-booking-remark').value.trim();
+
+            if (!date || !slot) {
+                showToast('請填寫日期與時間');
+                return;
+            }
+
+            const booking = bookings.find(b => String(b.id) === String(id));
+            const newTimeStr = `${date} ${slot}`;
+
+            if (booking) {
+                booking.date = date;
+                booking.slot = slot;
+                booking.service = service;
+                booking.styles = [service];
+                booking.remark = remark;
+            }
+
+            localStorage.setItem('yunni_bookings', JSON.stringify(bookings));
+            renderAdminTable();
+            closeEditBookingModal();
+            showToast('預約資料已更新');
+
+            try {
+                const response = await fetch(scriptURL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({
+                        action: 'updateBookingDetails',
+                        id: id,
+                        time: newTimeStr,
+                        service: service,
+                        remark: remark
+                    })
+                });
+                let result = {};
+                try { result = await response.json(); } catch (e) {}
+                if (response.ok && result.result !== 'error') {
+                    showToast('預約修改已成功同步至 Google 試算表與日曆！');
+                    await syncBookingsFromCloud();
+                } else {
+                    showToast('本地已更新，但雲端同步失敗');
+                }
+            } catch (err) {
+                console.error('雲端同步失敗', err);
+                showToast('本地已更新，請檢查網路連線');
+            }
         }
 
         async function updateBookingStatus(id, newStatus) {
