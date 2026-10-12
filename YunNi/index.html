@@ -706,7 +706,6 @@
 <!-- 編輯預約資料 Modal (支援手動輸入時間) -->
 <div id="edit-booking-modal" class="fixed inset-0 bg-black/40 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white max-w-md w-full rounded-3xl p-6 shadow-xl french-border space-y-4 my-auto">
-            <!-- 💡 已移除右上角叉叉按鈕 -->
             <div class="pb-2 border-b border-morandi-secondary/30">
                 <h3 class="font-bold text-morandi-dark text-md flex items-center">
                     <i class="fa-solid fa-pen-to-square text-morandi-primary mr-2"></i>編輯預約資料
@@ -721,7 +720,7 @@
                 </div>
                 
                 <!-- 日期與手動時間輸入框 -->
-                <div class="space-y-3 sm:grid sm:grid-cols-2 sm:gap-3 sm:space-y-0">
+                <div class="grid grid-cols-2 gap-3">
                     <div class="min-w-0">
                         <label class="block font-medium text-morandi-accent mb-1 pl-3">預約日期</label>
                         <input type="date" id="edit-booking-date" class="w-full max-w-full h-[38px] px-3 py-2 rounded-xl border border-morandi-secondary/60 bg-white box-border focus:outline-none focus:border-morandi-primary focus:ring-1 focus:ring-morandi-primary">
