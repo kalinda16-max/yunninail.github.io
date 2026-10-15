@@ -80,13 +80,7 @@
             background: #FFFFFF;
         }
     
-        /* 手機版客戶預約頁不顯示後台入口與管理者通知鈴鐺 */
-        @media (max-width: 640px) {
-            #admin-entrance-wrapper,
-            #nav-notification {
-                display: none !important;
-            }
-        }
+        /* 管理者使用 ?admin=1 時，手機與電腦都可顯示後台入口；由 JavaScript 控制登入權限。 */
 </style>
 </head>
 <body class="min-h-screen flex flex-col font-sans">
@@ -111,9 +105,9 @@
                 </button>
 
                 <div id="admin-entrance-wrapper" class="hidden">
-                    <button onclick="openAdminPasswordModal()" id="nav-admin-portal" class="h-10 w-10 sm:w-auto sm:px-3 rounded-xl text-xs sm:text-sm font-medium transition-all bg-morandi-secondary/20 text-morandi-dark hover:bg-morandi-secondary/30 flex items-center justify-center space-x-1 shrink-0">
+                    <button onclick="openAdminPasswordModal()" id="nav-admin-portal" class="h-10 w-auto px-2 sm:px-3 rounded-xl text-xs sm:text-sm font-medium transition-all bg-morandi-secondary/20 text-morandi-dark hover:bg-morandi-secondary/30 flex items-center justify-center space-x-1 shrink-0">
                         <i class="fa-solid fa-lock text-sm text-morandi-accent"></i>
-                        <span class="hidden sm:inline">管理者後台入口</span>
+                        <span class="inline">管理者後台入口</span>
                     </button>
                 </div>
 
