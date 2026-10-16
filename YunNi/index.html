@@ -680,19 +680,30 @@
                 <label class="block text-xs font-medium text-morandi-accent mb-1">連續天數</label>
                 <input type="text" id="event-days" value="1" inputmode="numeric" oninput="this.value=this.value.replace(/\D/g,'')" class="w-full px-3 py-2.5 rounded-xl border border-morandi-secondary/60 text-xs bg-morandi-light/30 box-border focus:outline-none focus:border-morandi-primary" style="box-shadow: none !important;">
             </div>
-            <div class="min-w-0 overflow-hidden">
-                <label class="block text-xs font-medium text-morandi-accent mb-1">佔用時段</label>
-                <select id="event-slot" class="w-full px-3 py-2.5 rounded-xl border border-morandi-secondary/60 text-xs bg-morandi-light/30 box-border focus:outline-none focus:border-morandi-primary" style="box-shadow: none !important;">
-                    <option value="ALL">✨全天店休✨</option>
-                    <option value="09:00">09:00 AM</option>
-                    <option value="13:00">13:00 PM</option>
-                    <option value="17:00">17:00 PM</option>
-                    <option value="21:00">21:00 PM</option>
-                    <option value="01:00">01:00 AM</option>
-                    <option value="05:00">05:00 AM</option>
-                </select>
-            </div>
+<div class="min-w-0 overflow-hidden">
+    <label class="block text-xs font-medium text-morandi-accent mb-1">佔用時段</label>
+    
+    <!-- 外層容器：負責統一樣式、圓角與邊框 -->
+    <div class="relative w-full rounded-xl border border-morandi-secondary/60 bg-morandi-light/30 overflow-hidden">
+        
+        <!-- 原生的 select：透過 transparent 把原生外框與背景完全隱藏，但保留手機選單功能 -->
+        <select id="event-slot" class="w-full px-3 py-2.5 text-xs bg-transparent appearance-none focus:outline-none cursor-pointer relative z-10">
+            <option value="ALL">✨全天店休✨</option>
+            <option value="09:00">09:00 AM</option>
+            <option value="13:00">13:00 PM</option>
+            <option value="17:00">17:00 PM</option>
+            <option value="21:00">21:00 PM</option>
+            <option value="01:00">01:00 AM</option>
+            <option value="05:00">05:00 AM</option>
+        </select>
+        
+        <!-- 右側自訂的小箭頭圖示（絕對定位在右方，不會干擾點擊） -->
+        <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-morandi-accent text-[10px] z-0">
+            <i class="fa-solid fa-chevron-down"></i>
         </div>
+        
+    </div>
+</div>
 
         <div class="flex justify-between space-x-2 pt-2">
             <button onclick="saveEvent()" class="px-4 py-2.5 bg-morandi-primary text-white rounded-xl text-xs font-medium w-full">儲存</button>
