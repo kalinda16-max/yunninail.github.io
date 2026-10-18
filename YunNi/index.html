@@ -1521,6 +1521,22 @@ function isRealBooking(b) {
         function renderAdminTable(filterText = '') {
             const tbody = document.getElementById('admin-booking-table');
             tbody.innerHTML = '';
+            const table = tbody.closest('table');
+            const headerRow = table ? table.querySelector('thead tr') : null;
+            const showEvents = !!document.getElementById('toggle-show-events')?.checked;
+            if (headerRow) {
+                headerRow.innerHTML = showEvents
+                    ? `<th class="p-4 font-semibold min-w-[130px] text-center align-middle">店休日期</th>
+                       <th class="p-4 font-semibold min-w-[220px] text-center align-middle">事件</th>
+                       <th class="p-4 font-semibold min-w-[100px] text-center align-middle">狀態</th>
+                       <th class="p-4 font-semibold min-w-[100px] text-center align-middle">操作</th>`
+                    : `<th class="p-4 font-semibold min-w-[110px] text-center align-middle">預約時間</th>
+                       <th class="p-4 font-semibold min-w-[130px] text-center align-middle">名稱手機</th>
+                       <th class="p-4 font-semibold w-[110px] min-w-[110px] max-w-[110px] text-center align-middle break-words">風格標籤</th>
+                       <th class="p-4 font-semibold min-w-[280px] text-center align-middle">備註與參考圖</th>
+                       <th class="p-4 font-semibold min-w-[90px] text-center align-middle">狀態</th>
+                       <th class="p-4 font-semibold min-w-[100px] text-center align-middle">操作</th>`;
+            }
 
             // ==================== 修正排查項目二：後台總覽表去重檢查 ====================
             const uniqueMap = new Map();
@@ -1552,7 +1568,7 @@ function isRealBooking(b) {
             // ===========================================================================
 
             if (filtered.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center align-middle text-morandi-accent">查無相關預約紀錄</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="${showEvents ? 4 : 6}" class="p-6 text-center align-middle text-morandi-accent">${showEvents ? '查無店休或事件紀錄' : '查無相關預約紀錄'}</td></tr>`;
                 return;
             }
 
@@ -1561,6 +1577,21 @@ function isRealBooking(b) {
             filtered.forEach(b => {
                 const tr = document.createElement('tr');
                 tr.className = 'hover:bg-morandi-light/40 transition-all';
+
+                if (showEvents) {
+                    const eventTitle = String(b.name || '').replace(/^\[(?:全天店休|店家事件)\]\s*/, '').replace(/^\[店家事件\]\s*/, '');
+                    const eventDate = String(b.date || '');
+                    const eventStatus = String(b.status || '已占用');
+                    const eventId = String(b.id || '').replace(/'/g, "\\'");
+                    tr.innerHTML = `
+                        <td class="p-4 align-middle text-center"><div class="font-semibold text-morandi-dark whitespace-nowrap">${eventDate}${b.slot && b.slot !== '00:00' ? ' ' + b.slot : ''}</div></td>
+                        <td class="p-4 align-middle text-center"><div class="font-semibold text-morandi-dark break-words">${eventTitle}</div></td>
+                        <td class="p-4 align-middle text-center"><span class="inline-block px-2.5 py-1 ${eventStatus === '已取消' || eventStatus === '取消' || eventStatus === '已刪除' ? 'bg-rose-100 text-rose-800' : 'bg-emerald-100 text-emerald-800'} rounded-lg text-[10px] font-semibold whitespace-nowrap">${eventStatus}</span></td>
+                        <td class="p-4 align-middle text-center whitespace-nowrap">${['已取消','取消','已刪除'].includes(eventStatus) ? '<span class="text-morandi-accent/60">已取消</span>' : `<button onclick="updateEventStatus('${eventId}', '已取消')" class="px-3 py-1.5 bg-white border border-morandi-secondary/60 rounded-lg text-[10px] text-morandi-dark hover:bg-rose-50 hover:text-rose-600 transition-all">取消</button>`}</td>
+                    `;
+                    tbody.appendChild(tr);
+                    return;
+                }
 
                 let photosHtml = '';
                 if (b.photos && b.photos.length > 0) {
@@ -1621,6 +1652,31 @@ function isRealBooking(b) {
                     });
                 });
             });
+        }
+
+        async function updateEventStatus(id, newStatus) {
+            const item = bookings.find(b => String(b.id) === String(id) && (b.type === 'event' || b.isClosed));
+            if (!item) { showToast('找不到此店休／事件紀錄'); return; }
+            if (!window.confirm(`確定要取消「${String(item.name || '店休／事件').replace(/^\[(?:全天店休|店家事件)\]\s*/, '')}」嗎？`)) return;
+            const oldStatus = item.status;
+            item.status = newStatus;
+            localStorage.setItem('yunni_bookings', JSON.stringify(bookings));
+            renderAdminTable(); renderSlots(); updateAdminDashboardStats();
+            try {
+                const response = await fetch(scriptURL, {
+                    method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify({ action: 'updateEventStatus', id: item.id, status: newStatus })
+                });
+                const result = await response.json().catch(() => ({}));
+                if (!response.ok || result.result !== 'success') throw new Error(result.message || '雲端更新失敗');
+                await syncBookingsFromCloud();
+                showToast('店休／事件已取消並同步至試算表與日曆');
+            } catch (error) {
+                item.status = oldStatus;
+                localStorage.setItem('yunni_bookings', JSON.stringify(bookings));
+                renderAdminTable(); renderSlots();
+                showToast('取消失敗：' + (error.message || '請確認 GAS 已更新部署'));
+            }
         }
 
         function filterBookings() {
