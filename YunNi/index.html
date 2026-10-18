@@ -352,7 +352,7 @@
 
                     <button onclick="submitBooking()" class="w-full py-3.5 bg-morandi-dark text-white rounded-xl font-medium shadow-md hover:bg-morandi-accent transition-all flex items-center justify-center space-x-2 text-sm">
                         <i class="fa-solid fa-circle-check"></i>
-                        <span>確認送出預約</span>
+                        <span>確認送出預約 (自動連動 LINE 提醒)</span>
                     </button>
                 </div>
             </div>
@@ -635,6 +635,9 @@
                 <h3 class="font-bold text-morandi-dark text-sm flex items-center">
                     <i class="fa-solid fa-image text-morandi-primary mr-2"></i>參考圖片檢視
                 </h3>
+                <button onclick="closePhotoPreviewModal()" class="text-morandi-accent hover:text-morandi-dark">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
             </div>
             <div class="flex justify-center items-center bg-morandi-light/50 p-4 rounded-2xl min-h-[300px]">
                 <img id="preview-modal-img" src="" alt="預覽圖" class="max-h-[400px] max-w-full rounded-xl object-contain shadow-md">
@@ -671,7 +674,7 @@
         
         <div>
             <label class="block text-xs font-medium text-morandi-accent mb-1 pl-2">事件</label>
-            <input type="text" id="event-title" placeholder="例如：店休 or 出國" class="w-full px-3 py-2.5 rounded-xl border border-morandi-secondary/60 text-xs bg-morandi-light/30 focus:outline-none focus:border-morandi-primary" style="box-shadow: none !important;">
+            <input type="text" id="event-title" placeholder="例如：店休 / 出國" class="w-full px-3 py-2.5 rounded-xl border border-morandi-secondary/60 text-xs bg-morandi-light/30 focus:outline-none focus:border-morandi-primary" style="box-shadow: none !important;">
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -1142,8 +1145,25 @@
         }
 
 async function renderSlots() {
-    const dateVal = document.getElementById('book-date').value;
+    const dateInput = document.getElementById('book-date');
+    const dateVal = dateInput ? dateInput.value : '';
     const container = document.getElementById('slots-container');
+    const todayStr = getLocalDateString(new Date());
+
+    // 日期選擇器禁止選擇今天以前的日期；同時在程式端再次檢查，避免手動改值或舊瀏覽器繞過限制。
+    if (dateInput) dateInput.min = todayStr;
+    selectedSlot = null;
+
+    if (!dateVal || dateVal < todayStr) {
+        container.innerHTML = `<div class="col-span-4 text-center text-xs text-red-400 py-3">過去日期不可預約，請重新選擇今天或之後的日期。</div>`;
+        const submitButton = document.querySelector('button[onclick="submitBooking()"]');
+        if (submitButton) submitButton.disabled = true;
+        const availableEl = document.getElementById('stat-available-slots');
+        if (availableEl) availableEl.innerText = '剩餘 0 時段';
+        return;
+    }
+    const submitButton = document.querySelector('button[onclick="submitBooking()"]');
+    if (submitButton) submitButton.disabled = false;
     container.innerHTML = `<div class="col-span-4 text-center text-xs text-morandi-accent py-2"><i class="fa-solid fa-spinner fa-spin mr-1"></i>同步雲端時段中...</div>`;
 
     let bookedSlotsForDate = [];
@@ -1174,8 +1194,7 @@ async function renderSlots() {
     container.innerHTML = '';
     let availableCount = 0;
 
-    // 【新增】取得今天日期字串與當前時間（24小時制轉成數字，例如 11:44 ➔ 1144）
-    const todayStr = getLocalDateString(new Date());
+    // 取得今天日期與當前時間（24 小時制），今天已過的時段也不可選。
     const isToday = (dateVal === todayStr);
     const now = new Date();
     const currentHourMinute = now.getHours() * 100 + now.getMinutes();
@@ -1388,6 +1407,15 @@ function isRealBooking(b) {
             const phone = phoneInput.value.trim();
             const date = dateInput.value;
             const remark = remarkInput.value.trim();
+            const todayStr = getLocalDateString(new Date());
+
+            if (!date || date < todayStr) {
+                selectedSlot = null;
+                showToast('過去日期不可預約，請選擇今天或之後的日期');
+                if (dateInput) dateInput.value = todayStr;
+                renderSlots();
+                return;
+            }
 
             if (!name || !phone) {
                 showToast('請填寫姓名與 LINE 綁定手機');
@@ -1954,7 +1982,7 @@ async function syncEventToCloud(eventRecord) {
         if (!response.ok || !result || result.result !== 'success') {
             throw new Error((result && result.message) || '雲端未確認建立事件成功');
         }
-        showToast('事件or店休已同步至 Google 試算表與日曆');
+        showToast('事件／店休已同步至 Google 試算表與日曆');
         return true;
     } catch (e) {
         console.error('事件同步雲端失敗', e);
@@ -2054,7 +2082,10 @@ async function syncEventToCloud(eventRecord) {
             const todayStr = getLocalDateString();
             const dateInput = document.getElementById('book-date');
             const eventDateInput = document.getElementById('event-date');
-            if (dateInput) dateInput.value = todayStr;
+            if (dateInput) {
+                dateInput.min = todayStr;
+                dateInput.value = todayStr;
+            }
             if (eventDateInput) eventDateInput.value = todayStr;
 
             renderSlots();
