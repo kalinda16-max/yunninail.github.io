@@ -1826,7 +1826,7 @@ function isRealBooking(b) {
                 items.push({
                     title: '預約成功自動通知',
                     time: `${b.date} ${b.slot}`,
-                    body: `${b.name} 完成預約，系統已建立預約資料並嘗試發送老闆 LINE 通知。`
+                    body: `${b.name} 完成預約，已建立預約資料並發送 LINE 通知。`
                 });
             });
 
@@ -1835,13 +1835,13 @@ function isRealBooking(b) {
                 items.unshift({
                     title: '預約前一天提醒排程',
                     time: '明日',
-                    body: `明日（${tomorrowStr}）共 ${tomorrowBookings.length} 位客人來店，系統已建立提醒排程資料。`
+                    body: `明日（${tomorrowStr}）共 ${tomorrowBookings.length} 位客人來店，已建立提醒排程資料。`
                 });
             }
 
             notifications = items;
             if (!items.length) {
-                list.innerHTML = `<div class="p-3 bg-morandi-light/60 rounded-2xl text-center text-morandi-accent">目前沒有新的系統通知</div>`;
+                list.innerHTML = `<div class="p-3 bg-morandi-light/60 rounded-2xl text-center text-morandi-accent">目前沒有新的通知</div>`;
             } else {
                 list.innerHTML = items.map(item => `
                     <div class="p-3 bg-morandi-light/60 rounded-2xl space-y-1">
