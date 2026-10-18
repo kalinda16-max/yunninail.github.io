@@ -674,7 +674,7 @@
         
         <div>
             <label class="block text-xs font-medium text-morandi-accent mb-1 pl-2">事件</label>
-            <input type="text" id="event-title" placeholder="例如：店休 / 出國" class="w-full px-3 py-2.5 rounded-xl border border-morandi-secondary/60 text-xs bg-morandi-light/30 focus:outline-none focus:border-morandi-primary" style="box-shadow: none !important;">
+            <input type="text" id="event-title" placeholder="例如：店休 or 出國" class="w-full px-3 py-2.5 rounded-xl border border-morandi-secondary/60 text-xs bg-morandi-light/30 focus:outline-none focus:border-morandi-primary" style="box-shadow: none !important;">
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -1957,7 +1957,7 @@ async function syncEventToCloud(eventRecord) {
         if (!response.ok || !result || result.result !== 'success') {
             throw new Error((result && result.message) || '雲端未確認建立事件成功');
         }
-        showToast('事件／店休已同步至 Google 試算表與日曆');
+        showToast('事件or店休已同步至 Google 試算表與日曆');
         return true;
     } catch (e) {
         console.error('事件同步雲端失敗', e);
