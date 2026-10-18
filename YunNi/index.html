@@ -322,7 +322,7 @@
                         <p class="text-[11px] text-morandi-accent/70 mt-2 text-center sm:text-left break-words">
                             💡 貼心提醒：當日已過期的時段將會自動鎖定，無法進行預約。
                         </p>
-                        <p class="text-[11px] text-morandi-accent/70 mt-2 text-center sm:text-left break-words">21:00PM~05:00AM 有夜間加成的費用。</p>
+                        <p class="text-[11px] text-morandi-accent/70 mt-2 text-center sm:text-left break-words">💡 21:00PM~05:00AM 有夜間加成的費用。</p>
                     </div>
 
                     <div class="min-w-0">
@@ -667,23 +667,23 @@
         <h3 class="font-bold text-morandi-dark text-md">新增店內事件與時段佔位</h3>
         
         <div>
-            <label class="block text-xs font-medium text-morandi-accent mb-1">事件</label>
+            <label class="block text-xs font-medium text-morandi-accent mb-1 pl-2">事件</label>
             <input type="text" id="event-title" placeholder="例如：店休 / 出國" class="w-full px-3 py-2.5 rounded-xl border border-morandi-secondary/60 text-xs bg-morandi-light/30 focus:outline-none focus:border-morandi-primary" style="box-shadow: none !important;">
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div class="min-w-0 overflow-hidden">
-                <label class="block text-xs font-medium text-morandi-accent mb-1">開始日期</label>
+                <label class="block text-xs font-medium text-morandi-accent mb-1 pl-2">開始日期</label>
                 <input type="date" id="event-date" class="w-full px-3 py-2.5 rounded-xl border border-morandi-secondary/60 text-xs bg-morandi-light/30 box-border appearance-none focus:outline-none focus:border-morandi-primary" style="min-width: 0; -webkit-appearance: none; box-shadow: none !important;">
             </div>
             <div class="min-w-0 overflow-hidden">
-                <label class="block text-xs font-medium text-morandi-accent mb-1">連續天數</label>
+                <label class="block text-xs font-medium text-morandi-accent mb-1 pl-2">連續天數</label>
                 <input type="text" id="event-days" value="1" inputmode="numeric" oninput="this.value=this.value.replace(/\D/g,'')" class="w-full px-3 py-2.5 rounded-xl border border-morandi-secondary/60 text-xs bg-morandi-light/30 box-border focus:outline-none focus:border-morandi-primary" style="box-shadow: none !important;">
             </div>
             
             <!-- 佔用時段（已改為非內建樣式外框，完美融入三欄排版） -->
             <div class="min-w-0 overflow-hidden">
-                <label class="block text-xs font-medium text-morandi-accent mb-1">佔用時段</label>
+                <label class="block text-xs font-medium text-morandi-accent mb-1 pl-2">佔用時段</label>
                 <div class="relative w-full rounded-xl border border-morandi-secondary/60 bg-morandi-light/30 overflow-hidden">
                     <select id="event-slot" class="w-full px-3 py-2.5 text-xs bg-transparent appearance-none focus:outline-none cursor-pointer relative z-10 box-border" style="box-shadow: none !important;">
                         <option value="ALL">✨全天店休✨</option>
