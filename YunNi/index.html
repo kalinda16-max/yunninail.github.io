@@ -800,6 +800,8 @@
         }
 
         let selectedSlot = null;
+        // 記錄選取時段所屬日期：只有切換日期時才清除選取，重新繪製時段時保留選取狀態。
+        let selectedSlotDate = '';
         const allSlots = ['09:00', '13:00', '17:00', '21:00', '01:00', '05:00'];
         let uploadedPhotos = [];
         let pendingPhotoTasks = [];
@@ -1150,7 +1152,13 @@ async function renderSlots() {
 
     // 日期選擇器禁止選擇今天以前的日期；同時在程式端再次檢查，避免手動改值或舊瀏覽器繞過限制。
     if (dateInput) dateInput.min = todayStr;
-    selectedSlot = null;
+
+    // renderSlots 會在點擊時段後再次執行；不可每次重繪都清空 selectedSlot，
+    // 否則使用者點選時段後，選取值會立刻被清除，送出時就會提示「請選擇預約時段」。
+    if (selectedSlotDate !== dateVal) {
+        selectedSlot = null;
+        selectedSlotDate = dateVal;
+    }
 
     if (!dateVal || dateVal < todayStr) {
         container.innerHTML = `<div class="col-span-4 text-center text-xs text-red-400 py-3">過去日期不可預約，請重新選擇今天或之後的日期。</div>`;
