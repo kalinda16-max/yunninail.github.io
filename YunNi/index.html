@@ -1281,9 +1281,11 @@ async function renderSlots() {
         function upsertBooking(item) {
             if (!item) return;
             // 修正排查項目二：依手機+日期+時段唯一性防呆去重，解決總覽表重複資料
-            const existingIndex = bookings.findIndex(b => 
-                String(b.id) === String(item.id) || 
-                (String(b.phone) === String(item.phone) && String(b.date) === String(item.date) && String(b.slot) === String(item.slot) && b.status !== '已取消' && item.status !== '已取消')
+            const existingIndex = bookings.findIndex(b =>
+                String(b.id) === String(item.id) ||
+                (b.type !== 'event' && item.type !== 'event' &&
+                 String(b.phone) === String(item.phone) && String(b.date) === String(item.date) &&
+                 String(b.slot) === String(item.slot) && b.status !== '已取消' && item.status !== '已取消')
             );
             if (existingIndex >= 0) {
                 bookings[existingIndex] = { ...bookings[existingIndex], ...item };
@@ -2014,6 +2016,14 @@ async function syncEventToCloud(eventRecord) {
                 members = [];
             }
         };
+        // 不論管理者是在載入時已登入，或載入後才登入，都會在管理者頁面每 30 秒同步一次雲端。
+        if (window.yunniCloudSyncTimer) clearInterval(window.yunniCloudSyncTimer);
+        window.yunniCloudSyncTimer = setInterval(() => {
+            if (sessionStorage.getItem('yunni_admin_logged') === 'true' && !document.hidden) {
+                syncBookingsFromCloud();
+                fetchMembersFromCloud();
+            }
+        }, 30000);
         // 將圖片壓縮成 JPEG；圖片讀取完成前先顯示原圖預覽，避免使用者看不到已選圖片。
         function compressDataUrl(dataUrl) {
             return new Promise(resolve => {
