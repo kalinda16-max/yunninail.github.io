@@ -620,8 +620,8 @@
                 </div>
             </div>
             <div class="flex justify-end space-x-2 pt-2">
-                <button onclick="closeEditMemberModal()" class="px-4 py-2 bg-morandi-light text-morandi-dark rounded-xl text-xs font-medium">取消</button>
-                <button onclick="saveMemberChanges()" class="px-4 py-2 bg-morandi-primary text-white rounded-xl text-xs font-medium">儲存更新雲端</button>
+                <button type="button" id="edit-member-cancel-btn" class="px-4 py-2 bg-morandi-light text-morandi-dark rounded-xl text-xs font-medium">取消</button>
+                <button type="button" id="edit-member-save-btn" class="px-4 py-2 bg-morandi-primary text-white rounded-xl text-xs font-medium">儲存更新雲端</button>
             </div>
         </div>
     </div>
@@ -1078,7 +1078,11 @@
                 member.remark = remark;
             }
 
-            localStorage.setItem('yunni_members', JSON.stringify(members));
+            try {
+                localStorage.setItem('yunni_members', JSON.stringify(members));
+            } catch (storageError) {
+                console.warn('會員資料無法寫入本機快取，仍會嘗試同步雲端', storageError);
+            }
             renderMembersGrid();
             updateAdminDashboardStats();
 
@@ -1100,6 +1104,37 @@
                 console.error('雲端同步失敗', err);
                 showToast('會員資料已暫存本機，請稍後再同步');
             }
+        }
+
+        // 明確綁定會員編輯面板按鈕，避免依賴 inline onclick。
+        const editMemberCancelButton = document.getElementById('edit-member-cancel-btn');
+        const editMemberSaveButton = document.getElementById('edit-member-save-btn');
+
+        if (editMemberCancelButton) {
+            editMemberCancelButton.addEventListener('click', (event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                closeEditMemberModal();
+            });
+        }
+
+        if (editMemberSaveButton) {
+            editMemberSaveButton.addEventListener('click', async (event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                editMemberSaveButton.disabled = true;
+                const originalText = editMemberSaveButton.textContent;
+                editMemberSaveButton.textContent = '正在儲存…';
+                try {
+                    await saveMemberChanges();
+                } catch (error) {
+                    console.error('儲存會員資料失敗', error);
+                    showToast('會員資料儲存失敗，請稍後重試');
+                } finally {
+                    editMemberSaveButton.disabled = false;
+                    editMemberSaveButton.textContent = originalText;
+                }
+            });
         }
 
         function renderPhotoThumbnails() {
