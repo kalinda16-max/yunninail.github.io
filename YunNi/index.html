@@ -1588,6 +1588,26 @@ function isRealBooking(b) {
         }
     }
 
+        // 將試算表回傳的時間欄位統一整理成 HH:mm，避免手機顯示完整的 Date/GMT 字串。
+        function formatEventSlotForDisplay(slot) {
+            if (slot === null || slot === undefined) return '';
+            const value = String(slot).trim();
+            if (!value || value === 'ALL' || value.toUpperCase() === 'ALL DAY') return '';
+
+            // Google 試算表的時間欄位有時會被轉成 1899 年的 Date 字串，只保留時分。
+            const timeMatch = value.match(/(?:T|\s)(\d{1,2}):(\d{2})(?::\d{2})?/);
+            if (timeMatch) {
+                return `${String(timeMatch[1]).padStart(2, '0')}:${timeMatch[2]}`;
+            }
+
+            // 原本就是 HH:mm 或 HH:mm:ss 的情況。
+            const plainTimeMatch = value.match(/^(\d{1,2}):(\d{2})(?::\d{2})?$/);
+            if (plainTimeMatch) {
+                return `${String(plainTimeMatch[1]).padStart(2, '0')}:${plainTimeMatch[2]}`;
+            }
+            return value;
+        }
+
         function renderAdminTable(filterText = '') {
             const tbody = document.getElementById('admin-booking-table');
             tbody.innerHTML = '';
@@ -1651,10 +1671,11 @@ function isRealBooking(b) {
                 if (showEvents) {
                     const eventTitle = String(b.name || '').replace(/^\[(?:全天店休|店家事件)\]\s*/, '').replace(/^\[店家事件\]\s*/, '');
                     const eventDate = String(b.date || '');
+                    const eventSlot = formatEventSlotForDisplay(b.slot);
                     const eventStatus = String(b.status || '已占用');
                     const eventId = String(b.id || '').replace(/'/g, "\\'");
                     tr.innerHTML = `
-                        <td class="p-4 align-middle text-center"><div class="font-semibold text-morandi-dark whitespace-nowrap">${eventDate}${b.slot && b.slot !== '00:00' ? ' ' + b.slot : ''}</div></td>
+                        <td class="p-4 align-middle text-center"><div class="font-semibold text-morandi-dark whitespace-nowrap">${eventDate}${eventSlot && eventSlot !== '00:00' ? ' ' + eventSlot : ''}</div></td>
                         <td class="p-4 align-middle text-center"><div class="font-semibold text-morandi-dark break-words">${eventTitle}</div></td>
                         <td class="p-4 align-middle text-center"><span class="inline-block px-2.5 py-1 ${eventStatus === '已取消' || eventStatus === '取消' || eventStatus === '已刪除' ? 'bg-rose-100 text-rose-800' : 'bg-emerald-100 text-emerald-800'} rounded-lg text-[10px] font-semibold whitespace-nowrap">${eventStatus}</span></td>
                         <td class="p-4 align-middle text-center whitespace-nowrap">${['已取消','取消','已刪除'].includes(eventStatus) ? '<span class="text-morandi-accent/60">已取消</span>' : `<button onclick="updateEventStatus('${eventId}', '已取消')" class="px-3 py-1.5 bg-white border border-morandi-secondary/60 rounded-lg text-[10px] text-morandi-dark hover:bg-rose-50 hover:text-rose-600 transition-all">取消</button>`}</td>
